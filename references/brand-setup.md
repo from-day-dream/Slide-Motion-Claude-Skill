@@ -100,6 +100,8 @@ Write `## Motion` in `design-language.md`: 4-6 specific rules in the brand's own
 - how text arrives and leaves;
 - what never happens.
 
+If the brand has motifs (a cursor, arrows, selection boxes, stickers…), list each one with what it **means**, not where it goes: "cursor: clicks or drags something that's actually interactive". Videos use a motif only when that meaning applies (`video-logic.md` §3a).
+
 If the brand uses illustrations, also write `## Illustration`, so two illustrations drawn weeks apart match:
 - stroke and caps;
 - fills vs outlines, and which token colours go where;

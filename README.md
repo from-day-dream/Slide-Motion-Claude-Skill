@@ -13,6 +13,7 @@ A [Claude Code](https://claude.com/claude-code) skill that turns anything you gi
 <br>Something moves in every frame; only the text pauses to be read.</sub>
 
 - **No built-in style.** The skill holds only the video logic. Colours, fonts, voice, curves, timings and how images or illustrations are treated all come from **your** brand: the kit shared with Carousel Studio, plus how it moves, which you define once at setup.
+- **Intentional elements.** Your brand's motifs are used only where they mean something: a cursor appears when something is clicked or dragged, an arrow when there's a direction. Nothing is shown as decoration or out of habit.
 - **No preset transitions.** How one idea hands over to the next (a camera move, a morph, a hand-off, a cut…) is chosen for each video, from its content and what you ask for.
 - **A video, not a slideshow.** Each video is one HTML composition with one master timeline. It's built from overlapping **sequences**, along a **throughline** that carries the viewer from start to end. Elements live across ideas and transform into each other; cuts are moments inside the timeline, not boundaries between frames.
 - **Never still.** An ambient layer and long content motion run under every read moment, and only text pauses, for its reading time. The renderer errors on any stretch where nothing moves.

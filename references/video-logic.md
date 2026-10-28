@@ -21,7 +21,7 @@ After the analysis (`analysis.md`), plan in this order and write it into `meta.j
    - a set of photos that keeps rearranging;
    - one line drawing the whole piece.
 
-   Ideas then become stops along that line, not separate frames.
+   Ideas then become stops along that line, not separate frames. A throughline must have a real job at every stop (§3a). A motif that would just tag along, like a cursor drifting through stops where there's nothing to click, is not a throughline; use the camera, a line or the content itself instead.
 3. **Sequences.** For each stretch of time, write:
    - what is moving;
    - which ideas it carries;
@@ -39,11 +39,13 @@ After the analysis (`analysis.md`), plan in this order and write it into `meta.j
 
    Write each choice and its reason into the sequence's `handover`. Vary them only when the content changes; don't reuse a previous video's choices by habit.
 7. **Fixed elements.** Decide what stays on screen for the whole video (handle, series label, mark) and how it adapts to what passes under it.
+8. **Elements and their jobs** (§3a). List every motif and visual element the video uses, what it does, and the sequences it appears in. Anything without a job is dropped.
 
 ```json
 "plan": {
   "throughline": "the camera travels down one long canvas; a blue line draws the path between ideas",
   "ideas": [ { "id": 1, "idea": "", "copy": [""], "facts": [], "visual": "" } ],
+  "elements": [ { "what": "cursor", "job": "drags the file into the app; clicks Render", "in": ["s2", "s4"] } ],
   "sequences": [
     { "id": "s1", "from": 0, "to": 4.2, "carries": [1], "moving": "photo pushes in; headline words arrive; line starts drawing", "handover": "line keeps drawing into s2 while the photo slides up out of frame" }
   ],
@@ -66,6 +68,32 @@ Show it compactly (throughline, ideas with copy, sequences with times and what's
 - **Text never moves while it's read.** Move the image inside its frame, not the frame carrying a label.
 - **Ease with the brand's tokens** (`window.__motion`). No ad-hoc curves or durations.
 
+## 3a. Every element earns its place
+A brand's motifs and the visuals in its carousels (cursors, arrows, selection boxes, stickers, sparkles, folders, labels, badges, frames, grids…) are a **vocabulary to draw from, not a checklist to include**. An element appears only where it does what it means in the real world, for the idea on screen at that moment.
+
+**The test, for every element at every appearance:**
+1. **What does it mean?** Name the action or meaning it carries in the real world.
+2. **Is that true here?** Does the idea on screen right now involve that action or meaning?
+3. **Does it act?** Does it do something that changes the frame or makes the point, rather than just sit or drift?
+
+If any answer is no, leave it out of that moment. It isn't decoration, a filler for empty space, or a way to keep the frame moving; the ambient layer does that job.
+
+**How the test applies** (the same reasoning works for any element):
+
+| Element | Belongs when | Not when |
+|---|---|---|
+| Cursor / pointer | something clickable, draggable or selectable is on screen and the cursor clicks, drags, selects or hovers it | over a headline, a photo or a chart with nothing to interact with; drifting between stops |
+| Arrow | there's a direction, a sequence, a cause → effect, or a "look here" for a detail that's easy to miss | pointing at a headline that's already the focus |
+| Selection box / handles | something is being chosen, edited, resized or compared | framing text for emphasis on every moment |
+| Progress bar, loader, spinner | something is actually in progress (rendering, uploading, growing) | as a generic "tech" texture |
+| Notification, badge, tag | there's an event, a status, a count or a label that adds information | repeating the headline's words |
+| Sparkle, highlight, underline | one specific word or result deserves the eye | spread over several things at once |
+| UI chrome (windows, buttons, folders) | the idea is about the product or a workflow | wrapping content that has nothing to do with software |
+
+**Frequency follows meaning.** An element appears as often as its meaning occurs in the content: maybe once, maybe never. Seeing it in the brand's carousels or design language doesn't oblige the video to use it, and appearing in one sequence doesn't entitle it to the next. When an element has no job in the next idea, it leaves (or transforms into something that does) instead of following the viewer.
+
+**Restraint by default.** One focal element per moment, plus the text. Every motif on screen should be explainable in one sentence ("the cursor drags the .blend file in, because the idea is 'drop your file'"). Write those sentences into `plan.elements`.
+
 ## 4. Techniques (a neutral menu; chosen per video, §2.6)
 | Technique | What happens | How |
 |---|---|---|
@@ -74,7 +102,7 @@ Show it compactly (throughline, ideas with copy, sequences with times and what's
 | **Zoom-through** | an element grows to fill the frame and becomes the next ground or image | scale the element (origin on the point of interest); swap or crossfade what's inside at full frame |
 | **Match cut at peak speed** | a movement is split across a hard cut, so the cut reads as one motion | the first half of a move on `ease.cutOut` (ends at peak speed), swap the elements, the second half on `ease.cutIn`, with the same direction, distance and duration |
 | **Wipe with a hidden cut** | a block covers the frame and the swap happens under it | the block covers on `cutOut`, the elements are swapped, the block leaves on `cutIn` |
-| **Hand-off** | an element from one idea passes to the next (a cursor, a line, a number, a photo) | keep the element alive and give it a new role and position |
+| **Hand-off** | an element from one idea passes to the next (a line, a number, a photo, a cursor that has something to do next) | keep the element alive and give it a new role and position; only if it has a job in the next idea (§3a) |
 | **Draw-on / path travel** | lines, outlines and routes draw themselves; objects travel along them | `drawSVG`, `motionPath` |
 | **Re-arrangement** | a set of items (photos, cards, bars) re-orders or regroups to make the next point | tween the positions of the same items |
 
@@ -88,5 +116,6 @@ Show it compactly (throughline, ideas with copy, sequences with times and what's
 ## 6. Generic motion (avoid, whatever the brand)
 - The slideshow pattern: animate in → stop → wait → animate out → next.
 - Everything arriving at once; random directions; motion that ignores the throughline.
+- Motifs used as decoration or repeated by habit: a cursor everywhere, arrows pointing at the obvious, sparkles on everything (§3a).
 - Text that moves while it's read; typewriter sentences; loops or pulses behind text.
 - A logo sting at the start.

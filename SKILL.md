@@ -54,7 +54,8 @@ Show a task list and keep it current.
    4. **read moments** and how long each holds;
    5. **layers** (ambient, content, text) for every stretch;
    6. **handovers** between ideas, chosen for this video from its content, throughline and what the user asked for (no preset);
-   7. **fixed elements**.
+   7. **fixed elements**;
+   8. **elements and their jobs** (`plan.elements`): every motif and visual, what it does, and where it appears. Drop anything without a job.
 
    Show it compactly and continue unless the user objects ("just do it" = don't pause).
 4. **Images**, if the brand shows photos or the user asked (`meta.json → "useImages": true`): choose from the library per `images.md`, and record `use` and approvals there. Generate only as a last resort, with a yes.
@@ -78,7 +79,7 @@ Show a task list and keep it current.
   "topic": "", "title": "", "framework": "",
   "sources": [], "content": [],
   "analysis": { "summary": "", "goal": "", "audience": "", "angle": "", "keyPoints": [], "facts": [], "quotes": [], "assets": [], "conflicts": [], "gaps": [] },
-  "plan": { "throughline": "", "ideas": [], "sequences": [], "reads": [], "cuts": [], "fixed": [], "seconds": 15 },
+  "plan": { "throughline": "", "ideas": [], "elements": [], "sequences": [], "reads": [], "cuts": [], "fixed": [], "seconds": 15 },
   "motion": {},
   "caption": "", "hashtags": [],
   "critique": { "rounds": 0, "fixed": [], "remaining": [] }
@@ -100,6 +101,7 @@ Show a task list and keep it current.
 
 ## Rules that always apply
 - **No built-in style.** Every colour, font, curve, timing and treatment comes from the brand (or the sources); never invent one. If the brand's motion isn't set up, set it up with the user first, from scratch (ignore motion from earlier videos, other brands or memory).
+- **Every element earns its place** (`video-logic.md` §3a). A motif appears only where its real-world meaning applies to the idea on screen, and it acts there: a cursor only where something is clicked or dragged, an arrow only where there's a direction. The brand's motifs are a vocabulary, not a checklist; never use them as decoration or by habit.
 - **No predefined transitions.** How ideas hand over is decided per video, from its content and the user's request; neither the skill nor the brand fixes it.
 - **One composition, one timeline.** Plan sequences across the whole video; never build frame by frame and transition between frames.
 - **Never still:** an ambient layer and long content motion run under every read moment; only text pauses, for its reading time.

@@ -4,7 +4,7 @@ Use when the user says "animate my last carousel", "make a reel of the weekly-re
 
 **The carousel gives the content and the aesthetic, never the layouts.**
 - **Content:** copy, images, strategy and caption: raw material that is cut and recombined into the video's core ideas.
-- **Aesthetic:** grounds, textures, emphasis device, photo treatment and UI motifs, which the video keeps.
+- **Aesthetic:** grounds, textures, emphasis device, photo treatment and UI motifs, which the video keeps. The motifs keep their look, but appear only where they mean something in the video's ideas (`video-logic.md` §3a). A cursor that sat on every slide still needs something to click in each moment it appears.
 - **Not kept:** the slide-by-slide structure. The video is planned as one continuous composition (`video-logic.md`), in the brand's own motion language, and has nothing to do with the number of slides.
 
 A carousel can also be one source among several: `ingest.mjs carousel:<name|latest> report.pdf https://…` runs the steps below and adds the other sources to the same folder. Either way, `analysis.md` comes next: the carousel's content is analysed with everything else.
