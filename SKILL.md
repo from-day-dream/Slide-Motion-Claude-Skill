@@ -61,7 +61,7 @@ Show a task list and keep it current.
 4. **Images**, if the brand shows photos or the user asked (`meta.json → "useImages": true`): choose from the library per `images.md`, and record `use` and approvals there. Generate only as a last resort, with a yes.
 5. **Write `composition.html`** per `composition.md`:
    - sequences as functions placed on the master timeline;
-   - an ambient layer that never stops;
+   - an ambient layer that never stops, chosen by you for this video (or as the user suggests); never asked at setup;
    - content motion that runs through the read moments;
    - `hold`/`hold2`… labels where text is settled, and `cut` labels at any hard cut;
    - only the brand's tokens and motion tokens.

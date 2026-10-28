@@ -27,9 +27,9 @@ A video is **one file**, `<motion-dir>/composition.html`, with **one master GSAP
 - **Motion:** only the brand's motion tokens, as `window.__motion`:
   - `ease.enter | exit | move | fade | ambient | cutOut | cutIn`;
   - `duration.enter | exit | move | cut | stagger`;
-  - `distance`, `readingSpeed`, `imageMotion`, `visual`.
+  - `distance`, `readingSpeed`, `visual`.
 
-  Handovers aren't tokens; they come from the video's plan (`plan.sequences[].handover`).
+  Handovers and the ambient layer aren't tokens; they're chosen for each video, in its plan (`plan.sequences[].handover`) and composition.
 
   If they're missing, the renderer stops and asks for the motion setup.
 - **Curve names** accepted anywhere an ease goes:
@@ -59,7 +59,7 @@ const tl = gsap.timeline({ paused: true });
 
 // Each sequence adds its tweens at absolute times (seconds) on the master timeline.
 function ambient(t0, t1) {
-  tl.fromTo('#ground', { scale: 1 }, { scale: M.imageMotion.zoom, duration: t1 - t0, ease: E.ambient }, t0);
+  tl.fromTo('#ground', { scale: 1 }, { scale: 1.05, duration: t1 - t0, ease: E.ambient }, t0);
 }
 function opening(t) {
   tl.from('#hook .w', { y: M.distance, opacity: 0, duration: D.enter, ease: E.enter, stagger: D.stagger }, t)

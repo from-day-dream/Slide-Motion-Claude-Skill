@@ -64,6 +64,8 @@ Show it compactly (throughline, ideas with copy, sequences with times and what's
 | **Content** | the idea's visual doing its thing: charts growing, counters running, illustrations acting, photos rearranging, lines drawing, cursors travelling | long: it overlaps read moments, and doesn't finish in 0.5s and then sit |
 | **Text** | headlines, key lines, labels | arrives, then **holds still** for its reading time; leaves or transforms when the next idea needs the space |
 
+- **Choreography is your call, per video:** how each element enters and leaves (fades, tucks away, is pushed off by the next, transforms), staggers and reveals. Choose what suits this content and moment, in the brand's curves and pace; follow the user's suggestions when they make them.
+- **The ambient layer is your call, per video.** Choose it while composing, from the video's content, the elements already on screen and the brand's character. Examples: a ground that drifts, photos that slowly push in, gradients that shift, a mark that turns, the camera easing. Follow the user's suggestion if they make one. It is never a brand setting and never a setup question. Its amounts (how far an image zooms, how many px it pans) are set per video in the composition, and its elements still pass §3a: an idle cursor with nothing to do isn't ambient motion.
 - **Overlap, don't queue.** Stagger starts so motion ripples through the frame. The next idea's motion can begin while the current text is still being read.
 - **Text never moves while it's read.** Move the image inside its frame, not the frame carrying a label.
 - **Ease with the brand's tokens** (`window.__motion`). No ad-hoc curves or durations.

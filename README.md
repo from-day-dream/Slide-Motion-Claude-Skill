@@ -16,7 +16,7 @@ A [Claude Code](https://claude.com/claude-code) skill that turns anything you gi
 - **Intentional elements.** Your brand's motifs are used only where they mean something: a cursor appears when something is clicked or dragged, an arrow when there's a direction. Nothing is shown as decoration or out of habit.
 - **No preset transitions.** How one idea hands over to the next (a camera move, a morph, a hand-off, a cut…) is chosen for each video, from its content and what you ask for.
 - **A video, not a slideshow.** Each video is one HTML composition with one master timeline. It's built from overlapping **sequences**, along a **throughline** that carries the viewer from start to end. Elements live across ideas and transform into each other; cuts are moments inside the timeline, not boundaries between frames.
-- **Never still.** An ambient layer and long content motion run under every read moment, and only text pauses, for its reading time. The renderer errors on any stretch where nothing moves.
+- **Never still.** An ambient layer and long content motion run under every read moment, and only text pauses, for its reading time. Claude chooses that ambient motion for each video; you can suggest one. The renderer errors on any stretch where nothing moves.
 - **Any source, analysed first.** URLs, PDFs, Word, PowerPoint, Excel, CSV, Markdown, images, folders and carousels, in any mix. Claude writes an analysis (goal, angle, key points, facts with their sources, usable assets) before planning anything. Numbers on screen come from your sources.
 - **An image library for every video.** Every image in your sources is pulled in, de-duplicated, measured and put on a numbered contact sheet. Claude then chooses images for relevance, sharpness at the size shown and one consistent look. Images from other people's pages need your yes.
 - **Runs locally on your Claude plan.** Silent MP4s; add music in the app you post from.
@@ -26,9 +26,9 @@ A [Claude Code](https://claude.com/claude-code) skill that turns anything you gi
 1. **Setup, once.** If Carousel Studio already has your brand, Slide Motion reuses it and only asks how the brand moves:
    - its character, with reference videos you like;
    - what its videos show;
-   - its pace and curves.
+   - its overall pace.
 
-   Setup starts fresh: motion from earlier videos or other brands isn't reused. Your answers become `motion.json`, plus Motion rules in your design language. A short test render confirms them. Without a brand, it runs the full brand interview first.
+   It doesn't ask about choreography (how things enter, leave, hand over or idle); Claude decides that for each video, and you can always suggest. Setup starts fresh: motion from earlier videos or other brands isn't reused. Claude turns your answers into curves and timings in `motion.json`, plus Motion rules in your design language. A short test render confirms them. Without a brand, it runs the full brand interview first.
 2. **`/slide-motion <topic, link, file or carousel>`.** `ingest.mjs` gathers the sources: extracted text, page screenshots and the image library. Claude analyses them, then plans the whole video:
    - the ideas and the throughline;
    - sequences with time ranges;

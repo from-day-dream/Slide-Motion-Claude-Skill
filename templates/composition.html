@@ -34,9 +34,10 @@ const M = window.__motion, D = M.duration, E = M.ease;
 const tl = gsap.timeline({ paused: true });
 const LENGTH = 6;
 
-// Ambient layer: runs the whole video, so the frame is never still.
+// Ambient layer: runs the whole video, so the frame is never still. What it is and how much it moves
+// are chosen for this video; only the curve is a brand token.
 function ambient() {
-  tl.fromTo('.ground', { scale: 1 }, { scale: M.imageMotion.zoom || 1.05, duration: LENGTH, ease: E.ambient }, 0);
+  tl.fromTo('.ground', { scale: 1 }, { scale: 1.05, duration: LENGTH, ease: E.ambient }, 0);
 }
 // Sequence 1: the first idea arrives; the thread starts drawing and keeps going past the read moment.
 function first(t) {

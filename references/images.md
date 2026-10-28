@@ -54,7 +54,7 @@ If no library image fits an idea that needs one, use another treatment the brand
 
 ## 5. Move them (with the brand's motion tokens)
 - **Settle:** arrive and settle the way the brand's `ease.enter` and `distance` say.
-- **Live during holds:** a slow push or pan within `imageMotion` (zoom, px), always on `ease.fade`/`none`, with text still.
+- **Live during holds:** a slow push or pan, its amount chosen for this video (a few percent of zoom, a few dozen px), always on `ease.fade`/`none`, with text still.
 - **Zoom-through:** a photo grows to fill the frame and becomes the next idea's ground. Leave a crossfade if the next ground is another image.
 - **Reveal:** a mask or clip-path wipe, or a token panel sliding off.
 - **Collage to hero:** several small images sit in a grid, then one scales up to become the hero of the next idea.

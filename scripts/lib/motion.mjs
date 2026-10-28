@@ -38,7 +38,7 @@ export function safeZone(ratio, brandSafe, platform = true) {
 // The skill ships no style. How a brand moves (curves, timings) and what it shows (words per read
 // moment, whether a headline is required, photos/illustrations) is defined with the user at setup, in
 // brands/<slug>/motion.json. A video may override or supply any of it in meta.json → motion.
-// How ideas hand over is never a token: it's chosen per video, from its content and the user's request.
+// How ideas hand over, and what keeps the frame alive, are never tokens: they're chosen per video.
 const isObj = v => v && typeof v === 'object' && !Array.isArray(v);
 const merge = (a, b) => {
   const out = { ...a };

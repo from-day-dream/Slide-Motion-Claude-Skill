@@ -18,7 +18,6 @@
   },
   "distance": 0,
   "readingSpeed": 3.5,
-  "imageMotion": { "zoom": 1, "pan": 0 },
   "visual": {
     "wordsPerBeat": 7,
     "headline": "required",
