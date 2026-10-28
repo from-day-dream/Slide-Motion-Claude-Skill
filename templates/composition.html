@@ -1,33 +1,60 @@
 <!doctype html>
 <!-- STRUCTURE ONLY. This skeleton shows how a video is built: one composition, one master timeline,
-     sequences that overlap, an ambient layer that never stops, read moments (hold*) and an optional
-     cut. It has no look of its own: replace every BRAND_* placeholder with the brand's tokens
-     (var(--brand-<colour>) etc.) and its design language. Motion comes only from window.__motion. -->
+     sequences that overlap, an ambient layer that never stops, read moments (hold*), and a layout
+     planned in zones that fills the whole canvas (video-logic.md → Fill the canvas).
+     It has no look of its own: replace every BRAND_* placeholder with the brand's tokens
+     (var(--brand-<colour>) etc.) and its design language. Motion comes only from window.__motion.
+     Sizes are for 9:16 (1080×1920); re-plan the zones for other ratios (aspect-ratios.md).
+     A real video builds each sequence on the archetype named in plan.sequences[].archetype
+     (layouts.md; structure templates in templates/archetypes/). Group each archetype's elements in
+     one container per sequence (e.g. <div class="seq s1" data-archetype="word-punch">), with its
+     layers back to front inside: ground, large type or shapes, images, read text.
+     Depth (composition.md → Depth): far, mid and near planes inside a perspective root and a camera
+     group; motionKit.camera() moves them at 0.3×, 1× and 1.4×. Read text lives on the near plane. -->
 <html><head><meta charset="utf-8">
 <style>
 {{FONT_FACES}}
 {{TOKENS}}
 .scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:BRAND_BACKGROUND;color:BRAND_TEXT}
-/* Fixed elements: on screen for the whole video. */
-.fixed{position:absolute;top:240px;left:96px;right:160px;display:flex;justify-content:space-between;font-family:var(--brand-font-body);font-size:var(--brand-size-meta)}
-/* The throughline: here, one large canvas the camera travels down, so ideas are stops on one path. */
-.world{position:absolute;left:0;top:0;width:1080px;height:3840px}
-.stop{position:absolute;left:96px;right:160px}
-#stop1{top:560px}#stop2{top:2480px}
-h2{margin:0;font-family:var(--brand-font-heading);font-size:var(--brand-size-headline);line-height:1.05}
+.depth-root{position:absolute;inset:0;perspective:2000px}
+.camera{position:absolute;inset:0;transform-style:preserve-3d}
+.plane-far{position:absolute;inset:-10%}
+.plane-mid,.plane-near{position:absolute;inset:0}
 .ground{position:absolute;inset:0}
-.thread{position:absolute;left:0;top:0;width:1080px;height:3840px}
-.thread path{fill:none;stroke:BRAND_ACCENT;stroke-width:8}
+
+/* Zone 1, top band (0-420): anchored by real content. The meta row sits just below the platform
+   zone; the rule runs edge to edge. */
+.band-top{position:absolute;left:0;right:0;top:240px;padding:0 96px 24px;display:flex;justify-content:space-between;
+  border-bottom:2px solid BRAND_TEXT;font-family:var(--brand-font-body);font-size:var(--brand-size-meta)}
+
+/* Zone 2, display type: sized from the canvas so it spans the full measure (here about 900px wide),
+   not from the brand's body scale. */
+.display{position:absolute;left:84px;right:84px;top:360px;margin:0;font-family:var(--brand-font-heading);
+  font-size:190px;line-height:.92;letter-spacing:-.02em}
+
+/* Zone 3, hero: 40-70% of the height, bleeding off the right and bottom edges, layered over the ground. */
+.hero{position:absolute;left:96px;right:-80px;top:820px;bottom:-60px;background:BRAND_ACCENT;border-radius:24px 0 0 0}
+
+/* Zone 4, bottom band: readable copy stays above the platform zone (y ≤ 1500); the hero fills below it. */
+#d2,#c2{visibility:hidden}
+#c2{left:96px;right:300px}
+.caption{position:absolute;left:144px;right:220px;top:1300px;margin:0;font-family:var(--brand-font-body);
+  font-size:var(--brand-size-support);color:BRAND_ON_ACCENT}
 </style></head>
 <body>
 <div class="scene" data-scene="1">
-  <div class="ground" aria-hidden="true"></div>
-  <div class="world">
-    <svg class="thread" viewBox="0 0 1080 3840" data-visual aria-hidden="true"><path id="thread" d="M120 900 C 600 1300, 300 2000, 900 2400"/></svg>
-    <div class="stop" id="stop1"><h2 data-text="headline">First idea, a few words</h2></div>
-    <div class="stop" id="stop2"><h2 data-text="headline">Second idea, a few words</h2></div>
-  </div>
-  <div class="fixed"><span data-text="meta">@handle</span><span data-text="meta">Series</span></div>
+  <div class="depth-root"><div class="camera">
+    <div class="plane-far"><div class="ground" aria-hidden="true"></div></div>
+    <div class="plane-mid"><div class="hero" data-visual aria-hidden="true"></div></div>
+    <div class="plane-near">
+      <h2 class="display" id="d1" data-text="headline">First idea</h2>
+      <p class="caption" id="c1" data-text="support">One supporting line</p>
+      <h2 class="display" id="d2" data-text="headline">Second idea</h2>
+      <p class="caption" id="c2" data-text="support">Its supporting line</p>
+    </div>
+  </div></div>
+  <!-- Fixed layer: outside the camera, so it stays put whatever the camera does. -->
+  <div class="band-top"><span data-text="meta">@handle</span><span data-text="meta">Series</span></div>
 </div>
 <script>
 const M = window.__motion, D = M.duration, E = M.ease;
@@ -39,24 +66,29 @@ const LENGTH = 6;
 function ambient() {
   tl.fromTo('.ground', { scale: 1 }, { scale: 1.05, duration: LENGTH, ease: E.ambient }, 0);
 }
-// Sequence 1: the first idea arrives; the thread starts drawing and keeps going past the read moment.
+// Sequence 1: the hero rises in from the bottom edge while the display type lands; the hero keeps
+// creeping up through the read moment, so content motion overlaps the hold.
 function first(t) {
-  tl.from('#stop1 h2', { y: M.distance, opacity: 0, duration: D.enter, ease: E.enter }, t)
-    .from('#thread', { drawSVG: '0%', duration: 3.6, ease: E.move }, t + 0.2)
-    .addLabel('hold', t + D.enter);
+  tl.from('.hero', { yPercent: 60, duration: D.move, ease: E.move }, t)
+    .to('.hero', { y: -60, duration: 3, ease: E.ambient }, t + D.move)
+    .from('#d1', { y: M.distance, opacity: 0, duration: D.enter, ease: E.enter }, t + 0.1)
+    .from('#c1', { opacity: 0, duration: D.enter, ease: E.fade }, t + 0.1 + D.stagger * 4)
+    .addLabel('hold', t + 0.1 + D.stagger * 4 + D.enter);
 }
-// Sequence 2: the camera travels the thread to the second idea (a handover, not a cut).
-// It starts while sequence 1's thread is still drawing.
+// Sequence 2: the next idea re-uses the same zones. The hero changes shape and side (a handover
+// chosen for this content), and the second idea's type takes the display zone.
 function second(t) {
-  tl.to('#stop1 h2', { opacity: 0, duration: D.exit, ease: E.exit }, t)
-    .to('.world', { y: -1920, duration: D.move, ease: E.move }, t)
-    .from('#stop2 h2', { y: M.distance, opacity: 0, duration: D.enter, ease: E.enter }, t + D.move * 0.6)
-    .addLabel('hold2', t + D.move * 0.6 + D.enter);
+  const enter = t + D.move * 0.6;
+  tl.to(['#d1', '#c1'], { autoAlpha: 0, duration: D.exit, ease: E.exit }, t)
+    .to('.hero', { left: -80, right: 240, borderRadius: '0 24px 0 0', duration: D.move, ease: E.move }, t)
+    .fromTo('#d2', { autoAlpha: 0, y: M.distance }, { autoAlpha: 1, y: 0, duration: D.enter, ease: E.enter }, enter)
+    .fromTo('#c2', { autoAlpha: 0 }, { autoAlpha: 1, duration: D.enter, ease: E.fade }, enter + D.stagger * 4)
+    .addLabel('hold2', enter + D.stagger * 4 + D.enter);
 }
 
 ambient();
 first(0);
-second(2.4);
+second(2.6);
 tl.addLabel('end', LENGTH);
 window.__scene = { tl };
 </script>

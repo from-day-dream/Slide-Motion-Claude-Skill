@@ -1,0 +1,72 @@
+<!doctype html>
+<!-- ARCHETYPE hero-cutout-orbit · register: expressive · references/layouts.md §2
+     STRUCTURE ONLY. Colours, faces and curves are role placeholders and window.__motion tokens, bound
+     to the brand when rendered. A shape stands in for the cutout subject (scripts/cutout.mjs makes real
+     ones) and for the orbiting images. 9:16. -->
+<html><head><meta charset="utf-8">
+<style>
+{{FONT_FACES}}
+{{TOKENS}}
+.scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:BRAND_BACKGROUND;color:BRAND_TEXT}
+.band-top{position:absolute;left:72px;right:72px;top:240px;display:flex;justify-content:space-between;font-family:BRAND_FONT_BODY;font-size:var(--brand-size-meta)}
+.title{position:absolute;left:84px;right:140px;top:290px;margin:0;font-family:BRAND_FONT_DISPLAY;font-weight:BRAND_WEIGHT_DISPLAY;font-size:200px;line-height:.88;letter-spacing:-.04em}
+.depth-root{position:absolute;inset:0;perspective:2000px}.camera{position:absolute;inset:0;transform-style:preserve-3d}
+.plane-far{position:absolute;inset:-10%}.plane-mid,.plane-near{position:absolute;inset:0}
+/* Far plane: the big year, out of focus, bleeding off the bottom. Decorative: not read text. */
+.year{position:absolute;left:-40px;bottom:-60px;font-family:BRAND_FONT_DISPLAY;font-weight:BRAND_WEIGHT_DISPLAY;font-size:600px;line-height:1;letter-spacing:-.05em;color:BRAND_COLOR_2}
+/* Orbit: one ellipse around the subject; far cards behind it (smaller, blurred), near cards in front. */
+.orbit{position:absolute;left:540px;top:1200px;width:0;height:0}
+.card{position:absolute;border-radius:28px;padding:16px;box-sizing:border-box;background:BRAND_BACKGROUND;box-shadow:0 18px 40px rgba(0,0,0,.12)}
+.card i{display:block;width:100%;height:100%;border-radius:16px}
+.far{width:260px;height:330px;margin:-165px 0 0 -130px;filter:blur(4px)}
+.near{width:340px;height:430px;margin:-215px 0 0 -170px}
+.f1 i{background:BRAND_COLOR_3}.f2 i{background:BRAND_COLOR_4}.n1 i{background:BRAND_COLOR_1}.n2 i{background:BRAND_ACCENT_2}
+/* Mid plane: the subject in its circle. */
+.disc{position:absolute;left:100px;top:740px;width:880px;height:880px;border-radius:50%;background:BRAND_ACCENT}
+.subject{position:absolute;left:290px;top:660px;width:500px;height:960px}
+.subject svg{width:100%;height:100%;fill:BRAND_DARK}
+</style></head>
+<body>
+<div class="scene" data-scene="1">
+  <div class="depth-root"><div class="camera"><div class="plane-far"><div class="year" data-deco aria-hidden="true">2026</div></div></div></div>
+  <div class="orbit" aria-hidden="true"><div class="card far f1"><i></i></div><div class="card far f2"><i></i></div></div>
+  <div class="disc" aria-hidden="true"></div>
+  <div class="subject" data-visual aria-hidden="true"><svg viewBox="0 0 420 800"><circle cx="210" cy="170" r="130"/><path d="M20 800 C20 470 90 330 210 330 C330 330 400 470 400 800 Z"/></svg></div>
+  <div class="orbit" aria-hidden="true"><div class="card near n1"><i></i></div><div class="card near n2"><i></i></div></div>
+  <div class="band-top"><span data-text="meta">@handle</span><span data-text="meta">Profile</span></div>
+  <h2 class="title" data-text="headline">Meet the maker</h2>
+</div>
+<script>
+const M = window.__motion, D = M.duration, E = M.ease;
+const tl = gsap.timeline({ paused: true });
+const LENGTH = 3;
+
+// The orbit: an ellipse centred on the subject. Far cards travel the back half, near cards the front
+// half, so depth never has to swap mid-move. Slow enough to read every card.
+const ELLIPSE = 'M-520,0 A520,300 0 1,1 520,0 A520,300 0 1,1 -520,0';
+[['.f1', 0.55, 0.85], ['.f2', 0.80, 1.05], ['.n1', 0.05, 0.30], ['.n2', 0.28, 0.52]].forEach(([sel, a, b]) => {
+  tl.fromTo(sel, { motionPath: { path: ELLIPSE, start: a, end: a } }, { motionPath: { path: ELLIPSE, start: a, end: b }, duration: LENGTH, ease: E.ambient }, 0);
+});
+tl.from('.orbit .card', { scale: 0, duration: D.enter, ease: E.enter, stagger: D.stagger * 2 }, 0.3);
+
+// The subject pops in with overshoot; its disc grows from nothing just ahead of it.
+tl.from('.disc', { scale: 0, duration: D.move, ease: E.enter }, 0)
+  .from('.subject', { scale: 0.6, yPercent: 30, opacity: 0, duration: D.enter, ease: E.enter, transformOrigin: '50% 100%' }, 0.15)
+  .to('.subject', { y: -18, duration: LENGTH - 0.65, ease: E.ambient }, 0.65);
+
+// The year drifts on the far plane, sharp as it arrives, then focus pulls to the subject and the year
+// goes soft (composition.md → Depth).
+tl.fromTo('.year', { x: 0 }, { x: -80, duration: LENGTH, ease: E.ambient }, 0);
+motionKit.focus(tl, 'far', 8, { at: 0.3, duration: D.move, ease: E.move });
+
+// The title lands character by character, from the centre out, with overshoot (type.md → char-stagger).
+const chars = SplitText.create('.title', { type: 'words,chars' }).chars;
+const each = D.stagger * 0.5;
+tl.from(chars, { yPercent: 70, rotation: 12, opacity: 0, duration: D.enter * 0.8, ease: E.enter, stagger: { each, from: 'center' } }, 0.25)
+  .from('.band-top', { opacity: 0, duration: D.enter, ease: E.fade }, 0)
+  .addLabel('hold', 0.25 + each * (chars.length - 1) / 2 + D.enter * 0.8);
+
+tl.addLabel('end', LENGTH);
+window.__scene = { tl };
+</script>
+</body></html>

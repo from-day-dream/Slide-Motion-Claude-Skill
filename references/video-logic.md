@@ -13,6 +13,13 @@ A slideshow is frames with transitions between them: a frame animates in, stops,
 ## 2. Plan the video as a whole
 After the analysis (`analysis.md`), plan in this order and write it into `meta.json → plan` before any HTML.
 
+0. **Register and archetypes.** Before anything else, choose:
+   - **The register** (`plan.register`):
+     - **explainer:** every element has a literal job (§3a); 40-65% of the canvas active. For reports, how-tos, data and anything that has to be understood.
+     - **expressive:** decoration, repetition and texture are allowed as energy (§3a); 70-100% of the canvas active. For promos, launches and social posts.
+
+     Default from the request; the user's words override ("make it punchy" → expressive, "keep it clean" → explainer).
+   - **1-3 layout archetypes** (`plan.archetypes`) from `layouts.md`, chosen for the content and the register. Each sequence then names the archetype it's built on (`plan.sequences[].archetype`). Archetypes are structure and motion only; the brand supplies every colour, font and curve.
 1. **Ideas.** Distil the analysis into the few things the video must say: hook first, close last. Each gets its on-screen copy (within the brand's words per read moment) and the facts it uses.
 2. **The throughline.** Decide what carries the viewer through the whole video. It might be:
    - an object that keeps transforming;
@@ -29,7 +36,7 @@ After the analysis (`analysis.md`), plan in this order and write it into `meta.j
    - how it overlaps the next sequence.
 
    Sequences don't map one-to-one onto ideas: one sequence can carry two ideas, and one idea can span two sequences.
-4. **Read moments.** Mark where each piece of text is fully on screen and settled (`hold`, `hold2`…), and how long it stays still: at least its words ÷ reading speed.
+4. **Read moments.** Mark where each piece of text is fully on screen and settled (`hold`, `hold2`…), and how long it stays still: at least its words ÷ reading speed. Give each one a **layout** in zones for the ratio that fills the canvas (§3b).
 5. **Layers in every stretch** (§3): what the ambient layer is doing, what content motion is running, when text arrives and holds.
 6. **Handovers.** For every place where one idea becomes the next, decide the mechanism: a transformation, a camera move, a zoom-through, a hand-off, a cut… There is no preset or brand default. Choose for **this** video:
    - **What the user asked for** comes first ("one continuous camera move", "no cuts", "like this reel").
@@ -43,19 +50,26 @@ After the analysis (`analysis.md`), plan in this order and write it into `meta.j
 
 ```json
 "plan": {
+  "register": "expressive",
+  "archetypes": ["word-punch", "card-constellation"],
+  "typeTreatments": [ { "read": "hold", "treatment": "scale-punch" } ],
+  "depth": { "far": ["ground", "repeated type"], "mid": ["cards"], "near": ["read text"] },
+  "techniques": [ { "sequence": "s1", "techniques": ["overshoot-settle", "directional-stagger"] } ],
   "throughline": "the camera travels down one long canvas; a blue line draws the path between ideas",
   "ideas": [ { "id": 1, "idea": "", "copy": [""], "facts": [], "visual": "" } ],
   "elements": [ { "what": "cursor", "job": "drags the file into the app; clicks Render", "in": ["s2", "s4"] } ],
   "sequences": [
-    { "id": "s1", "from": 0, "to": 4.2, "carries": [1], "moving": "photo pushes in; headline words arrive; line starts drawing", "handover": "line keeps drawing into s2 while the photo slides up out of frame" }
+    { "id": "s1", "archetype": "word-punch", "from": 0, "to": 4.2, "carries": [1], "moving": "photo pushes in; headline words arrive; line starts drawing", "handover": "line keeps drawing into s2 while the photo slides up out of frame" }
   ],
-  "reads": [ { "label": "hold", "at": 1.0, "holds": 1.4, "copy": "" } ],
+  "reads": [ { "label": "hold", "at": 1.0, "holds": 1.4, "copy": "", "layout": "top: …; display: …; hero: …; bottom: …" } ],
   "cuts": [ { "label": "cut", "at": 6.1, "why": "", "carry": "" } ],
   "fixed": [ { "what": "", "behaviour": "" } ],
   "seconds": 15
 }
 ```
-Show it compactly (throughline, ideas with copy, sequences with times and what's moving, read moments) and continue unless the user objects.
+`typeTreatments` (`type.md`), `depth` (`composition.md` → Depth) and `techniques` (`motion-craft.md`) are filled in as those choices are made.
+
+Show it compactly (register and archetypes, throughline, ideas with copy, sequences with times and what's moving, read moments) and continue unless the user objects.
 
 ## 3. Layers: always moving, readable when it matters
 | Layer | What | Timing |
@@ -96,6 +110,35 @@ If any answer is no, leave it out of that moment. It isn't decoration, a filler 
 
 **Restraint by default.** One focal element per moment, plus the text. Every motif on screen should be explainable in one sentence ("the cursor drags the .blend file in, because the idea is 'drop your file'"). Write those sentences into `plan.elements`.
 
+**By register.** All of the above is the rule in the **explainer** register. In the **expressive** register, decorative layers are allowed when their job is **rhythm, texture or energy**: repeated type, abstract shapes and stickers (`templates/shapes/`), colour bands, grain. Their job goes into `plan.elements` too (`"job": "energy: wobbling stars keep the type wall alive"`). Two limits still apply:
+- **Motifs with a real-world meaning keep it.** A cursor still only appears where something is clicked or dragged, an arrow where there's a direction, a progress bar where something progresses. Decoration is drawn from meaning-free material, never from those motifs.
+- **Decoration never competes with the read.** At a read moment the read text stays the most legible thing on screen, and the brand may rule out shapes or textures entirely (`design-language.md`).
+
+## 3b. Fill the canvas
+A layout planned for "a slide" ends up as a block in the middle, with empty ground above, below and at the sides. Plan every layout for **this canvas and ratio** instead, so the composition reaches all its edges, whatever the brand.
+
+1. **Zones first.** Before placing anything, split the canvas into zones along its long axis, and give every zone a job at every read moment:
+   - **9:16 / 4:5:** horizontal bands, e.g. a top band, display type, the hero, a bottom band.
+   - **16:9:** columns, e.g. a full-height image column and a type column.
+   - **1:1:** quadrants or a strong diagonal.
+
+   Open space is fine as a deliberate pause *inside* a filled composition (between the type and the hero, around one label). It is never an empty band along an edge.
+2. **Scale to the canvas, not to the content.**
+   - The hero (display type, a photo or cut-out, a chart, an illustration) is sized from the canvas. Display type is set to span the full measure, even at a size far above the brand's headline level, when the idea is a short phrase. Imagery takes roughly 40-70% of the long side.
+   - Let things run past the margins and bleed off an edge: an image cropped by the frame, giant type behind other layers.
+   - When something looks small, make it bigger; don't add filler around it.
+3. **Layer, don't stack.**
+   - Build depth from back to front: full-bleed ground, then large type or shapes, then the image or cut-out, then small pieces of information.
+   - Let layers overlap: a cut-out over the display type, a label over the corner of a photo, a rule running under an image.
+   - Overlaps must keep text readable (the contrast check still applies). Blocks stacked one under another with gaps between them read as a slide.
+4. **Anchor the edges with real content.** Bands at the top and bottom (sides in landscape) carry information that belongs to this video: handle, series, date, a running header or caption, a source line, a price, the CTA, rule lines that frame the poster. Each anchor passes §3a; no stickers or badges just to occupy a corner.
+5. **Use the platform zones.** In 9:16 the UI zones (top 220, bottom 420, right 140) are off-limits for text that must be read, not for content. Fill them with the bleed of images and large shapes, the ground's texture, or the parts of display type that aren't needed to read it.
+6. **Fill in motion too.** Entrances come from the edges, camera moves and transformations travel across the whole canvas, and between read moments the frame is as full as at the holds.
+7. **Use an archetype.** The archetypes in `layouts.md` are worked-out zone plans (a type wall fills every band with repeated rows; a card constellation spreads cards across the canvas). Start from the sequence's archetype, then adapt it to the ratio.
+8. **Write it into the plan.** Each read moment gets `layout`: what occupies each zone (`"top: meta row + rule; display: 'MAKE NOISE' across the width; hero: cut-out overlapping the type, bleeding off the bottom; bottom: CTA bar"`).
+
+The renderer warns (`fill`) when nothing but ground sits in more than 15% of the canvas at any edge at a read moment, or when the content spans less than 80% of the width or height. In the expressive register it also warns when less than 70% of the canvas is active.
+
 ## 4. Techniques (a neutral menu; chosen per video, §2.6)
 | Technique | What happens | How |
 |---|---|---|
@@ -118,6 +161,7 @@ If any answer is no, leave it out of that moment. It isn't decoration, a filler 
 ## 6. Generic motion (avoid, whatever the brand)
 - The slideshow pattern: animate in → stop → wait → animate out → next.
 - Everything arriving at once; random directions; motion that ignores the throughline.
+- A layout clustered in the middle with empty bands at the top, bottom or sides (§3b).
 - Motifs used as decoration or repeated by habit: a cursor everywhere, arrows pointing at the obvious, sparkles on everything (§3a).
 - Text that moves while it's read; typewriter sentences; loops or pulses behind text.
 - A logo sting at the start.

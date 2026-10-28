@@ -1,0 +1,10 @@
+{
+  "//": "Background removal for scripts/cutout.mjs (slide-motion only; config/providers.json is shared with Carousel Studio and stays untouched). Paid per image and off by default: cutout.mjs runs only with --yes, after the user has agreed. To customise, put a cutout.json with the same shape in your workspace; it is merged over this file.",
+  "provider": "fal",
+  "keyEnv": "FAL_KEY",
+  "queueUrl": "https://queue.fal.run",
+  "endpoint": "fal-ai/birefnet/v2",
+  "input": { "model": "General Use (Heavy)", "operating_resolution": "2048x2048", "output_format": "png", "refine_foreground": true },
+  "cost": "about $0.002-0.01 per image on fal (check fal.ai/pricing)",
+  "cleanup": { "erode": 1.5, "feather": 1 }
+}

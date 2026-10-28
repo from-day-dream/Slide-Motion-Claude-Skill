@@ -73,7 +73,7 @@ The tokens these moves use (every `ease.*` and `duration.*`, `distance`) are **d
 
 ### 1. Gather (one batch, open questions)
 Draft answers from what you already know (the brand's voice, design language, logo, carousels, website) and ask the user to confirm or correct. Ask only these:
-1. **References:** videos, reels, sites or apps whose motion they like (links or files), and anything they dislike. Read or watch descriptions of those references and name what they have in common.
+1. **References:** videos, reels, sites or apps whose motion they like (links or files), and anything they dislike. Read or watch descriptions of those references and name what they have in common. For reference video files the user provides, run `scripts/breakdown.mjs` and save what's reusable as recipes (`breakdown.md`); a recipe captures layout grammar and rhythm, never the reference's look.
 2. **Character:** three words for how the brand should feel in motion, then make them concrete. For example, "settles slowly, never bounces" or "fast in, firm stop".
 3. **What the videos show:** type, photos, illustrations, UI or product shots, data. In what mix? Is a headline always present, or can an image carry a moment alone? How many words can sit on screen at once?
 4. **Overall pace:** calm, measured or brisk, in the user's words, plus the reading speed if the audience reads in a second language.
@@ -109,6 +109,14 @@ Write `## Motion` in `design-language.md`: 3-5 specific rules in the brand's own
 
 If the brand has motifs (a cursor, arrows, selection boxes, stickers…), list each one with what it **means**, not where it goes: "cursor: clicks or drags something that's actually interactive". Videos use a motif only when that meaning applies (`video-logic.md` §3a).
 
+Decide which of the skill's decorative material fits the brand (`templates/shapes/`, `templates/textures/`), from its character and carousels, and write it as two lines in `design-language.md`. Show them with the rest for approval; don't ask a separate question.
+```
+Shapes: deny all                      (a minimal brand: no stickers ever)
+Shapes: allow circle, pill, star-4    (only these)
+Textures: deny grain, gradient-mesh   (everything else is fine)
+```
+A missing line allows everything. The renderer warns when a video uses something the brand rules out.
+
 If the brand uses illustrations, also write `## Illustration`, so two illustrations drawn weeks apart match:
 - stroke and caps;
 - fills vs outlines, and which token colours go where;
@@ -125,7 +133,7 @@ Make a short composition (about 6s): the hook, a move to a second idea, and the 
 <ws>/brands/<slug>/test/motion/composition.html
 <ws>/brands/<slug>/test/motion/meta.json        { "brand": "<slug>", "ratio": "9:16", "duration": 6 }
 ```
-Render it with `node <skill>/scripts/render.mjs <ws>/brands/<slug>/test/motion --brand <slug> --workspace <ws>` and fix every error. Show `storyboard.png` (and `cuts.png` if there's a cut) and give the `video.mp4` path. Ask for approval of the *feel* (character, curves, pace), not the copy or the choreography. If the user wants it different ("snappier", "softer landings"), adjust the tokens yourself and re-render; iterate until approved.
+Render it with `node <skill>/scripts/render.mjs <ws>/brands/<slug>/test/motion --brand <slug> --workspace <ws>` and fix every error. Optionally also render the layout archetypes in the brand (`render.mjs --specimen all --brand <slug> --workspace <ws>`, into `brands/<slug>/specimens/`) so the user sees how the brand carries each structure. Show `storyboard.png` (and `cuts.png` if there's a cut) and give the `video.mp4` path. Ask for approval of the *feel* (character, curves, pace), not the copy or the choreography. If the user wants it different ("snappier", "softer landings"), adjust the tokens yourself and re-render; iterate until approved.
 
 A single video can adjust any token for itself in `meta.json → motion` when the user asks ("slower this time"). Change the brand's `motion.json` only when they want a new default.
 

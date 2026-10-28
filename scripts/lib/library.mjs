@@ -59,7 +59,7 @@ export async function buildLibrary(outDir, incoming = []) {
       hash: m.format === 'svg' ? null : await dhash(file),
       // Annotations from analysis and planning survive rebuilds.
       description: old.description || '', tags: old.tags || [], focus: old.focus || '50% 50%',
-      quality: old.quality || '', use: old.use ?? null, approved: old.approved ?? (info.rights || old.rights || 'own') === 'own',
+      quality: old.quality || '', use: old.use ?? null, cutout: old.cutout ?? null, approved: old.approved ?? (info.rights || old.rights || 'own') === 'own',
     });
   }
 

@@ -1,0 +1,84 @@
+<!doctype html>
+<!-- ARCHETYPE card-constellation · register: both · references/layouts.md §1
+     STRUCTURE ONLY. Colours, faces and curves are role placeholders and window.__motion tokens, bound
+     to the brand when rendered (render.mjs --specimen card-constellation). Placeholder copy; shapes
+     stand in for images. 9:16. -->
+<html><head><meta charset="utf-8">
+<style>
+{{FONT_FACES}}
+{{TOKENS}}
+.scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:BRAND_BACKGROUND;color:BRAND_TEXT}
+.depth-root{position:absolute;inset:0;perspective:2000px}.camera{position:absolute;inset:0;transform-style:preserve-3d}
+.plane-far{position:absolute;inset:-10%}.plane-mid,.plane-near{position:absolute;inset:0}
+/* Far: a patterned ground (the brand's grid or dots in a real video). */
+.ground{position:absolute;inset:-80px;background-image:radial-gradient(BRAND_SURFACE 6px,transparent 7px);background-size:48px 48px}
+.band-top{position:absolute;left:72px;right:72px;top:240px;display:flex;justify-content:space-between;font-family:BRAND_FONT_BODY;font-size:var(--brand-size-meta)}
+.title{position:absolute;left:84px;right:150px;top:320px;margin:0;font-family:BRAND_FONT_DISPLAY;font-weight:BRAND_WEIGHT_DISPLAY;font-size:170px;line-height:.9;letter-spacing:-.03em}
+.sub{position:absolute;left:88px;right:160px;top:660px;margin:0;font-family:BRAND_FONT_BODY;font-size:var(--brand-size-support)}
+/* Mid: 4 cards, unequal sizes and rotations, overlapping 5-15%, spread to every edge; one focus card. */
+.card{position:absolute;border-radius:36px;padding:24px;box-sizing:border-box}
+.card i{display:block;width:100%;height:100%;border-radius:20px;background:BRAND_SURFACE}
+.c1{left:-40px;top:800px;width:430px;height:540px;background:BRAND_COLOR_1}
+.c2{left:300px;top:960px;width:600px;height:760px;background:BRAND_ACCENT}
+.c3{left:760px;top:760px;width:400px;height:500px;background:BRAND_COLOR_2}
+.c4{left:-60px;top:1430px;width:500px;height:560px;background:BRAND_COLOR_3}
+.c2 i{background:BRAND_COLOR_4}
+</style></head>
+<body>
+<div class="scene" data-scene="1">
+  <div class="depth-root"><div class="camera">
+    <div class="plane-far"><div class="ground" aria-hidden="true"></div></div>
+    <div class="plane-mid">
+      <div class="card c1" aria-hidden="true"><i></i></div>
+      <div class="card c3" aria-hidden="true"><i></i></div>
+      <div class="card c4" aria-hidden="true"><i></i></div>
+      <div class="card c2" data-visual aria-hidden="true"><i></i></div>
+    </div>
+    <div class="plane-near">
+      <h2 class="title" data-text="headline">Ideas in orbit</h2>
+      <p class="sub" data-text="support">Four cards, one story</p>
+    </div>
+  </div></div>
+  <div class="band-top"><span data-text="meta">@handle</span><span data-text="meta">01 / 03</span></div>
+</div>
+<script>
+const M = window.__motion, D = M.duration, E = M.ease;
+const tl = gsap.timeline({ paused: true });
+const LENGTH = 3;
+
+// Ambient: the ground drifts for the whole clip.
+tl.fromTo('.ground', { x: 0, y: 0 }, { x: -40, y: -60, duration: LENGTH, ease: E.ambient }, 0);
+
+// Enter: each card flies in on its own arc from a different edge and overshoots on landing.
+const cards = [
+  ['.c1', [{ x: -500, y: -200 }, { x: -120, y: -260 }], -6],
+  ['.c3', [{ x: 520, y: -300 }, { x: 140, y: -320 }], 8],
+  ['.c4', [{ x: -300, y: 700 }, { x: -80, y: 160 }], -3],
+  ['.c2', [{ x: 300, y: 900 }, { x: 120, y: 200 }], 4],
+];
+cards.forEach(([sel, [from, mid], rot], i) => {
+  const at = 0.05 + i * D.stagger * 2;
+  tl.set(sel, { x: from.x, y: from.y, rotation: rot * 3 }, 0)
+    .to(sel, { motionPath: { path: [mid, { x: 0, y: 0 }], curviness: 1.2 }, rotation: rot, duration: D.move, ease: E.enter }, at);
+});
+// Idle: every card drifts and turns on its own seeded noise (motion-craft.md → seeded-wobble).
+['.c1', '.c3', '.c4', '.c2'].forEach((sel, i) => {
+  const at = 0.05 + D.move + i * D.stagger * 2;
+  motionKit.wobble(tl, sel, { seed: 11 + i, at, duration: LENGTH - at, x: 22, y: 26, rotation: 2.5, rate: 1.2 });
+});
+// The camera pushes in as the constellation assembles, separating the planes, and settles on the layout
+// at the read (settle: the move ends at rest, so the text is exactly where it's set).
+const HOLD = 0.2 + D.stagger * 4 + D.enter;
+motionKit.camera(tl, 'pull', { at: 0, duration: HOLD, ease: E.move, amount: 0.06, settle: true });
+
+// Text: the title's lines rise from behind a mask (type.md → line-mask), then the support line.
+const lines = SplitText.create('.title', { type: 'lines', mask: 'lines' }).lines;
+tl.from(lines, { yPercent: 100, duration: D.enter, ease: E.enter, stagger: D.stagger * 2 }, 0.1)
+  .from('.sub', { opacity: 0, duration: D.enter, ease: E.fade }, 0.2 + D.stagger * 4)
+  .from('.band-top', { opacity: 0, duration: D.enter, ease: E.fade }, 0)
+  .addLabel('hold', HOLD);
+
+tl.addLabel('end', LENGTH);
+window.__scene = { tl };
+</script>
+</body></html>

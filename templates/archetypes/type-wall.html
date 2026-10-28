@@ -1,0 +1,69 @@
+<!doctype html>
+<!-- ARCHETYPE type-wall · register: expressive · references/layouts.md §4
+     STRUCTURE ONLY. Colours, faces and curves are role placeholders and window.__motion tokens, bound
+     to the brand when rendered. Placeholder copy; simple shapes stand in for templates/shapes/. 9:16. -->
+<html><head><meta charset="utf-8">
+<style>
+{{FONT_FACES}}
+{{TOKENS}}
+.scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:BRAND_BACKGROUND;color:BRAND_TEXT}
+/* Decorative rows (data-deco): repeated, bleeding off both sides, quieter than the read row. */
+.wall{position:absolute;left:0;top:-30px;font-family:BRAND_FONT_DISPLAY;font-weight:BRAND_WEIGHT_DISPLAY;font-size:150px;line-height:174px;letter-spacing:-.03em;text-transform:uppercase;white-space:nowrap}
+.row{color:BRAND_COLOR_1}
+.row:nth-child(3n+2){color:BRAND_COLOR_2}.row:nth-child(3n){color:BRAND_SURFACE}
+/* The read row: inside the safe zone, on a full-width highlight band. */
+.hi{position:absolute;left:0;right:0;top:860px;height:200px;background:BRAND_ACCENT;transform-origin:0 50%}
+.read{position:absolute;left:84px;top:880px;margin:0;font-family:BRAND_FONT_DISPLAY;font-weight:BRAND_WEIGHT_DISPLAY;font-size:150px;line-height:1;letter-spacing:-.03em;text-transform:uppercase;color:BRAND_ON_ACCENT;white-space:nowrap}
+.band-top{position:absolute;left:72px;right:72px;top:240px;display:flex;justify-content:space-between;font-family:BRAND_FONT_BODY;font-size:var(--brand-size-meta)}
+.band-top span{background:BRAND_BACKGROUND;padding:6px 12px;border-radius:6px}
+.sticker{position:absolute}
+.sticker svg{width:100%;height:100%}
+.s1{left:760px;top:560px;width:230px;height:230px;fill:BRAND_ACCENT_2}
+.s2{left:60px;top:1260px;width:260px;height:260px;fill:BRAND_COLOR_3}
+.s3{left:820px;top:1560px;width:200px;height:200px;fill:BRAND_COLOR_4}
+</style></head>
+<body>
+<div class="scene" data-scene="1">
+  <div class="wall" data-deco aria-hidden="true">
+    <div class="row">Make it move · Make it move · Make it move ·</div><div class="row">Make it move · Make it move · Make it move ·</div>
+    <div class="row">Make it move · Make it move · Make it move ·</div><div class="row">Make it move · Make it move · Make it move ·</div>
+    <div class="row">Make it move · Make it move · Make it move ·</div><div class="row">Make it move · Make it move · Make it move ·</div>
+    <div class="row">Make it move · Make it move · Make it move ·</div><div class="row">Make it move · Make it move · Make it move ·</div>
+    <div class="row">Make it move · Make it move · Make it move ·</div><div class="row">Make it move · Make it move · Make it move ·</div>
+    <div class="row">Make it move · Make it move · Make it move ·</div><div class="row">Make it move · Make it move · Make it move ·</div>
+  </div>
+  <div class="hi" aria-hidden="true"></div>
+  <h2 class="read" data-text="headline">Make it move</h2>
+  <div class="sticker s1" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M50 0 L61 35 L98 35 L68 57 L79 93 L50 71 L21 93 L32 57 L2 35 L39 35 Z"/></svg></div>
+  <div class="sticker s2" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M50 4 C76 4 96 22 96 48 C96 76 74 96 48 96 C22 96 4 74 6 48 C8 22 26 4 50 4 Z"/></svg></div>
+  <div class="sticker s3" aria-hidden="true"><svg viewBox="0 0 100 100"><rect x="4" y="30" width="92" height="40" rx="20"/></svg></div>
+  <div class="band-top"><span data-text="meta">@handle</span><span data-text="meta">New season</span></div>
+</div>
+<script>
+const M = window.__motion, D = M.duration, E = M.ease;
+const tl = gsap.timeline({ paused: true });
+const LENGTH = 3;
+fitText('.read', 840, 170); // the read row spans the safe width
+
+// Rows marquee in alternating directions, each at its own speed (fixed values, never all equal).
+const speeds = [140, -110, 170, -150, 120, -180, 160, -125, 135, -165, 115, -145];
+document.querySelectorAll('.row').forEach((row, i) => {
+  const v = speeds[i % speeds.length], x0 = v > 0 ? -900 : -300;
+  tl.fromTo(row, { x: x0 - v * 0.6 }, { x: x0 + v * (LENGTH - 0.6), duration: LENGTH, ease: E.ambient }, 0);
+});
+tl.from('.row', { opacity: 0, duration: D.enter, ease: E.fade, stagger: { each: D.stagger, from: 'center' } }, 0);
+
+// Stickers drop in and wobble, each on its own amplitude.
+tl.from('.sticker', { scale: 0, rotation: -40, duration: D.enter, ease: E.enter, stagger: D.stagger * 3 }, 0.5);
+['.s1', '.s2', '.s3'].forEach((sel, i) => motionKit.wobble(tl, sel, { seed: 3 + i * 7, at: 0.9, duration: LENGTH - 0.9, x: 18, y: 14, rotation: 20, rate: 2 }));
+
+// The highlight sweeps one row to the readable state; the read row lands on it and holds.
+tl.from('.hi', { scaleX: 0, duration: D.move, ease: E.move }, 0.15)
+  .from('.read', { yPercent: 40, opacity: 0, duration: D.enter, ease: E.enter }, 0.45)
+  .from('.band-top', { opacity: 0, duration: D.enter, ease: E.fade }, 0)
+  .addLabel('hold', 0.45 + D.enter);
+
+tl.addLabel('end', LENGTH);
+window.__scene = { tl };
+</script>
+</body></html>

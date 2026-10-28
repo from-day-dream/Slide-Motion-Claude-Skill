@@ -107,12 +107,65 @@ window.registerCurve=function(name){
 // in <span class="mw"> so a timeline can stagger them. Returns the spans in reading order.
 const SPLIT_WORDS = `window.splitWords=function(sel){const out=[];document.querySelectorAll(sel).forEach(function(el){(function walk(n){[].slice.call(n.childNodes).forEach(function(c){if(c.nodeType===1)return walk(c);if(c.nodeType!==3)return;const f=document.createDocumentFragment();c.textContent.split(/(\\s+)/).forEach(function(p){if(!p)return;if(/^\\s+$/.test(p)){f.append(p);return}const s=document.createElement('span');s.className='mw';s.style.display='inline-block';s.textContent=p;f.append(s);out.push(s)});c.replaceWith(f)})})(el)});return out};`;
 
+// fitText(selector, width, max): sets each element's font-size so its text spans `width` px (display
+// type sized from the canvas, video-logic.md §3b). Uses layout width, so transforms don't skew it; the
+// renderer runs every fit again once the brand fonts have loaded.
+const FIT_TEXT = `window.fitText=function(sel,w,max){var els=[].slice.call(document.querySelectorAll(sel));function run(){els.forEach(function(el){el.style.fontSize='100px';var r=el.offsetWidth||1;el.style.fontSize=Math.min(max||9999,100*w/r)+'px'})}run();(window.__fits=window.__fits||[]).push(run);return els};`;
+
+// motionKit: deterministic craft helpers (references/motion-craft.md, composition.md → Depth).
+//   rng(seed)                  seeded PRNG (mulberry32) → () => [0,1). Never Math.random.
+//   noise(seed)                smooth 1D value noise → x => [-1,1]
+//   wobble(tl, targets, o)     seeded drift on x/y/rotation: { seed, at, duration, x, y, rotation, rate }
+//   spring(o)                  registers a damped spring ease { stiffness, damping, mass } and returns its name
+//   offsetProps(tl, el, p, o)  position leads, rotation/scale/other props lag by o.lag (default 0.08s)
+//   camera(tl, move, o)        push | pull | pan | orbit: moves .plane-far/.plane-mid/.plane-near at 0.3×/1×/1.4×;
+//                              o.settle: start moved and arrive at rest (the layout as designed) instead
+//   focus(tl, plane, px, o)    depth-of-field pull: blurs one plane ("far", "mid"); never the read text
+//   grain(tl, canvas, o)       seeded film grain redrawn every frame: { seed, duration, amount, scale, fps }
+// Every seeded helper throws without a seed, so randomness can't slip in unseeded.
+const MOTION_KIT = `(function(){
+function need(seed,fn){if(typeof seed!=='number'||!isFinite(seed))throw new Error('motionKit.'+fn+': a numeric seed is required');}
+function rng(seed){need(seed,'rng');var a=seed>>>0;return function(){a=(a+0x6D2B79F5)>>>0;var t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296;};}
+function hash(seed,i){return rng(((seed*2654435761)^(i*40503))>>>0)();}
+function noise(seed){need(seed,'noise');return function(x){var i=Math.floor(x),f=x-i,u=f*f*(3-2*f);return (hash(seed,i)*(1-u)+hash(seed,i+1)*u)*2-1;};}
+function wobble(tl,targets,o){o=o||{};need(o.seed,'wobble');var els=gsap.utils.toArray(targets),rate=o.rate||1.5,dur=o.duration||1,at=o.at||0;
+  els.forEach(function(el,k){var nx=noise(o.seed+k*101),ny=noise(o.seed+k*101+37),nr=noise(o.seed+k*101+71),steps=Math.max(2,Math.round(dur*rate)),kf=[];
+    for(var s=1;s<=steps;s++){var p=s/rate;kf.push({x:(o.x||0)*nx(p),y:(o.y||0)*ny(p),rotation:(o.rotation||0)*nr(p),duration:dur/steps,ease:'sine.inOut'});}
+    tl.to(el,{keyframes:kf},at);});return tl;}
+function spring(o){o=o||{};var k=o.stiffness||170,c=o.damping||18,m=o.mass||1,w=Math.sqrt(k/m),z=c/(2*Math.sqrt(k*m)),name='spring('+k+','+c+','+m+')';
+  if(gsap.parseEase(name)&&gsap.parseEase(name)!==gsap.parseEase('none'))return name;
+  var T=-Math.log(0.001)/(z*w),f;
+  if(z<1){var wd=w*Math.sqrt(1-z*z);f=function(t){return 1-Math.exp(-z*w*t)*(Math.cos(wd*t)+(z*w/wd)*Math.sin(wd*t));};}
+  else{f=function(t){return 1-(1+w*t)*Math.exp(-w*t);};T=-Math.log(0.001)/w*1.5;}
+  gsap.registerEase(name,function(p){return p>=1?1:f(p*T);});return name;}
+var POS={x:1,y:1,xPercent:1,yPercent:1,left:1,top:1,motionPath:1};
+function offsetProps(tl,el,props,o){o=o||{};var lead={},lag={},at=o.at||0,base={duration:o.duration,ease:o.ease};
+  Object.keys(props).forEach(function(p){(POS[p]?lead:lag)[p]=props[p];});
+  if(Object.keys(lead).length)tl.to(el,Object.assign({},base,lead),at);
+  if(Object.keys(lag).length)tl.to(el,Object.assign({},base,lag),at+(o.lag===undefined?0.08:o.lag));return tl;}
+var RATES={far:0.3,mid:1,near:1.4};
+function camera(tl,move,o){o=o||{};var a=o.amount===undefined?0.1:o.amount,at=o.at||0;
+  Object.keys(RATES).forEach(function(pl){var r=RATES[pl],v={duration:o.duration,ease:o.ease},els=document.querySelectorAll('.plane-'+pl);if(!els.length)return;
+    if(move==='push')v.scale=1+a*r;else if(move==='pull')v.scale=1-a*r;
+    else if(move==='pan'){v.x=-(o.x||0)*r;v.y=-(o.y||0)*r;}
+    else if(move==='orbit'){v.rotationY=a*r;v.x=-(o.x||0)*r;}
+    else throw new Error('motionKit.camera: push, pull, pan or orbit');
+    (o.settle?tl.from:tl.to).call(tl,els,v,at);});return tl;}
+function focus(tl,plane,px,o){o=o||{};if(plane==='near')throw new Error('motionKit.focus: the near plane holds the read text and never blurs');
+  tl.to('.plane-'+plane,{filter:'blur('+px+'px)',duration:o.duration,ease:o.ease},o.at||0);return tl;}
+function grain(tl,canvas,o){o=o||{};need(o.seed,'grain');var c=typeof canvas==='string'?document.querySelector(canvas):canvas,sc=o.scale||3,fps=o.fps||30,amt=o.amount===undefined?0.5:o.amount;
+  c.width=Math.ceil(c.offsetWidth/sc);c.height=Math.ceil(c.offsetHeight/sc);var ctx=c.getContext('2d'),img=ctx.createImageData(c.width,c.height),last=-1,p={f:0};
+  function draw(){var fr=Math.round(p.f);if(fr===last)return;last=fr;var r=rng(o.seed*7919+fr),d=img.data;for(var i=0;i<d.length;i+=4){var v=r()*255;d[i]=d[i+1]=d[i+2]=v;d[i+3]=255*amt;}ctx.putImageData(img,0,0);}
+  draw();tl.fromTo(p,{f:0},{f:Math.round((o.duration||1)*fps),duration:o.duration||1,ease:'none',onUpdate:draw},o.at||0);return tl;}
+window.motionKit={rng:rng,noise:noise,wobble:wobble,spring:spring,offsetProps:offsetProps,camera:camera,focus:focus,grain:grain,RATES:RATES};
+})();`;
+
 // Extra <head> content for the composition: GSAP (from node_modules, never a CDN), every curve the
-// motion tokens and the composition use, the tokens as window.__motion, --motion-* vars, and
-// splitWords(). gsapSource carries GSAP plus the SVG plugins (MorphSVG, DrawSVG, MotionPath),
+// motion tokens and the composition use, the tokens as window.__motion, --motion-* vars, fitText(), motionKit and
+// splitWords(). gsapSource carries GSAP plus the SVG plugins (MorphSVG, DrawSVG, MotionPath) and SplitText,
 // registered here. The global timeline is paused so only the composition's own timeline, seeked by
 // the renderer, moves.
-export const GSAP_FILES = ['gsap.min.js', 'MorphSVGPlugin.min.js', 'DrawSVGPlugin.min.js', 'MotionPathPlugin.min.js'];
+export const GSAP_FILES = ['gsap.min.js', 'MorphSVGPlugin.min.js', 'DrawSVGPlugin.min.js', 'MotionPathPlugin.min.js', 'SplitText.min.js'];
 export function motionHead(gsapSource, motion, sceneHtml = '') {
   const curves = curvesIn(JSON.stringify(motion.ease) + sceneHtml);
   const vars = [
@@ -120,8 +173,66 @@ export function motionHead(gsapSource, motion, sceneHtml = '') {
     `--motion-distance:${motion.distance}px`,
   ].join(';');
   return `<script data-injected>${gsapSource}</script>
-<script data-injected>gsap.registerPlugin(MorphSVGPlugin,DrawSVGPlugin,MotionPathPlugin);${CURVES}${JSON.stringify(curves)}.forEach(registerCurve);window.__motion=${JSON.stringify(motion)};gsap.ticker.lagSmoothing(0);gsap.globalTimeline.pause();${SPLIT_WORDS}</script>
+<script data-injected>gsap.registerPlugin(MorphSVGPlugin,DrawSVGPlugin,MotionPathPlugin,SplitText);${CURVES}${JSON.stringify(curves)}.forEach(registerCurve);window.__motion=${JSON.stringify(motion)};gsap.ticker.lagSmoothing(0);gsap.config({force3D:false});gsap.globalTimeline.pause();${SPLIT_WORDS}${FIT_TEXT}${MOTION_KIT}</script>
 <style data-injected>:root{${vars}}</style>`;
+}
+
+// ---------- brand placeholders ----------
+
+// The brand-neutral templates (templates/composition.html, templates/archetypes/) name colours and
+// faces by role, never by value: BRAND_BACKGROUND, BRAND_TEXT, BRAND_COLOR_1… Bind each role to one of
+// this brand's own tokens (as var(--brand-…)), so a template renders in the brand and nothing else.
+const hexRGB = h => { h = h.replace('#', ''); if (h.length === 3) h = [...h].map(c => c + c).join(''); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)); };
+const lumOf = hex => hexRGB(hex).map(c => { c /= 255; return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; }).reduce((s, c, i) => s + c * [0.2126, 0.7152, 0.0722][i], 0);
+const contrast = (a, b) => { const [x, y] = [lumOf(a), lumOf(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+const chroma = hex => { const c = hexRGB(hex); return Math.max(...c) - Math.min(...c); };
+const kebab = s => s.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+
+export function brandPlaceholders(tokens) {
+  const cols = Object.entries(tokens.colors || {}).map(([name, c]) => ({
+    name, v: `var(--brand-${kebab(name)})`, hex: typeof c === 'string' ? c : c.value, role: String((typeof c === 'string' ? '' : c.role) || '').toLowerCase(),
+  })).filter(c => /^#[0-9a-f]{3,8}$/i.test(c.hex));
+  if (!cols.length) fail('tokens.json has no colours to bind the template to', 2);
+  const is = r => cols.filter(c => c.role === r);
+  const best = (list, against) => [...list].sort((a, b) => contrast(b.hex, against.hex) - contrast(a.hex, against.hex))[0];
+  const bg = is('background')[0] || cols[0];
+  const text = best(is('text').length ? is('text') : cols, bg);
+  const muted = is('text').find(c => c !== text && contrast(c.hex, bg.hex) >= 3) || text;
+  const accent = is('accent')[0] || text;
+  const onAccent = best([...is('background'), ...is('text')].length ? [...is('background'), ...is('text')] : cols, accent);
+  const surface = is('background')[1] || is('panel')[0] || bg;
+  const accent2 = is('accent')[1] || is('panel')[0] || accent;
+  const dark = [...cols].sort((a, b) => lumOf(a.hex) - lumOf(b.hex))[0];
+  // Decorative palette: the brand's colourful non-text colours that the text colour still reads on.
+  let palette = cols.filter(c => c !== bg && c.role !== 'text' && contrast(c.hex, text.hex) >= 4.5 && chroma(c.hex) > 20).sort((a, b) => chroma(b.hex) - chroma(a.hex));
+  if (!palette.length) palette = [surface, accent2, accent];
+  const map = {
+    BRAND_BACKGROUND: bg.v, BRAND_SURFACE: surface.v, BRAND_TEXT: text.v, BRAND_MUTED: muted.v, BRAND_DARK: dark.v,
+    BRAND_ACCENT: accent.v, BRAND_ACCENT_2: accent2.v, BRAND_ON_ACCENT: onAccent.v,
+  };
+  for (let i = 0; i < 4; i++) map[`BRAND_COLOR_${i + 1}`] = palette[i % palette.length].v;
+  // Faces: display (heading), body, and a second face for mixed lockups (the accent face if the brand has one).
+  const F = tokens.fonts || {};
+  const role = r => (F[r] ? r : null);
+  const display = role('heading') || Object.keys(F)[0], body = role('body') || display, second = role('accent') || body;
+  const files = r => (F[r]?.files || []);
+  const italic = files(second).some(f => f.style === 'italic');
+  const maxW = (r, style) => Math.max(400, ...files(r).filter(f => !style || f.style === style).map(f => Number(f.weight) || 400));
+  Object.assign(map, {
+    BRAND_FONT_DISPLAY: `var(--brand-font-${kebab(display)})`, BRAND_FONT_BODY: `var(--brand-font-${kebab(body)})`,
+    BRAND_FONT_SECOND: `var(--brand-font-${kebab(second)})`, BRAND_SECOND_STYLE: italic ? 'italic' : 'normal',
+    BRAND_WEIGHT_DISPLAY: String(maxW(display)), BRAND_WEIGHT_SECOND: String(maxW(second, italic ? 'italic' : 'normal')),
+    BRAND_GUTTER: `${Number(tokens.spacing?.gutter) || 24}px`,
+  });
+  return map;
+}
+
+export function fillPlaceholders(html, tokens) {
+  const map = brandPlaceholders(tokens);
+  const out = html.replace(/\bBRAND_[A-Z0-9_]+\b/g, k => map[k] ?? k);
+  const left = [...new Set(out.match(/\bBRAND_[A-Z0-9_]+\b/g) || [])];
+  if (left.length) fail(`unknown template placeholder(s): ${left.join(', ')}`, 2);
+  return out;
 }
 
 // Pull each hierarchy level's text out of a slide's HTML (tags stripped, the <em> word kept apart).

@@ -2,10 +2,11 @@
 
 Run after every render. Look at, in order:
 1. `storyboard.png` (every hold beat)
-2. `cuts.png`, if the video has cuts (two frames before and after each `cut` label)
-3. `poster.png`
-4. a few frames from inside each transformation (`ffmpeg -ss <t> -i video.mp4 -frames:v 1 out.png`)
-5. `render-report.json`
+2. `motion.png` (15 sharp frames from between the holds)
+3. `cuts.png`, if the video has cuts (two frames before and after each `cut` label)
+4. `poster.png`
+5. a few frames from inside each transformation (`ffmpeg -ss <t> -i video.mp4 -frames:v 1 out.png`)
+6. `render-report.json`
 
 Skip only in "quick mode", and even then fix every report error.
 
@@ -36,11 +37,25 @@ Skip only in "quick mode", and even then fix every report error.
 15. **Fixed layer** stays in place across every cut; only its colour changes.
 16. **Never still, but readable:** no frozen moments (animate → stop → wait); the ambient and content layers keep moving under every hold, entrances overlap and stagger, and only text pauses for its reading time. No `motion` errors in the report.
 
+## Motion between the holds (`motion.png`)
+17. **Poster test.** Would a random mid-motion frame work as a still poster? Look for strong scale contrast, a recognisable layout structure and layered depth. Frames that are mostly empty or mid-fade mean the build-up is too slow or too timid.
+18. **Archetypes read as themselves** within half a second of arriving (`plan.archetypes`, `layouts.md`): a type wall reads as a wall, a deck as a deck. No sequence without an archetype (`archetype` errors).
+19. **One hit.** There is at least one moment that feels like a hit: a beat of stillness, then a big move (`motion-craft.md` → hold-and-hit). No `monotony` warnings, unless the sameness is deliberate.
+20. **Reference energy.** If the brand has recipes (`brands/<slug>/recipes/`) or the user named one, does the video match its energy: density, beat rhythm, depth and signature moves?
+
 ## Visual quality (each beat, Carousel Studio's checks)
-17. Safe zone, hierarchy, one dominant element, at least a third of the frame clear, brand fonts and tokens, logo on the CTA, no orphans or bad breaks.
+21. **Fills the canvas** (`video-logic.md` §3b), at every read moment and in between:
+    - the layout uses its ratio's zones;
+    - the hero is scaled to the canvas;
+    - layers overlap rather than stack;
+    - the edges are anchored by real content or bleeding visuals;
+    - no band at the top, bottom or sides is bare ground.
+
+    It also reaches the register's density (explainer 40%+, expressive 70%+ of the canvas active), and in the expressive register at least one read moment has 6× scale contrast (`type.md`). No `fill` or `scale-contrast` warnings, unless the choice is deliberate (say why).
+22. Safe zone, hierarchy, one dominant element, deliberate open space inside a filled composition, brand fonts and tokens, logo on the CTA, no orphans or bad breaks.
 
 ## Render report
-18. **Zero errors:** budget, visual, overflow, safe-area, contrast, font, timeline, ease, rights, timing, motion and determinism. Warnings: fix unless deliberate, and say why.
+23. **Zero errors:** budget, visual, overflow, safe-area, contrast, font, timeline, ease, rights, timing, motion, determinism, archetype and blur-on-read. Warnings (including `fill`, `scale-contrast` and `monotony`): fix unless deliberate, and say why.
 
 ## Fix loop
 - Edit the composition (or the plan) and re-render; use `--draft` while iterating.

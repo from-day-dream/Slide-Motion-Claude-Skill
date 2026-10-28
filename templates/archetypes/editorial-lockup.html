@@ -1,0 +1,59 @@
+<!doctype html>
+<!-- ARCHETYPE editorial-lockup · register: both · references/layouts.md §6
+     STRUCTURE ONLY. Colours, faces and curves are role placeholders and window.__motion tokens, bound
+     to the brand when rendered. The second face (BRAND_FONT_SECOND) is the brand's accent face when it
+     has one; otherwise the lockup varies weight and size only. A shape stands in for the object. 9:16. -->
+<html><head><meta charset="utf-8">
+<style>
+{{FONT_FACES}}
+{{TOKENS}}
+.scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:BRAND_BACKGROUND;color:BRAND_TEXT}
+.band-top{position:absolute;left:72px;right:72px;top:240px;padding-bottom:20px;display:flex;justify-content:space-between;border-bottom:2px solid BRAND_TEXT;font-family:BRAND_FONT_BODY;font-size:var(--brand-size-meta)}
+/* One sentence, sizes per word (contrast ≥ 4×), the emphasis word in the second face. */
+.lockup{position:absolute;left:72px;right:140px;top:330px;margin:0;font-family:BRAND_FONT_DISPLAY;font-weight:BRAND_WEIGHT_DISPLAY;font-size:64px;line-height:.95;letter-spacing:-.03em}
+.lockup .ln{display:block;white-space:nowrap}
+.lockup{padding-bottom:60px} /* tight leading: room for the last line's descenders */
+.lockup .xl{font-size:310px;letter-spacing:-.05em}
+.lockup .l{font-size:108px}
+.lockup em{font-family:BRAND_FONT_SECOND;font-style:BRAND_SECOND_STYLE;font-weight:BRAND_WEIGHT_SECOND;font-size:300px;line-height:1.05;letter-spacing:-.02em;color:BRAND_ACCENT}
+/* The object cut into the text flow. */
+.obj{display:inline-block;width:180px;height:96px;border-radius:48px;background:BRAND_COLOR_1;vertical-align:middle;margin:0 20px}
+/* Bottom: a full-width block with the CTA, running into the platform zone. */
+.foot{position:absolute;left:0;right:0;top:1640px;bottom:0;background:BRAND_TEXT}
+.cta{position:absolute;left:72px;top:1700px;font-family:BRAND_FONT_BODY;font-size:var(--brand-size-meta);color:BRAND_BACKGROUND}
+.rule{position:absolute;left:72px;right:72px;top:1500px;height:2px;background:BRAND_TEXT;transform-origin:0 50%}
+</style></head>
+<body>
+<div class="scene" data-scene="1">
+  <div class="band-top"><span data-text="meta">@handle</span><span data-text="meta">Essay No. 7</span></div>
+  <h2 class="lockup" data-text="headline"><span class="ln xl">Slow</span><span class="ln l">work<span class="obj" aria-hidden="true"></span>makes</span><em class="ln">quiet</em><span class="ln xl">wins.</span></h2>
+  <div class="rule" aria-hidden="true"></div>
+  <div class="foot" aria-hidden="true"></div>
+  <span class="cta" data-text="meta">Read the essay → link in bio</span>
+</div>
+<script>
+const M = window.__motion, D = M.duration, E = M.ease;
+const tl = gsap.timeline({ paused: true });
+const LENGTH = 3;
+
+// Words land one by one in reading order, each with its own scale and offset.
+const words = splitWords('.lockup');
+const offsets = [[-60, 1.3], [40, 0.8], [0, 1.2], [-30, 1.4], [50, 0.9]];
+words.forEach((w, i) => {
+  const [dy, s] = offsets[i % offsets.length];
+  tl.from(w, { y: dy || M.distance, scale: s, opacity: 0, duration: D.enter, ease: E.enter, transformOrigin: '0% 100%' }, 0.15 + i * D.stagger * 3);
+});
+// The object slides into its slot between lines, then keeps turning slowly (secondary motion).
+tl.from('.obj', { x: -400, rotation: -30, duration: D.move, ease: E.move }, 0.2)
+  .to('.obj', { rotation: 8, x: 12, duration: LENGTH - 1.2, ease: E.ambient }, 1.2);
+// Frame: the rules draw, the foot rises.
+tl.from('.rule', { scaleX: 0, duration: D.move, ease: E.move }, 0)
+  .from('.foot', { yPercent: 100, duration: D.move, ease: E.move }, 0.1)
+  .from('.cta', { opacity: 0, duration: D.enter, ease: E.fade }, 0.6)
+  .from('.band-top', { opacity: 0, duration: D.enter, ease: E.fade }, 0)
+  .addLabel('hold', 0.15 + (words.length - 1) * D.stagger * 3 + D.enter);
+
+tl.addLabel('end', LENGTH);
+window.__scene = { tl };
+</script>
+</body></html>

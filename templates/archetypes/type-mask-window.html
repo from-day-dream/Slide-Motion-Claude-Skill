@@ -1,0 +1,50 @@
+<!doctype html>
+<!-- ARCHETYPE type-mask-window · register: expressive · references/layouts.md §9
+     STRUCTURE ONLY. Colours, faces and curves are role placeholders and window.__motion tokens, bound
+     to the brand when rendered. A brand-colour gradient stands in for the photo inside the letters. 9:16. -->
+<html><head><meta charset="utf-8">
+<style>
+{{FONT_FACES}}
+{{TOKENS}}
+.scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:BRAND_DARK;color:BRAND_BACKGROUND}
+/* Huge letters as windows, two per line across the full width; the image is clipped to them. */
+.mask{position:absolute;left:0;right:0;top:150px;margin:0;text-align:center;font-family:BRAND_FONT_DISPLAY;font-weight:BRAND_WEIGHT_DISPLAY;font-size:640px;line-height:.88;letter-spacing:-.04em;text-transform:uppercase;
+  color:transparent;-webkit-background-clip:text;background-clip:text;background-size:220% 220%;background-position:0% 0%;
+  background-image:radial-gradient(circle at 30% 25%,BRAND_COLOR_1 0,transparent 35%),radial-gradient(circle at 70% 60%,BRAND_COLOR_2 0,transparent 40%),linear-gradient(160deg,BRAND_ACCENT,BRAND_COLOR_3 55%,BRAND_COLOR_4)}
+.copy{position:absolute;left:72px;right:140px;top:1310px}
+.copy h2{margin:0 0 28px;font-family:BRAND_FONT_DISPLAY;font-weight:BRAND_WEIGHT_DISPLAY;font-size:128px;line-height:.92;letter-spacing:-.03em}
+.copy p{margin:0;font-family:BRAND_FONT_BODY;font-size:var(--brand-size-support);color:BRAND_BACKGROUND}
+.band-top{position:absolute;left:72px;right:72px;top:240px;padding-bottom:20px;display:flex;justify-content:space-between;border-bottom:2px solid BRAND_BACKGROUND;font-family:BRAND_FONT_BODY;font-size:var(--brand-size-meta)}
+.rule{position:absolute;left:72px;right:0;top:1580px;height:2px;background:BRAND_BACKGROUND;transform-origin:0 50%}
+/* Bottom band: the same image as a strip, running into the platform zone. */
+.strip{position:absolute;left:0;right:0;top:1640px;bottom:0;background-image:linear-gradient(90deg,BRAND_ACCENT,BRAND_COLOR_3 55%,BRAND_COLOR_4);background-size:200% 100%}
+</style></head>
+<body>
+<div class="scene" data-scene="1">
+  <h2 class="mask" data-deco aria-hidden="true">Op<br>en</h2>
+  <div class="band-top"><span data-text="meta">@handle</span><span data-text="meta">Studio</span></div>
+  <div class="copy"><h2 data-text="headline">Look inside</h2><p data-text="support">Doors open Friday</p></div>
+  <div class="rule" aria-hidden="true"></div>
+  <div class="strip" aria-hidden="true"></div>
+</div>
+<script>
+const M = window.__motion, D = M.duration, E = M.ease;
+const tl = gsap.timeline({ paused: true });
+const LENGTH = 3;
+
+// The letters slide up into place; the image pans and scales inside them the whole time.
+tl.from('.mask', { yPercent: 12, opacity: 0, duration: D.move, ease: E.move }, 0)
+  .fromTo('.mask', { backgroundPosition: '0% 0%', backgroundSize: '220% 220%' }, { backgroundPosition: '100% 80%', backgroundSize: '260% 260%', duration: LENGTH, ease: E.ambient }, 0);
+
+// The read copy lands beside the letters and holds.
+tl.from('.copy h2', { y: M.distance, opacity: 0, duration: D.enter, ease: E.enter }, 0.4)
+  .from('.copy p', { opacity: 0, duration: D.enter, ease: E.fade }, 0.4 + D.stagger * 4)
+  .from('.rule', { scaleX: 0, duration: D.move, ease: E.move }, 0.3)
+  .fromTo('.strip', { backgroundPosition: '0% 0%' }, { backgroundPosition: '100% 0%', duration: LENGTH, ease: E.ambient }, 0)
+  .from('.band-top', { opacity: 0, duration: D.enter, ease: E.fade }, 0)
+  .addLabel('hold', 0.4 + D.stagger * 4 + D.enter);
+
+tl.addLabel('end', LENGTH);
+window.__scene = { tl };
+</script>
+</body></html>

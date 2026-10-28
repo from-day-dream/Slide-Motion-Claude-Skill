@@ -1,0 +1,56 @@
+<!doctype html>
+<!-- ARCHETYPE big-number-stage · register: explainer · references/layouts.md §10
+     STRUCTURE ONLY. Colours, faces and curves are role placeholders and window.__motion tokens, bound
+     to the brand when rendered. Placeholder number: in a video it comes from analysis.facts. 9:16. -->
+<html><head><meta charset="utf-8">
+<style>
+{{FONT_FACES}}
+{{TOKENS}}
+.scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:BRAND_BACKGROUND;color:BRAND_TEXT}
+.dots{position:absolute;inset:-60px;background-image:radial-gradient(BRAND_SURFACE 5px,transparent 6px);background-size:40px 40px}
+.band-top{position:absolute;left:72px;right:72px;top:240px;padding-bottom:20px;display:flex;justify-content:space-between;border-bottom:2px solid BRAND_TEXT;font-family:BRAND_FONT_BODY;font-size:var(--brand-size-meta)}
+/* The number at maximum scale, tabular figures so the count doesn't jitter. */
+.num{position:absolute;left:72px;top:330px;margin:0;font-family:BRAND_FONT_DISPLAY;font-weight:BRAND_WEIGHT_DISPLAY;font-size:600px;line-height:1;letter-spacing:-.06em;font-variant-numeric:tabular-nums;transform-origin:0 100%}
+.label{position:absolute;left:72px;right:160px;top:1010px;margin:0;font-family:BRAND_FONT_BODY;font-size:var(--brand-size-key);line-height:1.1}
+.src{position:absolute;left:72px;top:1180px;font-family:BRAND_FONT_BODY;font-size:var(--brand-size-meta);color:BRAND_MUTED}
+/* The supporting visual fills the bottom bands: a comparison bar and the main bar, edge to edge. */
+.bar{position:absolute;left:0;transform-origin:0 50%}
+.before{top:1300px;height:90px;width:6%;background:BRAND_MUTED}
+.after{top:1420px;bottom:0;right:0;background:BRAND_ACCENT}
+.bar-lab{position:absolute;left:72px;top:1450px;font-family:BRAND_FONT_BODY;font-size:var(--brand-size-meta);color:BRAND_ON_ACCENT}
+</style></head>
+<body>
+<div class="scene" data-scene="1">
+  <div class="dots" aria-hidden="true"></div>
+  <div class="band-top"><span data-text="meta">@handle</span><span data-text="meta">Q3 in numbers</span></div>
+  <h2 class="num" data-text="headline"><span id="n">17</span>×</h2>
+  <p class="label" data-text="key">faster renders</p>
+  <span class="src" data-text="meta">Source: placeholder</span>
+  <div class="bar before" aria-hidden="true"></div>
+  <div class="bar after" data-visual aria-hidden="true"></div>
+  <span class="bar-lab" data-text="meta">Render farm</span>
+</div>
+<script>
+const M = window.__motion, D = M.duration, E = M.ease;
+const tl = gsap.timeline({ paused: true });
+const LENGTH = 3;
+const TARGET = 17, n = document.getElementById('n');
+
+// Ambient: the dot field drifts the whole clip.
+tl.fromTo('.dots', { x: 0, y: 0 }, { x: -40, y: 40, duration: LENGTH, ease: E.ambient }, 0);
+
+// The count and the bar grow together and settle on the value; a punch marks the landing.
+const counter = { v: 0 };
+tl.to(counter, { v: TARGET, duration: D.move * 1.2, ease: E.move, onUpdate: () => { n.textContent = Math.round(counter.v); } }, 0.1)
+  .from('.after', { scaleX: 0, duration: D.move * 1.2, ease: E.move }, 0.1)
+  .from('.before', { scaleX: 0, duration: D.enter, ease: E.enter }, 0.1)
+  .fromTo('.num', { scale: 1.06 }, { scale: 1, duration: D.enter * 0.6, ease: E.enter }, 0.1 + D.move * 1.2)
+  .from('.label', { y: M.distance / 2, opacity: 0, duration: D.enter, ease: E.enter }, 0.5)
+  .from(['.src', '.bar-lab'], { opacity: 0, duration: D.enter, ease: E.fade }, 0.7)
+  .from('.band-top', { opacity: 0, duration: D.enter, ease: E.fade }, 0)
+  .addLabel('hold', 0.1 + D.move * 1.2 + D.enter * 0.6);
+
+tl.addLabel('end', LENGTH);
+window.__scene = { tl };
+</script>
+</body></html>

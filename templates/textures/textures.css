@@ -1,0 +1,29 @@
+/* Grounds and textures: composable background layers, brand-neutral. Copy the ones a video uses into
+   its composition's <style> (compositions load nothing from outside their folder), and bind the
+   variables to the brand's tokens on the element or a parent, e.g.
+     .ground{--tx-ground:var(--brand-paper);--tx-ink:var(--brand-dot);--tx-a:var(--brand-coral);…}
+   Mark the element data-texture="<name>" so a brand can rule a texture out (design-language.md →
+   Textures) and so the fill check treats it as ground, not content.
+   Film grain is motionKit.grain(tl, '<canvas>', { seed, duration }) (motion-craft.md), on a
+   <canvas data-texture="grain">. */
+
+/* grid-paper: fine squares with a heavier line every 4th cell. */
+.tx-grid-paper{background-color:var(--tx-ground);
+  background-image:linear-gradient(var(--tx-ink) 2px,transparent 2px),linear-gradient(90deg,var(--tx-ink) 2px,transparent 2px),
+    linear-gradient(var(--tx-ink) 1px,transparent 1px),linear-gradient(90deg,var(--tx-ink) 1px,transparent 1px);
+  background-size:var(--tx-cell4,192px) var(--tx-cell4,192px),var(--tx-cell4,192px) var(--tx-cell4,192px),var(--tx-cell,48px) var(--tx-cell,48px),var(--tx-cell,48px) var(--tx-cell,48px)}
+
+/* dot-grid: round dots on a regular grid. */
+.tx-dot-grid{background-color:var(--tx-ground);background-image:radial-gradient(var(--tx-ink) var(--tx-dot,5px),transparent calc(var(--tx-dot,5px) + 1px));background-size:var(--tx-cell,44px) var(--tx-cell,44px)}
+
+/* gradient-mesh: three soft colour fields over the ground; pan background-position to make it drift. */
+.tx-gradient-mesh{background-color:var(--tx-ground);background-size:160% 160%;
+  background-image:radial-gradient(circle at 20% 25%,var(--tx-a) 0,transparent 45%),radial-gradient(circle at 80% 30%,var(--tx-b) 0,transparent 45%),radial-gradient(circle at 50% 85%,var(--tx-c) 0,transparent 50%)}
+
+/* frosted card: a translucent panel that blurs what's behind it. Not for read text sitting on busy
+   imagery unless the contrast check passes; never blur the text itself. */
+.tx-frosted{background:color-mix(in srgb,var(--tx-ground) 62%,transparent);backdrop-filter:blur(18px) saturate(1.2);
+  border:1.5px solid color-mix(in srgb,var(--tx-ground) 80%,transparent);border-radius:var(--tx-radius,32px)}
+
+/* grain canvas: sits on top of everything, never takes clicks; motionKit.grain draws it per frame. */
+.tx-grain{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:overlay;opacity:var(--tx-grain,.5)}

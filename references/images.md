@@ -50,7 +50,11 @@ If no library image fits an idea that needs one, use another treatment the brand
 ## 4. Place and treat
 - Always `<img data-photo src="../images/…" style="object-fit:cover; object-position:<focus>">`. Size and crop it from the library's `width`, `height` and `focus`.
 - How photos are treated (framed, cut-out, full-bleed with a scrim, duotone, as an inset an illustration points to) follows the brand's `design-language.md` → Images.
-- **Small or soft images:** never full-bleed. Show them framed and small, as a grid or collage, or blurred/duotoned as a ground.
+- **Heroes run large** (`video-logic.md` §3b): a hero photo takes 40-70% of the long side, crops off at least one edge of the canvas, and overlaps the type layer where the brand allows (a cut-out in front of display type, a label over a corner). Don't sit a modest framed photo in the middle of empty ground.
+- **Cut-outs:** for a subject in front of type or orbited by cards (`layouts.md` → Hero cutout orbit), remove the background with `node <skill>/scripts/cutout.mjs <motion-dir> --check --ids <id>`. It is paid (fal BiRefNet) and off by default: ask the user, then run it with `--ids <id> --yes`. The PNG with alpha lands in `images/cutouts/<id>.png` and is recorded as the entry's `cutout`, with a slightly eroded, feathered edge. Third-party rights carry over to the cut-out. Optional treatments, in brand colours only:
+  - outline: `filter: drop-shadow(4px 0 0 var(--brand-x)) drop-shadow(-4px 0 0 var(--brand-x)) drop-shadow(0 4px 0 var(--brand-x)) drop-shadow(0 -4px 0 var(--brand-x))`;
+  - glow: `filter: drop-shadow(0 0 32px var(--brand-x))`.
+- **Small or soft images:** never full-bleed. Show them framed, as a grid or collage spread across the canvas (not huddled in the middle), or blurred/duotoned as a ground.
 
 ## 5. Move them (with the brand's motion tokens)
 - **Settle:** arrive and settle the way the brand's `ease.enter` and `distance` say.

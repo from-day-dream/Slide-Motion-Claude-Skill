@@ -1,0 +1,66 @@
+<!doctype html>
+<!-- ARCHETYPE word-punch · register: expressive · references/layouts.md §5
+     STRUCTURE ONLY. Colours, faces and curves are role placeholders and window.__motion tokens, bound
+     to the brand when rendered. Placeholder copy. 9:16. -->
+<html><head><meta charset="utf-8">
+<style>
+{{FONT_FACES}}
+{{TOKENS}}
+.scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:BRAND_BACKGROUND;color:BRAND_TEXT}
+/* One ground per hit, revealed in turn (brand colours only). */
+.g{position:absolute;inset:0}
+.g1{background:BRAND_COLOR_1}.g2{background:BRAND_COLOR_2}.g3{background:BRAND_ACCENT}
+/* Each word is sized from the canvas: fitText() spans it across the safe width. */
+.stage{position:absolute;left:72px;right:140px;top:220px;bottom:420px;display:flex;align-items:center}
+.word{position:absolute;left:0;margin:0;font-family:BRAND_FONT_DISPLAY;font-weight:BRAND_WEIGHT_DISPLAY;line-height:.9;letter-spacing:-.05em;white-space:nowrap;transform-origin:50% 50%}
+#w3{color:BRAND_ON_ACCENT}
+.band-top{position:absolute;left:72px;right:72px;top:240px;display:flex;justify-content:space-between;font-family:BRAND_FONT_BODY;font-size:var(--brand-size-meta)}
+.band-top span{background:BRAND_BACKGROUND;color:BRAND_TEXT;padding:6px 12px;border-radius:6px}
+/* Echo rows: outlined copies of the words above and below the stage (decorative, never read). */
+.echo{position:absolute;left:0;white-space:nowrap;font-family:BRAND_FONT_DISPLAY;font-weight:BRAND_WEIGHT_DISPLAY;font-size:230px;line-height:1;letter-spacing:-.04em;text-transform:uppercase;color:transparent;-webkit-text-stroke:3px BRAND_TEXT;opacity:.35}
+.e1{top:250px}.e2{top:480px}.e3{top:1190px}.e4{top:1410px}
+/* Bottom band: a running ticker fills the platform zone (decorative). */
+.ticker{position:absolute;left:0;right:0;bottom:0;height:300px;background:BRAND_TEXT;color:BRAND_BACKGROUND;overflow:hidden}
+.ticker div{position:absolute;top:70px;left:0;white-space:nowrap;font-family:BRAND_FONT_DISPLAY;font-weight:BRAND_WEIGHT_DISPLAY;font-size:120px;letter-spacing:-.02em;text-transform:uppercase}
+</style></head>
+<body>
+<div class="scene" data-scene="1">
+  <div class="g g1" aria-hidden="true"></div><div class="g g2" aria-hidden="true"></div><div class="g g3" aria-hidden="true"></div>
+  <div class="ticker" data-deco aria-hidden="true"><div>Fast · Bold · Now · Fast · Bold · Now · Fast · Bold · Now ·</div></div>
+  <div class="echo e1" data-deco aria-hidden="true">Fast. Bold. Now. Fast. Bold. Now.</div><div class="echo e2" data-deco aria-hidden="true">Now. Fast. Bold. Now. Fast. Bold.</div>
+  <div class="echo e3" data-deco aria-hidden="true">Bold. Now. Fast. Bold. Now. Fast.</div><div class="echo e4" data-deco aria-hidden="true">Fast. Bold. Now. Fast. Bold. Now.</div>
+  <div class="stage">
+    <h2 class="word" id="w1" aria-hidden="true">Fast.</h2>
+    <h2 class="word" id="w2" aria-hidden="true">Bold.</h2>
+    <h2 class="word" id="w3" data-text="headline">Now.</h2>
+  </div>
+  <div class="band-top"><span data-text="meta">@handle</span><span data-text="meta">Launch</span></div>
+</div>
+<script>
+const M = window.__motion, D = M.duration, E = M.ease;
+const tl = gsap.timeline({ paused: true });
+const LENGTH = 3;
+
+// Every word spans the safe width, whatever its length (the stage centres it vertically).
+fitText('.word', 860, 640);
+
+// Echo rows drift in alternating directions at different speeds.
+[['.e1', -260], ['.e2', 200], ['.e3', -180], ['.e4', 240]].forEach(([sel, dx]) => tl.fromTo(sel, { x: dx > 0 ? -700 : -100 }, { x: (dx > 0 ? -700 : -100) + dx, duration: LENGTH, ease: E.ambient }, 0));
+// The ticker runs the whole clip.
+tl.fromTo('.ticker div', { x: 0 }, { x: -600, duration: LENGTH, ease: E.ambient }, 0);
+
+// Hits: each word punches in at 1.15× and settles; the next replaces it in place while the ground
+// is wiped to the next colour. Short words hit faster; the last one holds.
+const hits = [['#w1', '.g1', 0], ['#w2', '.g2', 0.55], ['#w3', '.g3', 1.05]];
+hits.forEach(([w, g, at], i) => {
+  tl.fromTo(g, { clipPath: 'circle(0% at 50% 52%)' }, { clipPath: 'circle(80% at 50% 52%)', duration: D.cut, ease: E.cutIn }, at)
+    .fromTo(w, { scale: 1.15, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: D.enter * 0.8, ease: E.enter }, at);
+  if (i < hits.length - 1) tl.to(w, { autoAlpha: 0, duration: 0.01 }, hits[i + 1][2]);
+});
+tl.from('.band-top', { opacity: 0, duration: D.enter, ease: E.fade }, 0)
+  .addLabel('hold', 1.05 + D.enter * 0.8);
+
+tl.addLabel('end', LENGTH);
+window.__scene = { tl };
+</script>
+</body></html>

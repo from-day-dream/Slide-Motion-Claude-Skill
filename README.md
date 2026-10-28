@@ -13,7 +13,16 @@ A [Claude Code](https://claude.com/claude-code) skill that turns anything you gi
 <br>Something moves in every frame; only the text pauses to be read.</sub>
 
 - **No built-in style.** The skill holds only the video logic. Colours, fonts, voice, curves, timings and how images or illustrations are treated all come from **your** brand: the kit shared with Carousel Studio, plus how it moves, which you define once at setup.
-- **Intentional elements.** Your brand's motifs are used only where they mean something: a cursor appears when something is clicked or dragged, an arrow when there's a direction. Nothing is shown as decoration or out of habit.
+- **A visual grammar, not a style.** The skill ships brand-neutral options that render only in your brand's colours, fonts and curves:
+  - 10 layout archetypes (card constellation, type wall, band field, word punch, hero cut-out orbit, editorial lockup, grid mosaic, card deck, type mask window, big number stage);
+  - 10 kinetic type treatments (line masks, character staggers, scale punches, counter rolls…) with GSAP SplitText;
+  - motion craft (follow-through, overshoot, springs, seeded wobble, arcs, hold-and-hit) and a 2.5D depth model with camera moves and focus pulls.
+
+  Claude picks from them for each video and records the choice in the plan. An **explainer** register keeps every element literal; an **expressive** register allows repetition, stickers and texture as energy.
+- **Motion blur.** Fast moves are rendered with temporal supersampling (8 sub-frames averaged in linear light) and still frames stay sharp; the output stays byte-identical.
+- **Layouts fill the frame for its ratio.** Each moment is planned in zones for the canvas (bands in 9:16, columns in 16:9): type scaled to the width, imagery that bleeds off the edges, overlapping layers, edges anchored with real content. The renderer warns when an edge is left as bare ground.
+- **Intentional elements.** Your brand's motifs are used only where they mean something: a cursor appears when something is clicked or dragged, an arrow when there's a direction. Decoration (shapes, textures, repeated type) appears only in the expressive register, and your design language can rule any of it out.
+- **Learns from references.** Break down a reel you like (`breakdown.mjs`: a contact sheet plus a strip of where the motion happens) and save what's reusable as a recipe ("use the replay recipe"): layout, treatments, rhythm and signature moves, never the reference's look.
 - **No preset transitions.** How one idea hands over to the next (a camera move, a morph, a hand-off, a cut…) is chosen for each video, from its content and what you ask for.
 - **A video, not a slideshow.** Each video is one HTML composition with one master timeline. It's built from overlapping **sequences**, along a **throughline** that carries the viewer from start to end. Elements live across ideas and transform into each other; cuts are moments inside the timeline, not boundaries between frames.
 - **Never still.** An ambient layer and long content motion run under every read moment, and only text pauses, for its reading time. Claude chooses that ambient motion for each video; you can suggest one. The renderer errors on any stretch where nothing moves.
@@ -35,8 +44,8 @@ A [Claude Code](https://claude.com/claude-code) skill that turns anything you gi
    - read moments;
    - what keeps moving in each stretch;
    - how ideas hand over.
-3. **Compose and render.** Claude writes `composition.html`. A local script seeks its timeline frame by frame in Chromium (with GSAP's MorphSVG, DrawSVG and MotionPath plugins), pipes the frames into ffmpeg, and checks every read moment and the motion as a whole. The same input gives a byte-identical video.
-4. **Critique and revise.** Claude reviews the storyboard of read moments, the cut sheet and frames sampled across the video, and fixes what doesn't play as one continuous piece.
+3. **Compose and render.** Claude writes `composition.html`. A local script seeks its timeline frame by frame in Chromium (with GSAP's MorphSVG, DrawSVG, MotionPath and SplitText plugins), averages sub-frames for motion blur where things move, pipes the frames into ffmpeg, and checks every read moment and the motion as a whole. The same input gives a byte-identical video.
+4. **Critique and revise.** Claude reviews the storyboard of read moments, a sheet of frames from between them (would any of them work as a poster?), the cut sheet and the report, and fixes what doesn't play as one continuous piece.
 
 ## Requirements
 
@@ -104,6 +113,18 @@ A video can adjust any of it for itself in `meta.json → motion`. Transitions a
 
 Any other `W:H` works too. In 9:16, text stays out of the zones covered by the platform's UI (top 220px, bottom 420px, right 140px).
 
+## Motion blur
+
+Final renders blur only the frames that move (`--blur auto`, the default); `--draft` renders without blur. `--blur <n>` forces n sub-frames on every moving frame, `--blur 1` turns it off, and `--shutter` sets the shutter (0.5 = 180°). The poster, storyboard and cut sheet are always single sharp frames.
+
+Measured on the Bananafarm example (15s, 1080×1920, 450 frames, one desktop CPU):
+
+| Setting | Frames blurred | Total render time |
+|---|---|---|
+| `--blur 1` (off) | 0 | 29s |
+| `--blur auto` (default) | 171 / 450 | 165s |
+| `--blur 8` | 448 / 450 | 283s |
+
 ## Gallery
 
 ```bash
@@ -117,11 +138,17 @@ Open http://localhost:4173. Videos appear in the **Motion** tab of the gallery C
 Everything Carousel Studio checks, at every read moment (overflow, safe area, minimum size, brand fonts, budgets, hierarchy, emphasis, contrast against the rendered pixels, external URLs, raw colours), plus:
 
 - **Never still:** any stretch over 0.3s where nothing animates is an error.
+- **Fills the canvas:** a warning when, at a read moment, more than 15% of the canvas at any edge is bare ground, the content spans less than 80% of the width or height, or the active area is below the register's density (explainer 40%, expressive 70%).
+- **Scale contrast:** a warning when an expressive video has no read moment where the largest text is at least 6× the smallest.
+- **Monotony:** a warning when, in any 3s window, every tween shares one duration or one direction.
+- **Archetypes:** an error when a sequence isn't built on one of the plan's archetypes.
+- **Blur on read:** an error when read text is blurred, or sits behind a blurred layer, at a read moment.
+- **Brand assets:** a warning when a shape or texture is one the brand's design language rules out.
 - **Reading time:** each read moment's text stays still for its words ÷ your reading speed.
 - **Your visual rules:** words per read moment, the headline rule, photos or illustrations where your brand expects them.
 - **Timeline:** read moments exist, every tween is on the master timeline, every curve name is valid.
 - **Images:** a warning when one is shown soft (more than 1.5× its pixels), and an error for third-party images without your approval.
-- **Determinism:** no CSS animations, timers, `<video>`, or `Math.random`.
+- **Determinism:** no CSS animations, timers, `<video>`, `Math.random`, or noise without a seed.
 - **Length:** within ±1s of the target (15s, or what you asked for).
 
 ## What's in the skill
@@ -129,18 +156,24 @@ Everything Carousel Studio checks, at every read moment (overflow, safe area, mi
 | Path | Purpose |
 |---|---|
 | `SKILL.md` | Entry point and workflow |
-| `references/video-logic.md` | The core: a video as one piece, sequences, throughline, layers, handover techniques |
+| `references/video-logic.md` | The core: a video as one piece, register, sequences, throughline, layers, handover techniques |
+| `references/layouts.md` | The 10 layout archetypes: structure, slots, motion, ratios, pitfalls, and which pair well |
+| `references/type.md` | Type as graphics: scale contrast, mixed faces, and 10 kinetic treatments |
+| `references/motion-craft.md` | 10 motion techniques and the `motionKit` helpers (seeded noise, springs, follow-through, camera, focus, grain) |
+| `references/breakdown.md` | Reading reference breakdowns and saving recipes |
 | `references/composition.md` | The composition contract: markup, master timeline, labels, checks |
 | `references/` (others) | Source analysis, the image library, aspect ratios, from-carousel, brand and motion setup, critique rubric |
-| `scripts/render.mjs` | Composition → frames → MP4, poster, storyboard, cut sheet, report; `--draft`, `--ratio`, `--duration`, `--specimen` |
+| `scripts/render.mjs` | Composition → frames → MP4 (with motion blur), poster, storyboard, cut sheet, mid-motion sheet, report; `--draft`, `--blur`, `--shutter`, `--ratio`, `--duration`, `--specimen [<archetype>\|all]` |
+| `scripts/cutout.mjs` | Background removal for library images (fal BiRefNet, paid, off by default) |
+| `scripts/breakdown.mjs` | Contact sheet and motion strip of a reference video or frames |
 | `scripts/ingest.mjs` | Gather any sources into a video folder: extracted text, page screenshots, `source/INDEX.md`, the image library |
 | `scripts/library.mjs` | Rebuild a video's image library after adding images by hand |
 | `scripts/from-carousel.mjs` | Carousel sources: content, photos, aesthetic reference |
 | `scripts/image.mjs` | Optional photo generation (fal / Atlas / OpenAI, off by default) |
 | `scripts/gallery.mjs`, `setup.mjs`, `fonts.mjs` | Gallery, setup and checks, Google Fonts |
 | `scripts/lib/` | Shared with Carousel Studio (`workspace`, `render-core`, `serve`), plus motion tokens, curves and plugins (`motion.mjs`), PDF/Office image extraction and the image library |
-| `config/` | Canvas sizes and safe zones, image models |
-| `templates/` | Empty brand kit (with an empty `motion.json`), a structure-only `composition.html`, the gallery page |
+| `config/` | Canvas sizes and safe zones, image models, the cut-out model |
+| `templates/` | Empty brand kit (with an empty `motion.json`), a structure-only `composition.html`, one structure-only template per archetype (`archetypes/`), 26 `currentColor` shapes (`shapes/`), grounds and textures (`textures/`), the gallery page |
 | `examples/bananafarm-mixed-snappy/` | A complete project built from a carousel + website: sources, image library, analysis, plan, composition and video (rendering it needs the user's brand) |
 
 Files under `scripts/lib/` (except `motion.mjs`, `office.mjs`, `pdf-images.mjs`, `library.mjs`), `scripts/fonts.mjs`, `scripts/image.mjs`, `config/providers.json`, `templates/brand/` (except `motion.json`) and `templates/gallery.html` are identical copies of Carousel Studio's, so each skill installs on its own.
@@ -151,6 +184,8 @@ Files under `scripts/lib/` (except `motion.mjs`, `office.mjs`, `pdf-images.mjs`,
 - **"brand font failed to load"**: a font file is missing or registered under the wrong family in `tokens.json`. Re-run `scripts/fonts.mjs`.
 - **"could not launch Chromium"** or **ffmpeg errors**: run `node <skill>/scripts/setup.mjs`.
 - **"nothing moves from Xs to Ys"**: add ambient motion or let content motion run through that stretch.
+- **"a numeric seed is required"**: a `motionKit` noise helper (`rng`, `noise`, `wobble`, `grain`) was called without `seed`.
+- **Renders take long:** use `--draft` while iterating; final renders blur only frames that move.
 - **"unknown ease"**: a curve name is misspelt; use a GSAP ease, `logistic(k)` or `cubic-bezier(…)`, optionally with `.in` / `.out`.
 
 ## License

@@ -1,0 +1,52 @@
+<!doctype html>
+<!-- ARCHETYPE grid-mosaic · register: both · references/layouts.md §7
+     STRUCTURE ONLY. Colours, faces and curves are role placeholders and window.__motion tokens, bound
+     to the brand when rendered. Placeholder copy; shapes stand in for images. 9:16, 3×6 grid. -->
+<html><head><meta charset="utf-8">
+<style>
+{{FONT_FACES}}
+{{TOKENS}}
+.scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:BRAND_BACKGROUND;color:BRAND_TEXT}
+/* The grid fills the canvas edge to edge; gutters from the brand's spacing. */
+.grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(6,1fr);gap:BRAND_GUTTER;padding:BRAND_GUTTER}
+.t{border-radius:20px;overflow:hidden;position:relative}
+.img{background:BRAND_SURFACE}
+.img i{position:absolute;left:18%;top:18%;width:64%;height:64%;border-radius:50%;background:BRAND_COLOR_1}
+.img:nth-child(odd) i{border-radius:12px;background:BRAND_COLOR_2}
+.c1{background:BRAND_COLOR_1}.c2{background:BRAND_COLOR_2}.c3{background:BRAND_COLOR_3}.c4{background:BRAND_COLOR_4}.dk{background:BRAND_DARK}
+/* The text tile spans two columns and two rows, inside the safe zone. */
+.text{grid-column:1 / span 2;grid-row:2 / span 2;background:BRAND_ACCENT;color:BRAND_ON_ACCENT;padding:48px;box-sizing:border-box}
+.text h2{margin:0;font-family:BRAND_FONT_DISPLAY;font-weight:BRAND_WEIGHT_DISPLAY;font-size:120px;line-height:.92;letter-spacing:-.03em}
+.text p{position:absolute;left:48px;bottom:40px;margin:0;font-family:BRAND_FONT_BODY;font-size:var(--brand-size-meta)}
+</style></head>
+<body>
+<div class="scene" data-scene="1">
+  <div class="grid">
+    <div class="t c1" aria-hidden="true"></div><div class="t img" aria-hidden="true"><i></i></div><div class="t dk" aria-hidden="true"></div>
+    <div class="t text"><h2 data-text="headline">Twelve tiles, one story</h2><p data-text="meta">@handle · Field notes</p></div>
+    <div class="t img" aria-hidden="true"><i></i></div>
+    <div class="t c2" aria-hidden="true"></div>
+    <div class="t img" aria-hidden="true"><i></i></div><div class="t c3" aria-hidden="true"></div><div class="t img" aria-hidden="true"><i></i></div>
+    <div class="t c4" aria-hidden="true"></div><div class="t img flip" aria-hidden="true"><i></i></div><div class="t c1" aria-hidden="true"></div>
+    <div class="t img" aria-hidden="true"><i></i></div><div class="t c2" aria-hidden="true"></div><div class="t img" aria-hidden="true"><i></i></div>
+  </div>
+</div>
+<script>
+const M = window.__motion, D = M.duration, E = M.ease;
+const tl = gsap.timeline({ paused: true });
+const LENGTH = 3;
+
+// Tiles fill with a grid stagger from a corner (not reading order).
+const tiles = gsap.utils.toArray('.t');
+tl.from(tiles, { scale: 0, opacity: 0, duration: D.enter, ease: E.enter, stagger: { amount: D.stagger * 8, from: 'end' } }, 0);
+
+// Idle: the shapes inside the image tiles push and turn slowly; one tile flips on the beat.
+tl.fromTo('.img i', { scale: 0.9, rotation: 0 }, { scale: 1.08, rotation: 12, duration: LENGTH, ease: E.ambient }, 0)
+  .to('.flip', { rotationY: 180, duration: D.move, ease: E.move }, 1.6)
+  .from('.text h2', { y: M.distance, opacity: 0, duration: D.enter, ease: E.enter }, D.stagger * 8 + 0.1)
+  .addLabel('hold', D.stagger * 8 + 0.1 + D.enter);
+
+tl.addLabel('end', LENGTH);
+window.__scene = { tl };
+</script>
+</body></html>
