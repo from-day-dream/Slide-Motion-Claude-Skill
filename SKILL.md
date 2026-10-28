@@ -53,7 +53,7 @@ Show a task list and keep it current.
    3. **sequences** with time ranges and what moves in each, overlapping;
    4. **read moments** and how long each holds;
    5. **layers** (ambient, content, text) for every stretch;
-   6. **handovers** between ideas, using the brand's techniques (`motion.json → techniques`);
+   6. **handovers** between ideas, chosen for this video from its content, throughline and what the user asked for (no preset);
    7. **fixed elements**.
 
    Show it compactly and continue unless the user objects ("just do it" = don't pause).
@@ -65,7 +65,7 @@ Show a task list and keep it current.
    - `hold`/`hold2`… labels where text is settled, and `cut` labels at any hard cut;
    - only the brand's tokens and motion tokens.
 
-   `templates/composition.html` shows the structure (it has no look). `examples/bananafarm-mixed-snappy/` is a complete project.
+   `templates/composition.html` shows the structure (it has no look). `examples/bananafarm-mixed-snappy/` is a complete project; its motion and handovers were chosen for that content, so don't reuse them.
 6. **Render:** `node <skill>/scripts/render.mjs <motion-dir> --brand <slug>` (add `--draft` while iterating). Exit 2 = fatal (fonts, motion tokens, ffmpeg): fix it. Exit 1 = report errors.
 7. **Critique** (`references/critique-rubric.md`): the storyboard of read moments, `cuts.png`, frames sampled across the video, and the report. Above all, check that it plays as one continuous piece. Max 2 rounds; finish with a full render.
 8. **Save:** finish `meta.json`, write `caption.txt` (caption, blank line, hashtags), then run `node <skill>/scripts/gallery.mjs`.
@@ -99,7 +99,8 @@ Show a task list and keep it current.
 `node <skill>/scripts/gallery.mjs` writes `<ws>/motion/index.json` and refreshes `<ws>/gallery.html`, the viewer shared with Carousel Studio. Its **Motion** tab plays videos and jumps between read moments. To browse: `node <skill>/scripts/gallery.mjs --serve` (http://localhost:4173).
 
 ## Rules that always apply
-- **No built-in style.** Every colour, font, curve, timing, technique and treatment comes from the brand (or the sources); never invent one. If the brand's motion isn't set up, set it up with the user first.
+- **No built-in style.** Every colour, font, curve, timing and treatment comes from the brand (or the sources); never invent one. If the brand's motion isn't set up, set it up with the user first, from scratch (ignore motion from earlier videos, other brands or memory).
+- **No predefined transitions.** How ideas hand over is decided per video, from its content and the user's request; neither the skill nor the brand fixes it.
 - **One composition, one timeline.** Plan sequences across the whole video; never build frame by frame and transition between frames.
 - **Never still:** an ambient layer and long content motion run under every read moment; only text pauses, for its reading time.
 - Analyse every source before planning. Facts come from the sources. Third-party images only with a yes (`approved` in the library).

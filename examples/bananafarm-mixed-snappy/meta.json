@@ -441,17 +441,6 @@
       "headline": "required",
       "requires": "photo",
       "maxVisuals": 3
-    },
-    "techniques": {
-      "use": [
-        "match cut at peak speed",
-        "zoom-through",
-        "hand-off (the pixel cursor)",
-        "draw-on (marker scribble)"
-      ],
-      "avoid": [
-        "fades between ideas"
-      ]
     }
   }
 }

@@ -35,9 +35,10 @@ export function safeZone(ratio, brandSafe, platform = true) {
 
 // ---------- motion tokens ----------
 
-// The skill ships no style. How a brand moves (curves, timings, techniques) and what it shows (words
-// per read moment, whether a headline is required, photos/illustrations) is defined with the user at
-// setup, in brands/<slug>/motion.json. A video may override or supply any of it in meta.json → motion.
+// The skill ships no style. How a brand moves (curves, timings) and what it shows (words per read
+// moment, whether a headline is required, photos/illustrations) is defined with the user at setup, in
+// brands/<slug>/motion.json. A video may override or supply any of it in meta.json → motion.
+// How ideas hand over is never a token: it's chosen per video, from its content and the user's request.
 const isObj = v => v && typeof v === 'object' && !Array.isArray(v);
 const merge = (a, b) => {
   const out = { ...a };
@@ -74,6 +75,7 @@ export function loadMotion(brandDir, videoMotion, { strict = true } = {}) {
   m.visual = { ...VISUAL_DEFAULTS, ...(m.visual || {}) };
   m.readingSpeed = Number(m.readingSpeed) || 3.5;
   m.imageMotion = { zoom: 1, pan: 0, ...(m.imageMotion || {}) };
+  delete m.techniques; // older motion.json files may still carry a handover list; it's ignored
   m.source = own && videoMotion ? 'brand + video' : own ? 'brand' : 'video';
   return m;
 }

@@ -27,7 +27,9 @@ A video is **one file**, `<motion-dir>/composition.html`, with **one master GSAP
 - **Motion:** only the brand's motion tokens, as `window.__motion`:
   - `ease.enter | exit | move | fade | ambient | cutOut | cutIn`;
   - `duration.enter | exit | move | cut | stagger`;
-  - `distance`, `readingSpeed`, `imageMotion`, `visual`, `techniques`.
+  - `distance`, `readingSpeed`, `imageMotion`, `visual`.
+
+  Handovers aren't tokens; they come from the video's plan (`plan.sequences[].handover`).
 
   If they're missing, the renderer stops and asks for the motion setup.
 - **Curve names** accepted anywhere an ease goes:

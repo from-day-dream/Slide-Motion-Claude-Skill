@@ -29,13 +29,11 @@ Skip only in "quick mode", and even then fix every report error.
     - sequences that overlap.
 
     Or does it go animate → stop → next? Is any cut one that could have been a transformation, a camera move or a hand-off? Re-plan it.
-10. **Cuts carry** (`cuts.png`):
-    - Snappy: same direction and speed on both sides, mid-move.
-    - Bold: the wipe covers the frame at the cut, or the zoom-through fills it.
-    - Calm: the shared ground, with the drift continuing.
-11. **Brand motion fidelity.** Every curve and duration comes from the brand's tokens (`window.__motion`), the techniques used are in `motion.json → techniques.use` (none from `avoid`), and the motion matches `design-language.md` → Motion.
-12. **Fixed layer** identical across every cut (the report errors on jumps); only its colour changes.
-13. **Never still, but readable:** no frozen moments (animate → stop → wait); the ambient and content layers keep moving under every hold, entrances overlap and stagger, and only text pauses for its reading time. No `motion` errors in the report.
+10. **Cuts carry** (`cuts.png`): something continues across each cut: a move at the same direction and speed on both sides, a wipe or zoom-through that fills the frame at the cut, or a shared ground with the ambient motion still running.
+11. **Handovers fit this video.** Each one follows from the content, the throughline or what the user asked for, with its reason in `plan.sequences[].handover`. None is a habit carried over from an earlier video.
+12. **Brand motion fidelity.** Every curve and duration comes from the brand's tokens (`window.__motion`), and the motion matches `design-language.md` → Motion.
+13. **Fixed layer** stays in place across every cut; only its colour changes.
+14. **Never still, but readable:** no frozen moments (animate → stop → wait); the ambient and content layers keep moving under every hold, entrances overlap and stagger, and only text pauses for its reading time. No `motion` errors in the report.
 
 ## Visual quality (each beat, Carousel Studio's checks)
 14. Safe zone, hierarchy, one dominant element, at least a third of the frame clear, brand fonts and tokens, logo on the CTA, no orphans or bad breaks.

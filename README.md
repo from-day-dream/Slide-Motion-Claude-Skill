@@ -12,7 +12,8 @@ A [Claude Code](https://claude.com/claude-code) skill that turns anything you gi
 <br>3. it rides the render-farm bar as it grows to 17×, points at a render, and clicks the link.
 <br>Something moves in every frame; only the text pauses to be read.</sub>
 
-- **No built-in style.** The skill holds only the video logic. Colours, fonts, voice, curves, timings, techniques and how images or illustrations are treated all come from **your** brand: the kit shared with Carousel Studio, plus how it moves, which you define once at setup.
+- **No built-in style.** The skill holds only the video logic. Colours, fonts, voice, curves, timings and how images or illustrations are treated all come from **your** brand: the kit shared with Carousel Studio, plus how it moves, which you define once at setup.
+- **No preset transitions.** How one idea hands over to the next (a camera move, a morph, a hand-off, a cut…) is chosen for each video, from its content and what you ask for.
 - **A video, not a slideshow.** Each video is one HTML composition with one master timeline. It's built from overlapping **sequences**, along a **throughline** that carries the viewer from start to end. Elements live across ideas and transform into each other; cuts are moments inside the timeline, not boundaries between frames.
 - **Never still.** An ambient layer and long content motion run under every read moment, and only text pauses, for its reading time. The renderer errors on any stretch where nothing moves.
 - **Any source, analysed first.** URLs, PDFs, Word, PowerPoint, Excel, CSV, Markdown, images, folders and carousels, in any mix. Claude writes an analysis (goal, angle, key points, facts with their sources, usable assets) before planning anything. Numbers on screen come from your sources.
@@ -24,10 +25,9 @@ A [Claude Code](https://claude.com/claude-code) skill that turns anything you gi
 1. **Setup, once.** If Carousel Studio already has your brand, Slide Motion reuses it and only asks how the brand moves:
    - its character, with reference videos you like;
    - what its videos show;
-   - how ideas should hand over;
    - its pace and curves.
 
-   Your answers become `motion.json`, plus Motion rules in your design language. A short test render confirms them. Without a brand, it runs the full brand interview first.
+   Setup starts fresh: motion from earlier videos or other brands isn't reused. Your answers become `motion.json`, plus Motion rules in your design language. A short test render confirms them. Without a brand, it runs the full brand interview first.
 2. **`/slide-motion <topic, link, file or carousel>`.** `ingest.mjs` gathers the sources: extracted text, page screenshots and the image library. Claude analyses them, then plans the whole video:
    - the ideas and the throughline;
    - sequences with time ranges;
@@ -89,9 +89,8 @@ carousel-studio/
 | `ease.enter / exit / move / fade / ambient / cutOut / cutIn` | Your curves: GSAP eases, `logistic(k)` or `cubic-bezier(…)` (e.g. copied from Figma or After Effects). `.in`/`.out` halves split a move across a cut. |
 | `duration.enter / exit / move / cut / stagger`, `distance` | Your pace and travel. |
 | `readingSpeed`, `visual` | How long text needs; how many words per read moment; whether a headline is required; whether videos show photos or illustrations. |
-| `techniques.use / avoid` | Which handovers you like (transformations, camera moves, zoom-throughs, match cuts, wipes, hand-offs…) and which never. |
 
-A video can adjust any of it for itself in `meta.json → motion`.
+A video can adjust any of it for itself in `meta.json → motion`. Transitions aren't stored here; each video's plan chooses its own.
 
 ## Aspect ratios
 

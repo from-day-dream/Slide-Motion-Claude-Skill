@@ -31,7 +31,13 @@ After the analysis (`analysis.md`), plan in this order and write it into `meta.j
    Sequences don't map one-to-one onto ideas: one sequence can carry two ideas, and one idea can span two sequences.
 4. **Read moments.** Mark where each piece of text is fully on screen and settled (`hold`, `hold2`…), and how long it stays still: at least its words ÷ reading speed.
 5. **Layers in every stretch** (§3): what the ambient layer is doing, what content motion is running, when text arrives and holds.
-6. **Handovers.** For every place where one idea becomes the next, decide the mechanism: a transformation, a camera move, a zoom-through, or a cut. Use the techniques the brand's `motion.json → techniques.use` favours, and never the ones in `avoid`.
+6. **Handovers.** For every place where one idea becomes the next, decide the mechanism: a transformation, a camera move, a zoom-through, a hand-off, a cut… There is no preset or brand default. Choose for **this** video:
+   - **What the user asked for** comes first ("one continuous camera move", "no cuts", "like this reel").
+   - **The content and its relationships:** a number that grows becomes the next chart; a step leads to the next step along a path; a contrast suits a hard cut; a zoom from overview to detail suits a zoom-through.
+   - **The throughline:** the element that carries the viewer usually carries the handovers too.
+   - **The brand's character and pace** (`motion.json`, `design-language.md` → Motion) set how a handover feels, not which one it is.
+
+   Write each choice and its reason into the sequence's `handover`. Vary them only when the content changes; don't reuse a previous video's choices by habit.
 7. **Fixed elements.** Decide what stays on screen for the whole video (handle, series label, mark) and how it adapts to what passes under it.
 
 ```json
@@ -60,7 +66,7 @@ Show it compactly (throughline, ideas with copy, sequences with times and what's
 - **Text never moves while it's read.** Move the image inside its frame, not the frame carrying a label.
 - **Ease with the brand's tokens** (`window.__motion`). No ad-hoc curves or durations.
 
-## 4. Techniques (neutral; the brand decides which it uses)
+## 4. Techniques (a neutral menu; chosen per video, §2.6)
 | Technique | What happens | How |
 |---|---|---|
 | **Transformation** | one element becomes the next idea's element | `morphSVG`, tweening size, radius, colour and position of the same element |
