@@ -1,0 +1,62 @@
+<!doctype html>
+<!-- STRUCTURE ONLY. This skeleton shows how a video is built: one composition, one master timeline,
+     sequences that overlap, an ambient layer that never stops, read moments (hold*) and an optional
+     cut. It has no look of its own: replace every BRAND_* placeholder with the brand's tokens
+     (var(--brand-<colour>) etc.) and its design language. Motion comes only from window.__motion. -->
+<html><head><meta charset="utf-8">
+<style>
+{{FONT_FACES}}
+{{TOKENS}}
+.scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:BRAND_BACKGROUND;color:BRAND_TEXT}
+/* Fixed elements: on screen for the whole video. */
+.fixed{position:absolute;top:240px;left:96px;right:160px;display:flex;justify-content:space-between;font-family:var(--brand-font-body);font-size:var(--brand-size-meta)}
+/* The throughline: here, one large canvas the camera travels down, so ideas are stops on one path. */
+.world{position:absolute;left:0;top:0;width:1080px;height:3840px}
+.stop{position:absolute;left:96px;right:160px}
+#stop1{top:560px}#stop2{top:2480px}
+h2{margin:0;font-family:var(--brand-font-heading);font-size:var(--brand-size-headline);line-height:1.05}
+.ground{position:absolute;inset:0}
+.thread{position:absolute;left:0;top:0;width:1080px;height:3840px}
+.thread path{fill:none;stroke:BRAND_ACCENT;stroke-width:8}
+</style></head>
+<body>
+<div class="scene" data-scene="1">
+  <div class="ground" aria-hidden="true"></div>
+  <div class="world">
+    <svg class="thread" viewBox="0 0 1080 3840" data-visual aria-hidden="true"><path id="thread" d="M120 900 C 600 1300, 300 2000, 900 2400"/></svg>
+    <div class="stop" id="stop1"><h2 data-text="headline">First idea, a few words</h2></div>
+    <div class="stop" id="stop2"><h2 data-text="headline">Second idea, a few words</h2></div>
+  </div>
+  <div class="fixed"><span data-text="meta">@handle</span><span data-text="meta">Series</span></div>
+</div>
+<script>
+const M = window.__motion, D = M.duration, E = M.ease;
+const tl = gsap.timeline({ paused: true });
+const LENGTH = 6;
+
+// Ambient layer: runs the whole video, so the frame is never still.
+function ambient() {
+  tl.fromTo('.ground', { scale: 1 }, { scale: M.imageMotion.zoom || 1.05, duration: LENGTH, ease: E.ambient }, 0);
+}
+// Sequence 1: the first idea arrives; the thread starts drawing and keeps going past the read moment.
+function first(t) {
+  tl.from('#stop1 h2', { y: M.distance, opacity: 0, duration: D.enter, ease: E.enter }, t)
+    .from('#thread', { drawSVG: '0%', duration: 3.6, ease: E.move }, t + 0.2)
+    .addLabel('hold', t + D.enter);
+}
+// Sequence 2: the camera travels the thread to the second idea (a handover, not a cut).
+// It starts while sequence 1's thread is still drawing.
+function second(t) {
+  tl.to('#stop1 h2', { opacity: 0, duration: D.exit, ease: E.exit }, t)
+    .to('.world', { y: -1920, duration: D.move, ease: E.move }, t)
+    .from('#stop2 h2', { y: M.distance, opacity: 0, duration: D.enter, ease: E.enter }, t + D.move * 0.6)
+    .addLabel('hold2', t + D.move * 0.6 + D.enter);
+}
+
+ambient();
+first(0);
+second(2.4);
+tl.addLabel('end', LENGTH);
+window.__scene = { tl };
+</script>
+</body></html>

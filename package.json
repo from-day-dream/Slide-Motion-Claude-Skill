@@ -1,0 +1,22 @@
+{
+  "name": "slide-motion",
+  "version": "0.1.0",
+  "description": "Claude Code skill: branded motion-graphics videos (9:16 by default, any aspect ratio) from a topic or a Carousel Studio carousel.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "render": "node scripts/render.mjs"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ffmpeg-static": "^5.2.0",
+    "gsap": "^3.13.0",
+    "playwright": "^1.48.0",
+    "sharp": "^0.35.5"
+  }
+}

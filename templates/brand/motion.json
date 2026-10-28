@@ -1,0 +1,30 @@
+{
+  "//": "How this brand's videos move and what they show. Filled in with the user at setup (references/brand-setup.md → Motion setup); the skill has no defaults. Eases: GSAP names (\"power2.out\"), \"logistic(k)\" or \"cubic-bezier(x1,y1,x2,y2)\", plus \".in\"/\".out\" halves for moves split across a cut. Durations in seconds; distance in px. The renderer refuses to run until every ease, duration and distance is set.",
+  "ease": {
+    "enter": "",
+    "exit": "",
+    "move": "",
+    "fade": "",
+    "ambient": "",
+    "cutOut": "",
+    "cutIn": ""
+  },
+  "duration": {
+    "enter": 0,
+    "exit": 0,
+    "move": 0,
+    "cut": 0,
+    "stagger": 0
+  },
+  "distance": 0,
+  "readingSpeed": 3.5,
+  "imageMotion": { "zoom": 1, "pan": 0 },
+  "visual": {
+    "wordsPerBeat": 7,
+    "headline": "required",
+    "requires": null,
+    "maxVisuals": 2
+  },
+  "techniques": { "use": [], "avoid": [] },
+  "notes": ""
+}

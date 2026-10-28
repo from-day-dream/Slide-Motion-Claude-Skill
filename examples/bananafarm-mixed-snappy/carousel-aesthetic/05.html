@@ -1,0 +1,58 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+{{FONT_FACES}}
+{{TOKENS}}
+.slide{position:relative;width:1080px;height:1350px;overflow:hidden;color:var(--brand-ink)}
+.dots-paper{background-color:var(--brand-paper);background-image:radial-gradient(circle,var(--brand-dot) 1.5px,transparent 2px);background-size:48px 48px;background-position:24px 24px}
+.dots-fog{background-color:var(--brand-fog);background-image:radial-gradient(circle,var(--brand-dot-fog) 1.5px,transparent 2px);background-size:48px 48px;background-position:24px 24px}
+.dots-ink{background-color:var(--brand-ink);background-image:radial-gradient(circle,var(--brand-dot-ink) 1.5px,transparent 2px);background-size:48px 48px;background-position:24px 24px}
+.corner{position:absolute;font-family:var(--brand-font-body);font-weight:500;font-size:var(--brand-size-meta);letter-spacing:.08em;line-height:1.2;text-transform:uppercase}
+.tl{top:72px;left:80px}.tr{top:72px;right:80px;text-align:right}.bl{bottom:72px;left:80px}.br{bottom:72px;right:80px;text-align:right}
+.mark{display:flex;gap:12px;align-items:center}.mark svg{width:28px;height:28px;flex:none}
+/* scribbled word: hand-drawn blue ellipse around the emphasis word */
+.scrib{position:relative;display:inline-block;margin:0 .1em}
+.scrib em{position:relative;z-index:1;font-family:var(--brand-font-accent);font-style:italic;font-weight:400;letter-spacing:-.01em}
+.scrib svg{position:absolute;z-index:0;left:-17%;top:-20%;width:134%;height:140%;overflow:visible;pointer-events:none;color:var(--brand-blue)}
+/* rounded image, no frame */
+.rimg{position:absolute;border-radius:36px;overflow:hidden}
+.rimg img{display:block;width:100%;height:100%;object-fit:cover}
+/* folder */
+.folder{position:absolute;width:190px;height:150px}
+.folder .tab{position:absolute;left:0;top:0;width:84px;height:34px;border-radius:12px 12px 0 0;background:var(--brand-blue-soft)}
+.folder .back{position:absolute;left:0;right:0;top:20px;bottom:0;border-radius:12px;background:var(--brand-blue-soft)}
+.folder .sheet{position:absolute;left:12px;right:12px;top:30px;height:40px;border-radius:6px;background:var(--brand-haze)}
+.folder .front{position:absolute;left:0;right:0;top:46px;bottom:0;border-radius:12px;background:linear-gradient(180deg,var(--brand-aqua),var(--brand-blue-soft))}
+/* collaborator cursor */
+.collab{position:absolute;display:flex;align-items:flex-start}
+.collab svg{width:34px;height:34px;flex:none}
+.collab span{margin:24px 0 0 -4px;padding:8px 16px;font-family:var(--brand-font-body);font-weight:500;font-size:var(--brand-size-meta);letter-spacing:.08em;text-transform:uppercase;line-height:1.2}
+.t-blue span{background:var(--brand-blue);color:var(--brand-paper)}.t-blue svg{color:var(--brand-blue)}
+.t-ink span{background:var(--brand-ink);color:var(--brand-paper)}.t-ink svg{color:var(--brand-ink)}
+.t-coral span{background:var(--brand-coral);color:var(--brand-ink)}.t-coral svg{color:var(--brand-coral)}
+/* pills */
+.pill{display:inline-flex;align-items:center;padding:14px 34px;border-radius:999px;background:var(--brand-blue);color:var(--brand-paper);font-family:var(--brand-font-body);font-weight:400;font-size:32px;line-height:1}
+
+.dots-graphite{background-color:var(--brand-graphite);background-image:radial-gradient(circle,var(--brand-dot-graphite) 1.5px,transparent 2px);background-size:48px 48px;background-position:24px 24px}
+.on-dark{color:var(--brand-paper)}
+.on-dark .scrib svg{color:var(--brand-blue-soft)}
+
+.top-pill{position:absolute;top:72px;left:80px;padding:12px 30px;background:transparent;color:var(--brand-paper);border:1.5px solid var(--brand-paper);font-size:30px}
+.sum{position:absolute;left:80px;right:80px;top:400px}
+h2{margin:0;max-width:920px;font-family:var(--brand-font-heading);font-weight:700;font-size:124px;line-height:1.02;letter-spacing:-.065em}
+.follow{margin:72px 0 36px;font-family:var(--brand-font-body);font-weight:400;font-size:var(--brand-size-key);line-height:1.3;color:var(--brand-chalk)}
+.follow b{font-weight:700;color:var(--brand-paper)}
+
+</style></head>
+<body>
+<div class="slide dots-ink on-dark" data-slide="5">
+  <span class="pill top-pill" data-text="meta">The takeaway</span>
+  <div class="sum">
+    <h2 data-text="headline">Render in the cloud. Never leave <span class="scrib"><svg viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true"><path d="M40 74 C 8 60, 18 20, 100 12 C 168 6, 204 30, 192 58 C 180 86, 104 94, 54 86 C 14 79, 2 56, 24 36 C 48 16, 126 8, 172 24 C 196 33, 194 52, 178 64" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><em>Blender.</em></span></h2>
+    <p class="follow" data-text="support">Follow <b>@from.daydream</b> for more</p>
+    <span class="pill" data-text="meta">Get it at bananafarm.app</span>
+  </div>
+  <svg style="position:absolute;left:80px;bottom:72px;width:72px;height:80px;color:var(--brand-paper)" viewBox="0 0 26 29" role="img" aria-label="day-dream"><path d="M12.8623 29.0073C12.285 29.0073 11.7881 28.7664 11.3716 28.2847C10.9551 27.8029 10.7797 27.2482 10.8455 26.6058L11.5178 17.6715C11.5835 17.4818 11.547 17.3504 11.4228 17.2847C11.2912 17.219 11.167 17.2555 11.0355 17.3796L3.53799 22.4672C3.02647 22.854 2.44918 22.9781 1.80612 22.854C1.16306 22.7299 0.68077 22.3723 0.366548 21.7956C-0.020748 21.1533 -0.10113 20.5474 0.125401 19.9708C0.351933 19.3942 0.783074 18.9781 1.42613 18.7226L9.69819 14.7883C9.88819 14.7226 9.98319 14.6277 9.98319 14.5037C9.98319 14.3796 9.88819 14.2774 9.69819 14.219L1.42613 10.3796C0.783074 9.9927 0.366548 9.50365 0.176554 8.89051C-0.0134405 8.28467 0.0450193 7.68613 0.366548 7.11679C0.753844 6.54015 1.25075 6.20438 1.85727 6.10949C2.46379 6.0146 3.02647 6.16058 3.53799 6.54015L11.0355 11.6277C11.1597 11.7591 11.2912 11.7883 11.4228 11.7226C11.547 11.6569 11.5835 11.5328 11.5178 11.3358L10.8455 2.40146C10.7797 1.76642 10.9697 1.20438 11.4228 0.722628C11.8685 0.240876 12.4166 0 13.0596 0C13.7027 0 14.2142 0.240876 14.6015 0.722628C14.9888 1.20438 15.1423 1.76642 15.0838 2.40146L14.4115 11.3358C14.3457 11.5255 14.3823 11.6569 14.5065 11.7226C14.6307 11.7883 14.7915 11.7591 14.9888 11.6277L22.3913 6.54015C22.9686 6.15328 23.5751 6.0292 24.2181 6.15328C24.8612 6.28467 25.3362 6.63504 25.6577 7.21168C26.045 7.85401 26.1035 8.45985 25.8477 9.0365C25.592 9.61314 25.1389 10.0657 24.5031 10.3796L16.3334 14.219C16.1434 14.2847 16.0484 14.3796 16.0484 14.5037C16.0484 14.6277 16.1434 14.7299 16.3334 14.7883L24.5031 18.7226C25.2047 18.9781 25.6577 19.4088 25.8477 20.0219C26.0377 20.6277 25.9719 21.2263 25.6577 21.7956C25.3362 22.3723 24.8539 22.7226 24.2181 22.854C23.5751 22.9854 22.9686 22.8905 22.3913 22.5693L14.9888 17.3796C14.7988 17.2555 14.638 17.219 14.5065 17.2847C14.375 17.3504 14.3457 17.4745 14.4115 17.6715L15.0838 26.6058C15.1496 27.2482 14.9742 27.8029 14.5577 28.2847C14.1411 28.7664 13.5785 29.0073 12.8769 29.0073H12.8623Z" fill="currentColor"/></svg>
+  <div class="corner br" data-text="meta">[ 005 ]</div>
+</div>
+</body></html>

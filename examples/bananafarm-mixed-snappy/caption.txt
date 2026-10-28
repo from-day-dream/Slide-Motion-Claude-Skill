@@ -1,0 +1,18 @@
+Go Bananas in Blender.
+
+Bananafarm is our open-source app for cloud rendering. It makes it easy to connect to cloud GPU providers and render without leaving Blender or doing any manual setup.
+
+How it works: connect Vast.ai or RunPod, hit Submit in the Bananafarm panel, and finished frames download straight to your machine. No command line, no browser uploads.
+
+You pay the GPU provider's rate directly and skip the convenience fees traditional render farms charge. We benchmarked one scene (Blender's 3.5 splash, 120 frames at 4K, 1024 samples in Cycles, averaged over five runs):
+Bananafarm Standard: $0.096
+Bananafarm Secure: $0.216
+Traditional render farms: $1.66
+
+Download it at bananafarm.app, or read the code on GitHub.
+
+Render in the cloud. Never leave Blender.
+
+Follow @from.daydream for more
+
+#Blender #Blender3D #b3d #CloudRendering #RenderFarm #Cycles #3DArtist #OpenSource #GPURendering #CGI #3DRender #Bananafarm #MotionDesign

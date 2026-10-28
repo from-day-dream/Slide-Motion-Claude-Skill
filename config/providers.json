@@ -1,0 +1,69 @@
+{
+  "//": "Image provider config. Edit model endpoints here when providers change. To customise without touching the skill, put a providers.json with the same shape in your workspace: it is deep-merged over this file. Brands pick a model by its key here in images.json (\"provider\" + \"model\").",
+  "fal": {
+    "keyEnv": "FAL_KEY",
+    "queueUrl": "https://queue.fal.run",
+    "defaultModel": "gpt-image-2.5",
+    "models": {
+      "gpt-image-2.5": {
+        "kind": "gpt-image",
+        "text": "openai/gpt-image-2.5/sunburst/text-to-image",
+        "edit": "openai/gpt-image-2.5/sunburst/edit",
+        "size": [1088, 1360],
+        "quality": "high"
+      },
+      "gpt-image-2": {
+        "kind": "gpt-image",
+        "text": "openai/gpt-image-2",
+        "edit": "openai/gpt-image-2/edit",
+        "size": [1088, 1360],
+        "quality": "high"
+      },
+      "flux-dev": {
+        "kind": "flux",
+        "text": "fal-ai/flux/dev",
+        "size": [1088, 1360]
+      },
+      "flux-lora": {
+        "kind": "flux-lora",
+        "text": "fal-ai/flux-lora",
+        "size": [1088, 1360]
+      }
+    }
+  },
+  "atlas": {
+    "keyEnv": "ATLAS_CLOUD_API_KEY",
+    "baseUrl": "https://api.atlascloud.ai/api/v1/model",
+    "defaultModel": "gpt-image-2.5",
+    "models": {
+      "gpt-image-2.5": {
+        "kind": "gpt-image",
+        "text": "openai/gpt-image-2.5-sunburst/text-to-image",
+        "edit": "openai/gpt-image-2.5-sunburst/edit",
+        "size": [1088, 1360],
+        "quality": "high"
+      },
+      "gpt-image-2": {
+        "kind": "gpt-image",
+        "text": "openai/gpt-image-2/text-to-image",
+        "edit": "openai/gpt-image-2/edit",
+        "size": "1024x1536",
+        "quality": "high"
+      }
+    }
+  },
+  "openai": {
+    "keyEnv": "OPENAI_API_KEY",
+    "baseUrl": "https://api.openai.com/v1",
+    "defaultModel": "gpt-image-2.5",
+    "models": {
+      "gpt-image-2.5": {
+        "kind": "gpt-image",
+        "text": "gpt-image-2.5-sunburst",
+        "edit": "gpt-image-2.5-sunburst",
+        "size": [1088, 1360],
+        "quality": "high"
+      }
+    }
+  }
+}

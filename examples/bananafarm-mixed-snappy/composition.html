@@ -1,0 +1,242 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+{{FONT_FACES}}
+{{TOKENS}}
+/* day-dream-2's look, from carousel-aesthetic/: dotted grounds, tight DM Sans titles, one Playfair
+   italic word circled by a blue marker, rounded tilted photos, cursor tags, pills, the pixel cursor. */
+.scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--brand-paper);color:var(--brand-ink)}
+.layer{position:absolute;inset:0}
+.dots-paper{background-color:var(--brand-paper);background-image:radial-gradient(circle,var(--brand-dot) 1.5px,transparent 2px);background-size:48px 48px;background-position:24px 24px}
+.dots-graphite{background-color:var(--brand-graphite);background-image:radial-gradient(circle,var(--brand-dot-graphite) 1.5px,transparent 2px);background-size:48px 48px;background-position:24px 24px}
+.dots-ink{background-color:var(--brand-ink);background-image:radial-gradient(circle,var(--brand-dot-ink) 1.5px,transparent 2px);background-size:48px 48px;background-position:24px 24px}
+.later{visibility:hidden;opacity:0}
+.head{position:absolute;left:96px;right:160px;margin:0;text-wrap:balance;font-family:var(--brand-font-heading);font-weight:700;line-height:1.02;letter-spacing:-.065em}
+.scrib{position:relative;display:inline-block;margin:0 .1em 0 .22em}
+.scrib em{position:relative;z-index:1;font-family:var(--brand-font-accent);font-style:italic;font-weight:400;letter-spacing:-.01em}
+.scrib svg{position:absolute;z-index:0;left:-17%;top:-20%;width:134%;height:140%;overflow:visible;color:var(--brand-blue)}
+.dark .scrib svg{color:var(--brand-blue-soft)}
+.rimg{position:absolute;border-radius:36px;overflow:hidden}
+.rimg img{display:block;width:100%;height:100%;object-fit:cover}
+.tag{position:absolute;display:flex;align-items:flex-start;z-index:3}
+.tag svg{width:34px;height:34px;flex:none}
+.tag span{margin:24px 0 0 -4px;padding:8px 16px;font-family:var(--brand-font-body);font-weight:500;font-size:var(--brand-size-meta);letter-spacing:.08em;text-transform:uppercase;line-height:1.2;white-space:nowrap}
+.t-blue span{background:var(--brand-blue);color:var(--brand-paper)}.t-blue svg{color:var(--brand-blue)}
+.t-ink span{background:var(--brand-ink);color:var(--brand-paper)}.t-ink svg{color:var(--brand-ink)}
+.t-coral span{background:var(--brand-coral);color:var(--brand-ink)}.t-coral svg{color:var(--brand-coral)}
+.pill{display:inline-flex;align-items:center;padding:16px 36px;border-radius:999px;background:var(--brand-blue);color:var(--brand-paper);font-family:var(--brand-font-body);font-weight:400;font-size:40px;line-height:1}
+.caps{font-family:var(--brand-font-body);font-weight:500;font-size:var(--brand-size-meta);letter-spacing:.08em;text-transform:uppercase}
+/* fixed: on screen for the whole video; its colour follows the ground */
+.top{position:absolute;top:240px;left:96px;right:160px;display:flex;justify-content:space-between;align-items:center;color:var(--brand-ink);z-index:8}
+.top[data-tone="dark"]{color:var(--brand-chalk)}.top[data-tone="photo"]{color:var(--brand-paper)}
+.top .mark{display:flex;gap:12px;align-items:center}.top svg{width:26px;height:26px}
+/* the throughline: the brand's pixel cursor */
+#cursor{position:absolute;left:0;top:0;width:48px;height:68px;z-index:9;transform-origin:0 0}
+#cursor svg{width:100%;height:100%}
+/* idea 1-2 */
+#h1{top:400px;font-size:var(--brand-size-hook)}
+#h2{top:400px;font-size:var(--brand-size-headline)}
+#chimp{left:150px;top:880px;width:780px;height:420px;transform:rotate(-3deg)}
+.step{position:absolute;width:420px;height:280px}
+.step .rimg{position:absolute;inset:0;border-radius:24px;box-shadow:0 0 0 2px var(--brand-ink)}
+.step .tag{left:-24px;top:-58px}
+#s1{left:96px;top:820px;transform:rotate(-4deg)}#s2{left:300px;top:990px;transform:rotate(2deg)}#s3{left:520px;top:1160px;transform:rotate(-2deg)}
+/* idea 3 */
+#g3{color:var(--brand-paper)}
+#lead{position:absolute;left:96px;top:420px;color:var(--brand-blue-soft)}
+.big{position:absolute;left:84px;top:450px;font-family:var(--brand-font-heading);font-weight:700;font-size:460px;line-height:1;letter-spacing:-.07em;color:var(--brand-blue-soft);transform-origin:0 60%}
+#h3{top:930px;font-size:var(--brand-size-headline)}
+.bars{position:absolute;left:96px;right:140px;top:1230px}
+.row{position:relative;height:96px}.row .caps{color:var(--brand-chalk)}
+.bar{position:absolute;left:0;top:42px;height:34px;border-radius:17px;transform-origin:0 50%}
+#b1{width:50px;background:var(--brand-blue-soft)}#b2{width:844px;background:var(--brand-chalk)}
+#foot{position:absolute;left:96px;top:1450px;color:var(--brand-chalk)}
+/* idea 4 */
+#g4{color:var(--brand-paper)}
+#ship{left:0;top:0;width:1080px;height:1920px;border-radius:0}
+.shade{position:absolute;inset:0;background:linear-gradient(to top,var(--brand-ink) 0%,var(--brand-ink) 22%,transparent 62%)}
+.shade-top{position:absolute;inset:0;background:linear-gradient(to bottom,var(--brand-ink) 0%,transparent 22%)}
+#car{left:330px;top:440px;width:600px;height:340px;transform:rotate(3deg);box-shadow:0 0 0 2px var(--brand-paper)}
+#t-car{left:150px;top:740px}
+#h4{top:1140px;font-size:var(--brand-size-headline)}
+#key{position:absolute;left:96px;top:1390px;margin:0;font-family:var(--brand-font-body);font-weight:400;font-size:var(--brand-size-key)}
+/* idea 5 */
+#g5{color:var(--brand-paper)}
+.cta{position:absolute;left:96px;right:160px;top:220px;bottom:420px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.cta .logo{width:110px;height:122px;margin-bottom:72px}.cta .logo svg{width:100%;height:100%}
+.cta .head{position:static;font-size:var(--brand-size-hook)}
+.cta .pill{margin-top:64px}
+#follow{margin:40px 0 0;font-family:var(--brand-font-body);font-weight:400;font-size:var(--brand-size-key);color:var(--brand-chalk)}
+</style></head>
+<body>
+<div class="scene" data-scene="1">
+  <div class="layer dots-paper" id="gr-paper"></div>
+  <div class="layer dots-graphite later" id="gr-graphite"></div>
+  <div class="layer dots-ink later" id="gr-ink"></div>
+
+  <div class="layer" id="g1">
+    <h1 class="head" id="h1" data-text="headline">Go <span class="scrib" id="sc1"><svg viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true"><path class="sp" d="M40 74 C 8 60, 18 20, 100 12 C 168 6, 204 30, 192 58 C 180 86, 104 94, 54 86 C 14 79, 2 56, 24 36 C 48 16, 126 8, 172 24 C 196 33, 194 52, 178 64" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><em>Bananas</em></span> in Blender.</h1>
+    <div class="rimg" id="chimp"><img data-photo src="images/url-1-bananafarm-app-1.jpg" style="object-position:75% 45%" alt=""></div>
+  </div>
+
+  <div class="layer" id="g2">
+    <h2 class="head later" id="h2" data-text="headline">Three steps. <span class="scrib" id="sc2"><svg viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true"><path class="sp" d="M40 74 C 8 60, 18 20, 100 12 C 168 6, 204 30, 192 58 C 180 86, 104 94, 54 86 C 14 79, 2 56, 24 36 C 48 16, 126 8, 172 24 C 196 33, 194 52, 178 64" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><em>Zero</em></span> setup.</h2>
+    <div class="step later" id="s1"><div class="rimg"><img data-photo src="images/url-1-bananafarm-app-4.jpg" style="object-position:50% 45%" alt=""></div><div class="tag t-ink"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2 L22 10 L12 12 L10 22 Z" fill="currentColor"/></svg><span data-text="meta">01 Connect</span></div></div>
+    <div class="step later" id="s2"><div class="rimg"><img data-photo src="images/blender-render-panel.jpg" style="object-position:70% 40%" alt=""></div><div class="tag t-blue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2 L22 10 L12 12 L10 22 Z" fill="currentColor"/></svg><span data-text="meta">02 Submit</span></div></div>
+    <div class="step later" id="s3"><div class="rimg"><img data-photo src="images/url-1-bananafarm-app-6.jpg" style="object-position:50% 75%" alt=""></div><div class="tag t-coral"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2 L22 10 L12 12 L10 22 Z" fill="currentColor"/></svg><span data-text="meta">03 Download</span></div></div>
+  </div>
+
+  <div class="layer later dark" id="g3">
+    <span class="caps" id="lead" data-text="meta">Up to</span>
+    <div class="big" data-visual aria-hidden="true"><span class="num">1</span>×</div>
+    <h2 class="head" id="h3" data-text="headline"><span class="scrib" id="sc3"><svg viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true"><path class="sp" d="M40 74 C 8 60, 18 20, 100 12 C 168 6, 204 30, 192 58 C 180 86, 104 94, 54 86 C 14 79, 2 56, 24 36 C 48 16, 126 8, 172 24 C 196 33, 194 52, 178 64" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><em>cheaper</em></span> than a traditional render farm.</h2>
+    <div class="bars" data-visual aria-hidden="true">
+      <div class="row"><span class="caps">Bananafarm Standard · $0.096</span><div class="bar" id="b1"></div></div>
+      <div class="row"><span class="caps">Render farm · $1.66</span><div class="bar" id="b2"></div></div>
+    </div>
+    <span class="caps" id="foot" data-text="meta">120 frames · 4K · Cycles · avg of 5 runs</span>
+  </div>
+
+  <div class="layer later dark" id="g4">
+    <div class="rimg" id="ship"><img data-photo src="images/url-1-bananafarm-app-8.jpg" style="object-position:50% 35%" alt=""></div>
+    <div class="shade" aria-hidden="true"></div><div class="shade-top" aria-hidden="true"></div>
+    <div class="rimg" id="car"><img data-photo src="images/example.jpg" style="object-position:50% 55%" alt=""></div>
+    <div class="tag t-blue" id="t-car"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2 L22 10 L12 12 L10 22 Z" fill="currentColor"/></svg><span data-text="meta">Rendered with Bananafarm</span></div>
+    <h2 class="head" id="h4" data-text="headline">Rendering should be <span class="scrib" id="sc4"><svg viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true"><path class="sp" d="M40 74 C 8 60, 18 20, 100 12 C 168 6, 204 30, 192 58 C 180 86, 104 94, 54 86 C 14 79, 2 56, 24 36 C 48 16, 126 8, 172 24 C 196 33, 194 52, 178 64" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><em>open.</em></span></h2>
+    <p id="key" data-text="key">It's open source.</p>
+  </div>
+
+  <div class="layer later dark" id="g5">
+    <div class="cta">
+      <div class="logo" data-visual aria-hidden="true"><svg viewBox="0 0 26 29" aria-hidden="true"><path d="M12.86 29C12.29 29 11.79 28.77 11.37 28.28C10.96 27.8 10.78 27.25 10.85 26.61L11.52 17.67C11.58 17.48 11.55 17.35 11.42 17.28C11.29 17.22 11.17 17.26 11.04 17.38L3.54 22.47C3.03 22.85 2.45 22.98 1.81 22.85C1.16 22.73 0.68 22.37 0.37 21.8C-0.02 21.15 -0.1 20.55 0.13 19.97C0.35 19.39 0.78 18.98 1.43 18.72L9.7 14.79C9.89 14.72 9.98 14.63 9.98 14.5C9.98 14.38 9.89 14.28 9.7 14.22L1.43 10.38C0.78 9.99 0.37 9.5 0.18 8.89C-0.01 8.28 0.05 7.69 0.37 7.12C0.75 6.54 1.25 6.2 1.86 6.11C2.46 6.01 3.03 6.16 3.54 6.54L11.04 11.63C11.16 11.76 11.29 11.79 11.42 11.72C11.55 11.66 11.58 11.53 11.52 11.34L10.85 2.4C10.78 1.77 10.97 1.2 11.42 0.72C11.87 0.24 12.42 0 13.06 0C13.7 0 14.21 0.24 14.6 0.72C14.99 1.2 15.14 1.77 15.08 2.4L14.41 11.34C14.35 11.53 14.38 11.66 14.51 11.72C14.63 11.79 14.79 11.76 14.99 11.63L22.39 6.54C22.97 6.15 23.58 6.03 24.22 6.15C24.86 6.28 25.34 6.64 25.66 7.21C26.05 7.85 26.1 8.46 25.85 9.04C25.59 9.61 25.14 10.07 24.5 10.38L16.33 14.22C16.14 14.28 16.05 14.38 16.05 14.5C16.05 14.63 16.14 14.73 16.33 14.79L24.5 18.72C25.2 18.98 25.66 19.41 25.85 20.02C26.04 20.63 25.97 21.23 25.66 21.8C25.34 22.37 24.85 22.72 24.22 22.85C23.58 22.99 22.97 22.89 22.39 22.57L14.99 17.38C14.8 17.26 14.64 17.22 14.51 17.28C14.38 17.35 14.35 17.47 14.41 17.67L15.08 26.61C15.15 27.25 14.97 27.8 14.56 28.28C14.14 28.77 13.58 29 12.88 29Z" fill="currentColor"/></svg></div>
+      <h2 class="head" data-text="headline">Never leave <span class="scrib" id="sc5"><svg viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true"><path class="sp" d="M40 74 C 8 60, 18 20, 100 12 C 168 6, 204 30, 192 58 C 180 86, 104 94, 54 86 C 14 79, 2 56, 24 36 C 48 16, 126 8, 172 24 C 196 33, 194 52, 178 64" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><em>Blender.</em></span></h2>
+      <span class="pill" data-text="key">bananafarm.app</span>
+      <p id="follow" data-text="support">Follow @from.daydream</p>
+    </div>
+  </div>
+
+  <div class="top" data-tone="light"><span class="mark"><svg viewBox="0 0 26 29" aria-hidden="true"><path d="M12.86 29C12.29 29 11.79 28.77 11.37 28.28C10.96 27.8 10.78 27.25 10.85 26.61L11.52 17.67C11.58 17.48 11.55 17.35 11.42 17.28C11.29 17.22 11.17 17.26 11.04 17.38L3.54 22.47C3.03 22.85 2.45 22.98 1.81 22.85C1.16 22.73 0.68 22.37 0.37 21.8C-0.02 21.15 -0.1 20.55 0.13 19.97C0.35 19.39 0.78 18.98 1.43 18.72L9.7 14.79C9.89 14.72 9.98 14.63 9.98 14.5C9.98 14.38 9.89 14.28 9.7 14.22L1.43 10.38C0.78 9.99 0.37 9.5 0.18 8.89C-0.01 8.28 0.05 7.69 0.37 7.12C0.75 6.54 1.25 6.2 1.86 6.11C2.46 6.01 3.03 6.16 3.54 6.54L11.04 11.63C11.16 11.76 11.29 11.79 11.42 11.72C11.55 11.66 11.58 11.53 11.52 11.34L10.85 2.4C10.78 1.77 10.97 1.2 11.42 0.72C11.87 0.24 12.42 0 13.06 0C13.7 0 14.21 0.24 14.6 0.72C14.99 1.2 15.14 1.77 15.08 2.4L14.41 11.34C14.35 11.53 14.38 11.66 14.51 11.72C14.63 11.79 14.79 11.76 14.99 11.63L22.39 6.54C22.97 6.15 23.58 6.03 24.22 6.15C24.86 6.28 25.34 6.64 25.66 7.21C26.05 7.85 26.1 8.46 25.85 9.04C25.59 9.61 25.14 10.07 24.5 10.38L16.33 14.22C16.14 14.28 16.05 14.38 16.05 14.5C16.05 14.63 16.14 14.73 16.33 14.79L24.5 18.72C25.2 18.98 25.66 19.41 25.85 20.02C26.04 20.63 25.97 21.23 25.66 21.8C25.34 22.37 24.85 22.72 24.22 22.85C23.58 22.99 22.97 22.89 22.39 22.57L14.99 17.38C14.8 17.26 14.64 17.22 14.51 17.28C14.38 17.35 14.35 17.47 14.41 17.67L15.08 26.61C15.15 27.25 14.97 27.8 14.56 28.28C14.14 28.77 13.58 29 12.88 29Z" fill="currentColor"/></svg><span class="caps" data-text="meta">Bananafarm</span></span><span class="caps" data-text="meta">@from.daydream</span></div>
+  <div id="cursor" aria-hidden="true"><svg viewBox="0 0 12 17" shape-rendering="crispEdges"><rect x="0" y="0" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="0" y="1" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="1" y="1" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="0" y="2" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="1" y="2" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="2" y="2" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="0" y="3" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="1" y="3" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="2" y="3" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="3" y="3" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="0" y="4" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="1" y="4" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="2" y="4" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="3" y="4" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="4" y="4" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="0" y="5" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="1" y="5" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="2" y="5" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="3" y="5" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="4" y="5" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="5" y="5" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="0" y="6" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="1" y="6" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="2" y="6" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="3" y="6" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="4" y="6" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="5" y="6" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="6" y="6" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="0" y="7" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="1" y="7" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="2" y="7" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="3" y="7" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="4" y="7" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="5" y="7" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="6" y="7" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="7" y="7" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="0" y="8" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="1" y="8" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="2" y="8" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="3" y="8" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="4" y="8" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="5" y="8" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="6" y="8" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="7" y="8" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="8" y="8" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="0" y="9" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="1" y="9" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="2" y="9" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="3" y="9" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="4" y="9" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="5" y="9" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="6" y="9" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="7" y="9" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="8" y="9" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="9" y="9" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="0" y="10" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="1" y="10" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="2" y="10" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="3" y="10" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="4" y="10" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="5" y="10" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="6" y="10" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="7" y="10" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="8" y="10" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="9" y="10" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="10" y="10" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="0" y="11" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="1" y="11" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="2" y="11" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="3" y="11" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="4" y="11" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="5" y="11" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="6" y="11" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="0" y="12" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="1" y="12" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="2" y="12" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="4" y="12" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="5" y="12" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="6" y="12" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="7" y="12" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="0" y="13" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="1" y="13" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="4" y="13" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="5" y="13" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="6" y="13" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="7" y="13" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="0" y="14" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="5" y="14" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="6" y="14" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="7" y="14" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="8" y="14" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="5" y="15" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="6" y="15" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="7" y="15" width="1.02" height="1.02" style="fill:var(--brand-paper)"/><rect x="8" y="15" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="6" y="16" width="1.02" height="1.02" style="fill:var(--brand-ink)"/><rect x="7" y="16" width="1.02" height="1.02" style="fill:var(--brand-ink)"/></svg></div>
+</div>
+<script>
+// One master timeline. Sequences overlap; the pixel cursor runs through the whole video and carries
+// the viewer across every handover and every cut (the cuts are moments, labelled cut / cut2 / cut3).
+const M = window.__motion, D = M.duration, E = M.ease;
+const tl = gsap.timeline({ paused: true });
+const LENGTH = 15;
+const at = (sel, x, y, t, dur, ease) => tl.to(sel, { x, y, duration: dur, ease }, t);
+
+// A match cut: the outgoing group leaves on the first half of a whip, the swap happens at its peak
+// speed, and the incoming group arrives on the second half, same direction and distance.
+function cut(label, t, out, inn, dir, ground, tone) {
+  const d = dir === 'up' ? { y: -600 } : { x: -540 };
+  const from = dir === 'up' ? { y: 600 } : { x: 540 };
+  tl.to(out, { ...d, duration: D.cut, ease: E.cutOut }, t - D.cut)
+    .addLabel(label, t)
+    .set(out, { autoAlpha: 0 }, t)
+    .set(ground.off, { autoAlpha: 0 }, t).set(ground.on, { autoAlpha: 1 }, t)
+    .set('.top', { attr: { 'data-tone': tone } }, t)
+    .set(inn, { autoAlpha: 1 }, t)
+    .from(inn, { ...from, duration: D.cut, ease: E.cutIn, immediateRender: false }, t);
+}
+
+// Sequence 1 (0-2.7): the hook. Words land, the photo arrives and keeps pushing toward the monitor,
+// the cursor glides in and settles on the screen.
+function hook() {
+  const words = splitWords('#h1');
+  tl.from(words, { x: M.distance * 2, opacity: 0, duration: D.enter, ease: E.enter, stagger: D.stagger }, 0.05)
+    .from('#chimp', { y: 520, scale: 1.3, duration: D.move, ease: E.enter }, 0.1)
+    .fromTo('#chimp img', { scale: 1 }, { scale: 1.12, transformOrigin: '76% 42%', duration: 2.0, ease: E.ambient }, 0.1)
+    .from('#sc1 .sp', { drawSVG: '0%', duration: D.enter, ease: E.move }, 0.45)
+    .fromTo('#cursor', { x: 1000, y: 1700, opacity: 0 }, { x: 780, y: 1060, opacity: 1, duration: 1.2, ease: E.move }, 0.4);
+  at('#cursor', 792, 1074, 1.6, 0.5, E.ambient);
+  tl.addLabel('hold', 0.9);
+}
+// Handover 1→2 (2.1-3.1): the camera dives into the monitor with the cursor riding along; the three
+// app screens burst out of it. One continuous move, no cut.
+function intoTheScreen() {
+  tl.to('#h1', { x: -1080, duration: D.cut, ease: E.cutOut }, 2.1)
+    .to('#chimp', { scale: 6, rotation: 0, transformOrigin: '76% 42%', duration: 0.6, ease: E.cutOut }, 2.1)
+    .to('#chimp', { opacity: 0, duration: 0.15, ease: E.fade }, 2.6)
+    .to('#cursor', { x: 520, y: 1080, scale: 1.6, duration: 0.5, ease: E.cutOut }, 2.1)
+    .to('#cursor', { scale: 1, duration: D.enter, ease: E.enter }, 2.6);
+}
+// Sequence 2 (2.55-5.5): three steps. Screens burst from the centre and keep panning inside their
+// cards; the cursor walks connect → submit → download while the headline holds.
+function steps() {
+  tl.set(['.step', '#h2'], { autoAlpha: 1 }, 2.55)
+    .from('.step', { scale: 0.2, x: i => [234, 30, -190][i], y: i => [140, -30, -200][i], rotation: 12, duration: D.enter, ease: E.emphasis, stagger: 0.15 }, 2.55)
+    .from('.step .tag', { scale: 0, transformOrigin: '0% 0%', duration: 0.35, ease: E.emphasis, stagger: 0.18 }, 2.9)
+    .from('#h2', { x: 1080, duration: D.cut, ease: E.cutIn, immediateRender: false }, 2.6)
+    .from('#sc2 .sp', { drawSVG: '0%', duration: D.enter, ease: E.move }, 3.05)
+    .fromTo('.step img', { scale: 1.14, yPercent: 5 }, { scale: 1, yPercent: -2, duration: 2.9, ease: E.ambient, stagger: 0.12 }, 2.6);
+  at('#cursor', 300, 1000, 3.1, 0.45, E.move);
+  at('#cursor', 520, 1170, 3.6, 0.65, E.move);
+  at('#cursor', 760, 1340, 4.3, 0.65, E.move);
+  tl.addLabel('hold2', 3.6);
+}
+// Sequence 3 (5.5-8.75): the proof. The cursor rides the whip up, lands on Bananafarm's bar (done in
+// a blink), then rides the tip of the render-farm bar as it grows all the way to 17×.
+function proof() {
+  tl.to('#cursor', { y: '-=600', duration: D.cut, ease: E.cutOut }, 5.0)
+    .set('#cursor', { x: 150, y: 1890 }, 5.5)
+    .to('#cursor', { y: 1290, duration: D.cut, ease: E.cutIn }, 5.5);
+  const num = document.querySelector('.num'), count = { v: 1 };
+  tl.to(count, { v: 17, duration: 1.2, ease: E.move, onUpdate: () => { num.textContent = Math.round(count.v); } }, 5.6)
+    .from('#b1', { scaleX: 0, duration: 0.35, ease: E.enter }, 5.8)
+    .from('#b2', { scaleX: 0, duration: 1.65, ease: E.move }, 6.3)
+    .from('#sc3 .sp', { drawSVG: '0%', duration: D.enter, ease: E.move }, 5.95)
+    .from('#foot', { opacity: 0, duration: D.enter, ease: E.fade }, 6.9)
+    .fromTo('.big', { scale: 0.96 }, { scale: 1.04, duration: 3.25, ease: E.ambient }, 5.5);
+  at('#cursor', 110, 1386, 6.0, 0.3, E.move);
+  at('#cursor', 940, 1386, 6.3, 1.65, E.move);
+  at('#cursor', 900, 1340, 7.95, 0.3, E.ambient);
+  tl.addLabel('hold3', 6.05);
+}
+// Sequence 4 (8.75-12.25): open source. The render pulls back for the whole stretch, the car card
+// pops and floats, the cursor arrives with the whip and points at what Bananafarm rendered.
+function openSource() {
+  tl.to('#cursor', { x: '-=540', duration: D.cut, ease: E.cutOut }, 8.25)
+    .set('#cursor', { x: 840, y: 700 }, 8.75)
+    .to('#cursor', { x: 300, duration: D.cut, ease: E.cutIn }, 8.75)
+    .fromTo('#ship img', { scale: 1.08 }, { scale: 1, duration: 3.5, ease: E.ambient }, 8.75)
+    .from('#car', { scale: 0.3, rotation: 14, opacity: 0, duration: D.enter, ease: E.emphasis }, 8.95)
+    .to('#car', { rotation: 1, y: -16, duration: 2.6, ease: E.fade }, 9.55)
+    .from('#t-car', { x: -M.distance, opacity: 0, duration: D.enter, ease: E.enter }, 9.15)
+    .from('#h4', { y: M.distance, opacity: 0, duration: D.enter, ease: E.enter }, 9.0)
+    .from('#sc4 .sp', { drawSVG: '0%', duration: D.enter, ease: E.move }, 9.25)
+    .from('#key', { y: M.distance / 2, opacity: 0, duration: D.enter, ease: E.enter }, 9.15);
+  at('#cursor', 540, 620, 9.6, 0.8, E.move);
+  at('#cursor', 560, 640, 10.4, 1.35, E.ambient);
+  tl.addLabel('hold4', 9.75);
+}
+// Sequence 5 (12.25-15): the close. The cursor rides the last whip in and clicks the link; the mark
+// keeps turning to the last frame.
+function close() {
+  tl.to('#cursor', { y: '-=600', duration: D.cut, ease: E.cutOut }, 11.75)
+    .set('#cursor', { x: 330, y: 1680 }, 12.25)
+    .to('#cursor', { y: 1080, duration: D.cut, ease: E.cutIn }, 12.25)
+    .from('.logo', { scale: 0, rotation: -90, duration: D.enter, ease: E.emphasis }, 12.4)
+    .to('.logo svg', { rotation: 75, transformOrigin: '50% 50%', duration: 2.5, ease: E.ambient }, 12.5)
+    .from('#sc5 .sp', { drawSVG: '0%', duration: D.enter, ease: E.move }, 12.6)
+    .from('.pill', { scale: 0.4, opacity: 0, transformOrigin: '0% 50%', duration: D.enter, ease: E.emphasis }, 12.55)
+    .from('#follow', { y: M.distance / 2, opacity: 0, duration: D.enter, ease: E.enter }, 12.65)
+    .to('#cursor', { scale: 0.8, duration: 0.12, ease: E.exit }, 13.35)
+    .to('#cursor', { scale: 1, duration: 0.3, ease: E.enter }, 13.47);
+  at('#cursor', 350, 1100, 13.8, 1.2, E.ambient);
+  tl.addLabel('hold5', 13.25);
+}
+
+hook();
+intoTheScreen();
+steps();
+cut('cut', 5.5, '#g2', '#g3', 'up', { off: '#gr-paper', on: '#gr-graphite' }, 'dark');
+proof();
+cut('cut2', 8.75, '#g3', '#g4', 'left', { off: '#gr-graphite', on: '#gr-ink' }, 'photo');
+openSource();
+cut('cut3', 12.25, '#g4', '#g5', 'up', { off: [], on: [] }, 'dark');
+close();
+tl.addLabel('end', LENGTH);
+window.__scene = { tl };
+</script>
+</body></html>

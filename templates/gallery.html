@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carousel Studio</title>
+<style>
+:root{
+  --bg:#0d0d0f; --surface:#16161a; --surface-2:#1e1e23; --line:#2a2a31;
+  --text:#ececf1; --muted:#9b9ba6; --accent:#ff7a45; --accent-ink:#1a0d06;
+  --radius:10px; --font:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.5}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:32px 24px 80px}
+header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+header h1{font-size:20px;margin:0;letter-spacing:.01em}
+header h1 span{color:var(--accent)}
+header .count{color:var(--muted)}
+header input{margin-left:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px;color:var(--text);min-width:240px;font:inherit}
+header input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:20px}
+.card-top{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.card h2{margin:0 0 4px;font-size:18px}
+.meta{color:var(--muted);font-size:13px;display:flex;gap:8px;flex-wrap:wrap}
+.meta b{color:var(--text);font-weight:500}
+.btn{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:8px 14px;font-size:13px;white-space:nowrap;text-decoration:none;display:inline-block}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn:disabled{opacity:.5;cursor:progress}
+.thumbs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:18px 0 14px}
+.thumb{padding:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface-2);aspect-ratio:4/5}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .2s}
+.thumb:hover img{transform:scale(1.03)}
+.thumb:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip{background:transparent;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:13px}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.flag{font-size:12px;color:var(--muted);margin-left:auto}
+.flag.warn{color:var(--accent)}
+.empty{color:var(--muted);text-align:center;padding:80px 20px;border:1px dashed var(--line);border-radius:var(--radius)}
+.empty code{background:var(--surface-2);padding:2px 6px;border-radius:4px;color:var(--text)}
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;padding:24px;z-index:10}
+.overlay.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);max-width:640px;width:100%;max-height:85vh;display:flex;flex-direction:column}
+.modal-head{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.modal-head h3{margin:0;font-size:16px;flex:1}
+.modal-body{padding:20px;overflow:auto;white-space:pre-wrap}
+.modal-body ul{margin:0;padding-left:20px;white-space:normal}
+.modal-body dt{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin-top:12px}
+.modal-body dt:first-child{margin-top:0}
+.modal-body dd{margin:2px 0 0}
+.x{background:none;border:0;font-size:22px;line-height:1;color:var(--muted);padding:4px 8px}
+.x:hover{color:var(--text)}
+/* lightbox */
+.lightbox{position:fixed;inset:0;background:rgba(5,5,7,.95);display:none;z-index:20}
+.lightbox.open{display:grid;grid-template-columns:1fr 360px}
+.lb-stage{position:relative;display:flex;align-items:center;justify-content:center;padding:32px 64px;min-height:0}
+.lb-stage img{max-width:100%;max-height:calc(100vh - 64px);border-radius:4px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.nav{position:absolute;top:50%;transform:translateY(-50%);background:var(--surface);border:1px solid var(--line);border-radius:50%;width:44px;height:44px;font-size:20px}
+.nav:hover{border-color:var(--accent)}
+.nav.prev{left:12px}.nav.next{right:12px}
+.lb-panel{background:var(--surface);border-left:1px solid var(--line);padding:24px;overflow:auto;display:flex;flex-direction:column;gap:16px}
+.lb-panel .row{display:flex;align-items:center;gap:8px}
+.lb-panel .pos{color:var(--muted);font-size:13px;flex:1}
+.lb-panel h3{margin:0;font-size:20px;line-height:1.3}
+.field label{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.field div{white-space:pre-wrap;font-size:14px}
+.field.prompt div{background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:10px;font-size:13px;color:#d6d6dd}
+.tabs{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
+.tabs[hidden]{display:none}
+.tab{background:none;border:0;border-radius:999px;padding:6px 14px;font-size:13px;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--surface-2);color:var(--text)}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.thumbs.motion{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+.thumbs.motion .thumb{aspect-ratio:auto}
+.lb-stage video{max-width:100%;max-height:calc(100vh - 64px);border-radius:4px;box-shadow:0 10px 40px rgba(0,0,0,.5);background:#000}
+.lb-stage [hidden]{display:none}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--accent-ink);padding:8px 16px;border-radius:8px;font-weight:600;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:30}
+.toast.show{opacity:1}
+@media (max-width:820px){
+  .wrap{padding:20px 16px 60px}
+  header input{margin-left:0;width:100%;min-width:0}
+  .thumbs{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+  .lightbox.open{grid-template-columns:1fr;grid-template-rows:auto 1fr;overflow:auto}
+  .lb-stage{padding:16px 52px}
+  .lb-stage img,.lb-stage video{max-height:60vh}
+  .lb-panel{border-left:0;border-top:1px solid var(--line)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Carousel <span>Studio</span></h1>
+    <div class="tabs" id="tabs" role="tablist" hidden>
+      <button class="tab" role="tab" data-tab="carousels" aria-selected="true">Carousels</button>
+      <button class="tab" role="tab" data-tab="motion" aria-selected="false">Motion</button>
+    </div>
+    <span class="count" id="count"></span>
+    <input id="q" type="search" placeholder="Filter by title, topic, brand…" aria-label="Filter">
+  </header>
+  <main id="list"></main>
+</div>
+
+<div class="overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <div class="modal-head"><h3 id="modal-title"></h3><button class="btn" id="modal-copy">Copy</button><button class="x" id="modal-close" aria-label="Close">×</button></div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<div class="lightbox" id="lb" role="dialog" aria-modal="true" aria-label="Slide viewer">
+  <div class="lb-stage">
+    <button class="nav prev" id="lb-prev" aria-label="Previous slide">←</button>
+    <img id="lb-img" alt="">
+    <video id="lb-video" controls muted loop playsinline hidden></video>
+    <button class="nav next" id="lb-next" aria-label="Next slide">→</button>
+  </div>
+  <aside class="lb-panel" id="lb-panel"></aside>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+let data = [], motion = [], tab = location.hash === '#motion' ? 'motion' : 'carousels', lbState = null, modalText = '', lastFocus = null;
+
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1400); }
+async function copy(text) {
+  try { await navigator.clipboard.writeText(text); toast('Copied'); }
+  catch { const ta = document.createElement('textarea'); ta.value = text; document.body.append(ta); ta.select(); document.execCommand('copy'); ta.remove(); toast('Copied'); }
+}
+
+function setTab(t) {
+  tab = t;
+  document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === t)));
+  history.replaceState(null, '', t === 'motion' ? '#motion' : location.pathname);
+  render();
+}
+
+function render() {
+  const q = $('#q').value.trim().toLowerCase();
+  $('#tabs').hidden = !motion.length;
+  if (tab === 'motion') return renderMotion(q);
+  const items = data.filter(c => !q || [c.title, c.topic, c.brand, c.framework].join(' ').toLowerCase().includes(q));
+  $('#count').textContent = `${data.length} carousel${data.length === 1 ? '' : 's'}`;
+  if (!data.length) { $('#list').innerHTML = '<div class="empty">No carousels yet. Ask Claude for one, then run <code>gallery.mjs</code> again.</div>'; return; }
+  if (!items.length) { $('#list').innerHTML = '<div class="empty">Nothing matches that filter.</div>'; return; }
+  $('#list').innerHTML = items.map(c => {
+    const i = data.indexOf(c);
+    const img = c.images && c.images.enabled ? `images: ${esc(c.images.provider || '')}${c.images.model ? ' / ' + esc(c.images.model) : ''}` : 'type-led';
+    const fallbacks = c.slides.filter(s => s.fallback).length;
+    const errs = c.report && c.report.errors;
+    const flag = errs ? `<span class="flag warn">${errs} render issue${errs > 1 ? 's' : ''}</span>`
+      : fallbacks ? `<span class="flag warn">${fallbacks} image fallback${fallbacks > 1 ? 's' : ''}</span>` : `<span class="flag">${img}</span>`;
+    return `<article class="card">
+      <div class="card-top">
+        <div><h2>${esc(c.title)}</h2>
+          <div class="meta">${c.date ? `<span>${esc(c.date)}</span>·` : ''}${c.brand ? `<b>${esc(c.brand)}</b>·` : ''}${c.framework ? `<span>${esc(c.framework)}</span>·` : ''}<span>${esc(c.topic)}</span></div></div>
+        <button class="btn primary" data-zip="${i}">Download all</button>
+      </div>
+      <div class="thumbs">${c.slides.map((s, k) => `<button class="thumb" data-c="${i}" data-s="${k}" aria-label="Open slide ${s.n}: ${esc(s.headline)}"><img loading="lazy" src="${esc(s.png)}" alt=""></button>`).join('')}</div>
+      <div class="chips">
+        ${c.context ? `<button class="chip" data-m="context" data-c="${i}">Context</button>` : ''}
+        ${c.positioning ? `<button class="chip" data-m="positioning" data-c="${i}">Positioning</button>` : ''}
+        ${c.ideas && c.ideas.length ? `<button class="chip" data-m="ideas" data-c="${i}">Ideas</button>` : ''}
+        ${c.caption ? `<button class="chip" data-m="caption" data-c="${i}">Caption</button>` : ''}
+        ${flag}
+      </div>
+    </article>`;
+  }).join('');
+}
+
+// slide-motion videos (motion/index.json)
+function renderMotion(q) {
+  const items = motion.filter(v => !q || [v.title, v.topic, v.brand, v.ratio].join(' ').toLowerCase().includes(q));
+  $('#count').textContent = `${motion.length} video${motion.length === 1 ? '' : 's'}`;
+  if (!items.length) { $('#list').innerHTML = '<div class="empty">Nothing matches that filter.</div>'; return; }
+  $('#list').innerHTML = items.map(v => {
+    const i = motion.indexOf(v);
+    const errs = v.report && v.report.errors;
+    const flag = errs ? `<span class="flag warn">${errs} render issue${errs > 1 ? 's' : ''}</span>` : `<span class="flag">${v.width}×${v.height} · ${v.fps}fps</span>`;
+    return `<article class="card">
+      <div class="card-top">
+        <div><h2>${esc(v.title)}</h2>
+          <div class="meta">${v.date ? `<span>${esc(v.date)}</span>·` : ''}${v.brand ? `<b>${esc(v.brand)}</b>·` : ''}${v.style ? `<span>${esc(v.style)}</span>·` : ''}<span>${esc(v.ratio)}</span>·<span>${v.duration}s</span>${v.source ? `·<span>from ${esc(v.source)}</span>` : ''}</div></div>
+        <a class="btn primary" href="${esc(v.video)}" download="${esc(v.id)}.mp4">Download MP4</a>
+      </div>
+      <div class="thumbs motion">${v.scenes.map((s, k) => `<button class="thumb" style="aspect-ratio:${v.width}/${v.height}" data-v="${i}" data-s="${k}" aria-label="Play from scene ${s.n}: ${esc(s.headline)}"><img loading="lazy" src="${esc(s.png)}" alt=""></button>`).join('')}</div>
+      <div class="chips">
+        ${v.caption ? `<button class="chip" data-m="caption" data-v="${i}">Caption</button>` : ''}
+        ${flag}
+      </div>
+    </article>`;
+  }).join('');
+}
+
+// ---- modals ----
+function openModal(kind, c) {
+  let title = '', html = '', text = '';
+  if (kind === 'context') {
+    const x = c.context || {};
+    title = 'Context';
+    const rows = [['Audience', x.audience], ['Promise', x.promise], ['Arc', x.arc]].filter(r => r[1]);
+    html = `<dl>${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`;
+    text = rows.map(([k, v]) => `${k}: ${v}`).join('\n');
+  } else if (kind === 'positioning') { title = 'Positioning'; text = c.positioning; html = esc(text); }
+  else if (kind === 'ideas') { title = 'Follow-up ideas'; text = c.ideas.map(i => `- ${i}`).join('\n'); html = `<ul>${c.ideas.map(i => `<li>${esc(i)}</li>`).join('')}</ul>`; }
+  else { title = 'Caption'; text = c.caption; html = esc(text); }
+  modalText = text;
+  $('#modal-title').textContent = title;
+  $('#modal-body').innerHTML = html;
+  lastFocus = document.activeElement;
+  $('#modal').classList.add('open');
+  $('#modal-close').focus();
+}
+function closeModal() { $('#modal').classList.remove('open'); lastFocus && lastFocus.focus(); }
+
+// ---- lightbox ----
+function field(label, value, cls = '') { return value ? `<div class="field ${cls}"><label>${label}</label><div>${esc(value)}</div></div>` : ''; }
+function showSlide() {
+  if (lbState.video) return showScene();
+  const { c, k } = lbState, s = c.slides[k];
+  $('#lb-video').hidden = true;
+  $('#lb-img').hidden = false;
+  $('#lb-img').src = s.png;
+  $('#lb-img').alt = `Slide ${s.n}: ${s.headline}`;
+  $('#lb-panel').innerHTML = `
+    <div class="row"><span class="pos">${esc(c.title)} · slide ${k + 1} of ${c.slides.length}</span><button class="x" id="lb-close" aria-label="Close">×</button></div>
+    <h3>${esc(s.headline || 'Slide ' + s.n)}</h3>
+    ${field('Body', s.body)}
+    ${field('Role', [s.role, s.composition].filter(Boolean).join(' · '))}
+    ${field('Layout', s.layout)}
+    ${field('Transition', s.transition)}
+    ${field('Image prompt' + (s.imageModel ? ` (${s.imageModel})` : ''), s.imagePrompt, 'prompt')}
+    ${field('Image fallback', s.fallback)}
+    ${field('Design notes', s.notes)}
+    <div class="row">${s.imagePrompt ? '<button class="btn" id="lb-copy">Copy prompt</button>' : ''}<a class="btn primary" href="${esc(s.png)}" download="${esc(s.file)}">Download PNG</a></div>`;
+  $('#lb-close').onclick = closeLb;
+  if (s.imagePrompt) $('#lb-copy').onclick = () => copy(s.imagePrompt);
+}
+// A video in the lightbox: plays from the chosen scene; arrows jump between scenes.
+function showScene() {
+  const { c: v, k } = lbState, s = v.scenes[k], vid = $('#lb-video');
+  $('#lb-img').hidden = true;
+  vid.hidden = false;
+  if (vid.dataset.src !== v.video) { vid.src = v.video; vid.poster = v.poster || ''; vid.dataset.src = v.video; }
+  const play = () => { vid.currentTime = s.start; vid.play().catch(() => {}); };
+  if (vid.readyState >= 1) play(); else vid.addEventListener('loadedmetadata', play, { once: true });
+  $('#lb-panel').innerHTML = `
+    <div class="row"><span class="pos">${esc(v.title)} · scene ${k + 1} of ${v.scenes.length}</span><button class="x" id="lb-close" aria-label="Close">×</button></div>
+    <h3>${esc(s.headline || 'Scene ' + s.n)}</h3>
+    ${field('Timing', `${s.start.toFixed(1)}s → ${(s.start + s.duration).toFixed(1)}s${s.hold ? ` · holds ${s.hold}s` : ''}`)}
+    ${field('Body', s.body)}
+    ${field('Motion', s.beat)}
+    ${field('Video', `${v.ratio} · ${v.width}×${v.height} · ${v.fps}fps · ${v.duration}s`)}
+    <div class="row"><a class="btn" href="${esc(s.png)}" download="${esc(v.id)}-${String(s.n).padStart(2, '0')}.png">Download frame</a><a class="btn primary" href="${esc(v.video)}" download="${esc(v.id)}.mp4">Download MP4</a></div>`;
+  $('#lb-close').onclick = closeLb;
+}
+function openLb(c, k, video = false) { lastFocus = document.activeElement; lbState = { c, k, video }; $('#lb').classList.add('open'); document.body.style.overflow = 'hidden'; showSlide(); $('#lb-close').focus(); }
+function closeLb() { $('#lb-video').pause(); $('#lb').classList.remove('open'); document.body.style.overflow = ''; lbState = null; lastFocus && lastFocus.focus(); }
+function step(d) { if (!lbState) return; const n = (lbState.video ? lbState.c.scenes : lbState.c.slides).length; lbState.k = (lbState.k + d + n) % n; showSlide(); }
+
+// ---- zip ----
+function loadJSZip() {
+  if (window.JSZip) return Promise.resolve();
+  return new Promise((ok, bad) => { const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'; s.onload = ok; s.onerror = () => bad(new Error('Could not load JSZip (offline?)')); document.head.append(s); });
+}
+async function downloadAll(c, btn) {
+  btn.disabled = true; btn.textContent = 'Zipping…';
+  try {
+    await loadJSZip();
+    const zip = new JSZip();
+    for (const s of c.slides) zip.file(s.file.replace(c.id + '-', ''), await (await fetch(s.png)).blob());
+    if (c.caption) zip.file('caption.txt', c.caption + '\n');
+    const blob = await zip.generateAsync({ type: 'blob' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${c.id}.zip`; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  } catch (e) { toast(e.message); }
+  finally { btn.disabled = false; btn.textContent = 'Download all'; }
+}
+
+// ---- events ----
+$('#list').addEventListener('click', e => {
+  const t = e.target.closest('button'); if (!t) return;
+  if (t.dataset.v !== undefined) {
+    const v = motion[t.dataset.v];
+    if (t.dataset.m) openModal(t.dataset.m, v); else openLb(v, Number(t.dataset.s), true);
+    return;
+  }
+  const c = data[t.dataset.c ?? t.dataset.zip];
+  if (t.dataset.zip !== undefined) downloadAll(c, t);
+  else if (t.dataset.m) openModal(t.dataset.m, c);
+  else if (t.dataset.s !== undefined) openLb(c, Number(t.dataset.s));
+});
+$('#q').addEventListener('input', render);
+$('#tabs').addEventListener('click', e => { const b = e.target.closest('.tab'); if (b) setTab(b.dataset.tab); });
+$('#modal-close').onclick = closeModal;
+$('#modal-copy').onclick = () => copy(modalText);
+$('#modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
+$('#lb-prev').onclick = () => step(-1);
+$('#lb-next').onclick = () => step(1);
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { if (lbState) closeLb(); else closeModal(); }
+  if (lbState && e.key === 'ArrowLeft') step(-1);
+  if (lbState && e.key === 'ArrowRight') step(1);
+});
+
+const load = url => fetch(url, { cache: 'no-store' }).then(r => (r.ok ? r.json() : null)).catch(() => null);
+Promise.all([load('index.json'), load('motion/index.json')])
+  .then(([c, m]) => {
+    if (!c && !m) throw new Error('no index');
+    data = (c && c.carousels) || [];
+    motion = (m && m.videos) || [];
+    setTab(motion.length && (tab === 'motion' || !data.length) ? 'motion' : 'carousels');
+  })
+  .catch(() => {
+    $('#list').innerHTML = '<div class="empty">Couldn\'t load <code>index.json</code>. Browsers block it when this page is opened as a file.<br><br>Run <code>node &lt;skill&gt;/scripts/gallery.mjs --serve</code> and open the address it prints.</div>';
+  });
+</script>
+</body>
+</html>

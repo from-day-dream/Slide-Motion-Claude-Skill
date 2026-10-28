@@ -1,0 +1,7 @@
+{
+  "enabled": false,
+  "provider": "fal",
+  "model": "gpt-image-2.5",
+  "styleAnchor": "",
+  "lora": { "url": null, "scale": 1.0 }
+}

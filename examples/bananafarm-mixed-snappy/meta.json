@@ -1,0 +1,457 @@
+{
+  "brand": "day-dream-2",
+  "ratio": "9:16",
+  "duration": 15,
+  "createdAt": "2026-10-27T16:42:16.316Z",
+  "topic": "Bananafarm: cloud rendering for Blender",
+  "title": "Go Bananas in Blender",
+  "framework": "Step-by-step (promise → how → proof → why → follow)",
+  "source": {
+    "type": "carousel",
+    "carousel": "output/2026-10-27-bananafarm-cloud-rendering-v3",
+    "slides": 5
+  },
+  "positioning": "day-dream ships its own tools: Bananafarm shows the studio as builders, with open, transparent, artist-first tech.",
+  "context": {
+    "audience": "Blender artists, freelancers and small studios paying for render farms",
+    "promise": "Render on cloud GPUs without leaving Blender or doing any manual setup, for up to 17× less",
+    "arc": "Promise (Go Bananas in Blender) → how (connect, submit, download) → proof (real benchmark numbers) → why (open source) → follow"
+  },
+  "caption": "Go Bananas in Blender.\n\nBananafarm is our open-source app for cloud rendering. It makes it easy to connect to cloud GPU providers and render without leaving Blender or doing any manual setup.\n\nHow it works: connect Vast.ai or RunPod, hit Submit in the Bananafarm panel, and finished frames download straight to your machine. No command line, no browser uploads.\n\nYou pay the GPU provider's rate directly and skip the convenience fees traditional render farms charge. We benchmarked one scene (Blender's 3.5 splash, 120 frames at 4K, 1024 samples in Cycles, averaged over five runs):\nBananafarm Standard: $0.096\nBananafarm Secure: $0.216\nTraditional render farms: $1.66\n\nDownload it at bananafarm.app, or read the code on GitHub.\n\nRender in the cloud. Never leave Blender.\n\nFollow @from.daydream for more",
+  "hashtags": [
+    "#Blender",
+    "#Blender3D",
+    "#b3d",
+    "#CloudRendering",
+    "#RenderFarm",
+    "#Cycles",
+    "#3DArtist",
+    "#OpenSource",
+    "#GPURendering",
+    "#CGI",
+    "#3DRender",
+    "#Bananafarm",
+    "#MotionDesign"
+  ],
+  "content": [
+    {
+      "slide": 1,
+      "role": "hook",
+      "idea": "Cloud rendering from inside Blender, with no setup",
+      "headline": "Go Bananas in Blender.",
+      "emphasis": "Bananas",
+      "key": "Connect to cloud GPUs and render without leaving Blender or doing any manual setup.",
+      "support": "",
+      "items": [],
+      "image": "images/lander.jpg",
+      "words": 18
+    },
+    {
+      "slide": 2,
+      "role": "body",
+      "idea": "Three steps, all from Blender",
+      "headline": "Three steps. Zero setup.",
+      "emphasis": "Zero",
+      "key": "",
+      "support": "",
+      "items": [
+        "Connect your cloud GPU",
+        "Submit from Blender",
+        "Download your frames"
+      ],
+      "image": "images/blender-render-panel.jpg",
+      "words": 14
+    },
+    {
+      "slide": 3,
+      "role": "body",
+      "idea": "Benchmark: same scene, three costs",
+      "headline": "Cheaper than a traditional render farm.",
+      "emphasis": "cheaper",
+      "key": "",
+      "support": "",
+      "items": [
+        "Standard",
+        "Secure",
+        "Render farm"
+      ],
+      "image": null,
+      "words": 10
+    },
+    {
+      "slide": 4,
+      "role": "body",
+      "idea": "Bananafarm is open source",
+      "headline": "Rendering should be open.",
+      "emphasis": "open.",
+      "key": "Bananafarm is open source. Built for artists, built in the open.",
+      "support": "",
+      "items": [],
+      "image": "images/open-source.png + images/example.jpg",
+      "words": 15
+    },
+    {
+      "slide": 5,
+      "role": "cta",
+      "idea": "Summary + follow + download",
+      "headline": "Render in the cloud. Never leave Blender.",
+      "emphasis": "Blender.",
+      "key": "",
+      "support": "Follow @from.daydream for more",
+      "items": [],
+      "image": null,
+      "words": 11
+    }
+  ],
+  "plan": {
+    "throughline": "the brand's pixel cursor guides the viewer from start to end: it lands on the chimp's monitor, dives into the screen, walks the three steps, rides the render-farm bar to 17×, points at the render, and clicks bananafarm.app",
+    "ideas": [
+      {
+        "id": 1,
+        "idea": "Cloud rendering, straight from Blender",
+        "copy": [
+          "Go Bananas in Blender."
+        ],
+        "facts": [],
+        "visual": "img-05 chimp at a computer"
+      },
+      {
+        "id": 2,
+        "idea": "Three steps, no setup",
+        "copy": [
+          "Three steps. Zero setup."
+        ],
+        "facts": [
+          "connect, submit, download"
+        ],
+        "visual": "img-07, img-01, img-08 app screens"
+      },
+      {
+        "id": 3,
+        "idea": "Up to 17× cheaper",
+        "copy": [
+          "cheaper than a traditional render farm."
+        ],
+        "facts": [
+          "$0.096 vs $1.66 per 120 frames",
+          "benchmark method"
+        ],
+        "visual": "17× counting, bars racing"
+      },
+      {
+        "id": 4,
+        "idea": "Open source, and look what it renders",
+        "copy": [
+          "Rendering should be open.",
+          "It's open source."
+        ],
+        "facts": [
+          "open source"
+        ],
+        "visual": "img-09 full-bleed, img-02 card"
+      },
+      {
+        "id": 5,
+        "idea": "Get it, follow",
+        "copy": [
+          "Never leave Blender.",
+          "bananafarm.app",
+          "Follow @from.daydream"
+        ],
+        "facts": [],
+        "visual": "logo mark, pill"
+      }
+    ],
+    "sequences": [
+      {
+        "id": "hook",
+        "from": 0,
+        "to": 2.7,
+        "carries": [
+          1
+        ],
+        "moving": "words land; photo arrives and keeps pushing to the monitor; cursor glides onto the screen",
+        "handover": "camera dives into the monitor with the cursor riding along (no cut)"
+      },
+      {
+        "id": "steps",
+        "from": 2.55,
+        "to": 5.5,
+        "carries": [
+          2
+        ],
+        "moving": "screens burst from the monitor and pan inside their cards; cursor walks 01→02→03",
+        "handover": "match cut, upward whip; the cursor carries across"
+      },
+      {
+        "id": "proof",
+        "from": 5.5,
+        "to": 8.75,
+        "carries": [
+          3
+        ],
+        "moving": "counter to 17; Bananafarm bar done in a blink; cursor rides the tip of the render-farm bar as it grows",
+        "handover": "match cut, leftward whip; cursor carries across"
+      },
+      {
+        "id": "open",
+        "from": 8.75,
+        "to": 12.25,
+        "carries": [
+          4
+        ],
+        "moving": "render pulls back the whole stretch; car card pops and floats; cursor points at the render",
+        "handover": "match cut, upward whip; cursor carries across"
+      },
+      {
+        "id": "close",
+        "from": 12.25,
+        "to": 15,
+        "carries": [
+          5
+        ],
+        "moving": "mark pops and keeps turning; cursor clicks bananafarm.app",
+        "handover": "holds to the end, still moving"
+      }
+    ],
+    "reads": [
+      {
+        "label": "hold",
+        "at": 0.9,
+        "copy": "Go Bananas in Blender."
+      },
+      {
+        "label": "hold2",
+        "at": 3.6,
+        "copy": "Three steps. Zero setup."
+      },
+      {
+        "label": "hold3",
+        "at": 6.05,
+        "copy": "cheaper than a traditional render farm."
+      },
+      {
+        "label": "hold4",
+        "at": 9.75,
+        "copy": "Rendering should be open. It's open source."
+      },
+      {
+        "label": "hold5",
+        "at": 13.25,
+        "copy": "Never leave Blender. bananafarm.app"
+      }
+    ],
+    "cuts": [
+      {
+        "label": "cut",
+        "at": 5.5,
+        "why": "paper → graphite for the proof",
+        "carry": "upward whip + the cursor"
+      },
+      {
+        "label": "cut2",
+        "at": 8.75,
+        "why": "into the full-bleed render",
+        "carry": "leftward whip + the cursor"
+      },
+      {
+        "label": "cut3",
+        "at": 12.25,
+        "why": "onto ink for the close",
+        "carry": "upward whip + the cursor"
+      }
+    ],
+    "fixed": [
+      {
+        "what": "mark + BANANAFARM left, @from.daydream right, 96/240px",
+        "behaviour": "never moves; ink on paper, chalk on graphite and ink, paper on the photo"
+      }
+    ],
+    "seconds": 15
+  },
+  "sources": [
+    {
+      "kind": "carousel",
+      "ref": "bananafarm-cloud-rendering-v3",
+      "files": [
+        "carousel-aesthetic/",
+        "caption.txt"
+      ],
+      "images": [],
+      "words": 0,
+      "note": "content in meta.json → content; aesthetic in carousel-aesthetic/"
+    },
+    {
+      "kind": "url",
+      "ref": "https://bananafarm.app",
+      "files": [
+        "source/url-1-bananafarm-app.md",
+        "source/url-1-bananafarm-app.png"
+      ],
+      "images": [
+        "images/url-1-bananafarm-app-1.jpg",
+        "images/url-1-bananafarm-app-2.jpg",
+        "images/url-1-bananafarm-app-3.jpg",
+        "images/url-1-bananafarm-app-4.jpg",
+        "images/url-1-bananafarm-app-5.jpg",
+        "images/url-1-bananafarm-app-6.jpg",
+        "images/url-1-bananafarm-app-7.jpg",
+        "images/url-1-bananafarm-app-8.jpg"
+      ],
+      "words": 480,
+      "note": "Bananafarm — Cloud rendering for Blender (en); page screenshot saved. Marked as the user's own site."
+    }
+  ],
+  "analysis": {
+    "sources": [
+      {
+        "ref": "output/2026-10-27-bananafarm-cloud-rendering-v3",
+        "what": "the 5-slide Bananafarm carousel (day-dream-2 v3)",
+        "use": "copy, structure, caption, aesthetic"
+      },
+      {
+        "ref": "https://bananafarm.app (own site)",
+        "what": "product site: hero, cost benchmark with method, 3-step how-it-works, open-source section, app screenshots",
+        "use": "facts, benchmark method, screenshots and renders"
+      }
+    ],
+    "summary": "Bananafarm is day-dream's free, open-source app for rendering Blender scenes on cloud GPUs (Vast.ai or RunPod) without leaving Blender. Users pay the GPU provider directly, which benchmarks far cheaper than traditional render farms.",
+    "goal": "Product reel: make Blender artists want to try Bananafarm (bananafarm.app) and follow @from.daydream.",
+    "audience": "Blender artists, freelancers and small studios paying for render farms",
+    "angle": "Render on cloud GPUs without leaving Blender, for up to 17× less.",
+    "keyPoints": [
+      "Render in the cloud from inside Blender, no manual setup",
+      "Three steps: connect a cloud GPU, submit from Blender, download frames",
+      "Up to 17× cheaper than a traditional render farm (benchmark)",
+      "Open source, built in the open",
+      "Get it at bananafarm.app"
+    ],
+    "facts": [
+      {
+        "fact": "Connects to Vast.ai or RunPod; you pay the provider directly",
+        "source": "bananafarm.app; carousel caption"
+      },
+      {
+        "fact": "Benchmark, 120 frames: Standard $0.096, Secure $0.216, traditional render farms $1.66",
+        "source": "bananafarm.app; carousel slide 3"
+      },
+      {
+        "fact": "Up to 17× cheaper ($1.66 / $0.096 = 17.3)",
+        "source": "bananafarm.app"
+      },
+      {
+        "fact": "Method: Blender 3.5 splash scene, 120 frames, Cycles, 4K, 1024 samples, averaged over five runs",
+        "source": "bananafarm.app"
+      },
+      {
+        "fact": "Bananafarm is open source",
+        "source": "bananafarm.app; carousel slide 4"
+      }
+    ],
+    "quotes": [
+      {
+        "text": "Rendering should be open.",
+        "source": "bananafarm.app"
+      },
+      {
+        "text": "Built for artists. Built in the open.",
+        "source": "bananafarm.app"
+      }
+    ],
+    "assets": [
+      {
+        "id": "img-05",
+        "file": "images/url-1-bananafarm-app-1.jpg",
+        "what": "chimp at a computer running Blender (B&W)",
+        "fit": "hook; framed, monitor = zoom-through target",
+        "rights": "own (site)"
+      },
+      {
+        "id": "img-07",
+        "file": "images/url-1-bananafarm-app-4.jpg",
+        "what": "Select GPU dialog",
+        "fit": "step 01 card",
+        "rights": "own"
+      },
+      {
+        "id": "img-01",
+        "file": "images/blender-render-panel.jpg",
+        "what": "Bananafarm panel in Blender",
+        "fit": "step 02 card",
+        "rights": "own"
+      },
+      {
+        "id": "img-08",
+        "file": "images/url-1-bananafarm-app-6.jpg",
+        "what": "Render complete + download",
+        "fit": "step 03 card",
+        "rights": "own"
+      },
+      {
+        "id": "img-09",
+        "file": "images/url-1-bananafarm-app-8.jpg",
+        "what": "spaceship render, portrait",
+        "fit": "full-bleed ground (1.38×)",
+        "rights": "own"
+      },
+      {
+        "id": "img-02",
+        "file": "images/example.jpg",
+        "what": "purple car render",
+        "fit": "showcase card",
+        "rights": "own"
+      }
+    ],
+    "useImages": true,
+    "conflicts": [],
+    "gaps": [
+      "Brand has no motion.json yet: this video sets mixed-media + snappy in meta.json",
+      "Splash-scene image has the Blender logo and credit baked in: not used",
+      "Secure tier ($0.216) left out to keep the proof to one comparison"
+    ]
+  },
+  "useImages": true,
+  "motion": {
+    "//": "This video's motion, agreed with the user for this reel (the brand has no motion.json yet). Smooth curves everywhere; the steep logistic(7.5) only for the whips split across cuts.",
+    "ease": {
+      "enter": "cubic-bezier(0.16,1,0.3,1)",
+      "exit": "cubic-bezier(0.7,0,0.84,0)",
+      "move": "cubic-bezier(0.65,0,0.35,1)",
+      "fade": "sine.inOut",
+      "emphasis": "cubic-bezier(0.22,1,0.36,1)",
+      "ambient": "none",
+      "cutOut": "logistic(7.5).in",
+      "cutIn": "logistic(7.5).out"
+    },
+    "duration": {
+      "enter": 0.6,
+      "exit": 0.5,
+      "move": 1.2,
+      "cut": 0.5,
+      "stagger": 0.08
+    },
+    "distance": 160,
+    "readingSpeed": 3.5,
+    "imageMotion": {
+      "zoom": 1.1,
+      "pan": 60
+    },
+    "visual": {
+      "wordsPerBeat": 7,
+      "headline": "required",
+      "requires": "photo",
+      "maxVisuals": 3
+    },
+    "techniques": {
+      "use": [
+        "match cut at peak speed",
+        "zoom-through",
+        "hand-off (the pixel cursor)",
+        "draw-on (marker scribble)"
+      ],
+      "avoid": [
+        "fades between ideas"
+      ]
+    }
+  }
+}

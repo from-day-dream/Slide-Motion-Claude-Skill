@@ -1,0 +1,284 @@
+{
+  "generatedAt": "2026-10-27T16:42:21.190Z",
+  "images": [
+    {
+      "id": "img-01",
+      "file": "images/blender-render-panel.jpg",
+      "origin": "carousel",
+      "source": "output/2026-10-27-bananafarm-cloud-rendering-v3; https://bananafarm.app",
+      "context": "slide 2: Three steps. Zero setup.",
+      "rights": "own",
+      "width": 960,
+      "height": 640,
+      "orientation": "landscape",
+      "kind": "graphic",
+      "entropy": 5.06,
+      "dominant": "#383838",
+      "bytes": 75452,
+      "sha": "cfe4b04e7f240a05",
+      "description": "The Bananafarm panel inside Blender: server ports, device OptiX, Submit Still / Submit Animation",
+      "tags": [
+        "ui",
+        "blender",
+        "panel",
+        "submit"
+      ],
+      "focus": "70% 40%",
+      "quality": "good (UI screenshot, small text)",
+      "use": {
+        "idea": 2,
+        "shot": "01",
+        "how": "step 02 card: Submit from Blender"
+      },
+      "approved": true
+    },
+    {
+      "id": "img-02",
+      "file": "images/example.jpg",
+      "origin": "folder",
+      "source": "added to images/; https://bananafarm.app",
+      "context": "",
+      "rights": "own",
+      "width": 1600,
+      "height": 900,
+      "orientation": "landscape",
+      "kind": "photo",
+      "entropy": 7.27,
+      "dominant": "#f8f8f8",
+      "bytes": 236795,
+      "sha": "7c3eb1e5b6f41999",
+      "description": "Purple sports car on a lavender snowfield, rendered with Bananafarm",
+      "tags": [
+        "render",
+        "car",
+        "purple",
+        "showcase"
+      ],
+      "focus": "50% 55%",
+      "quality": "good",
+      "use": {
+        "idea": 4,
+        "shot": "03",
+        "how": "tilted showcase card with RENDERED WITH BANANAFARM tag"
+      },
+      "approved": true
+    },
+    {
+      "id": "img-03",
+      "file": "images/lander.jpg",
+      "origin": "carousel",
+      "source": "output/2026-10-27-bananafarm-cloud-rendering-v3; https://bananafarm.app",
+      "context": "slide 1: Go Bananas in Blender.",
+      "rights": "own",
+      "width": 1600,
+      "height": 1001,
+      "orientation": "landscape",
+      "kind": "photo",
+      "entropy": 7.48,
+      "dominant": "#b8d8f8",
+      "bytes": 237402,
+      "sha": "d6ba2b72861b18ab",
+      "description": "Chrome Suzanne monkey on a mountain meadow at golden hour (site hero)",
+      "tags": [
+        "render",
+        "suzanne",
+        "hero",
+        "landscape"
+      ],
+      "focus": "45% 55%",
+      "quality": "good",
+      "use": "unused: the hook uses the chimp photo for the \"bananas\" pun",
+      "approved": true
+    },
+    {
+      "id": "img-04",
+      "file": "images/open-source.png",
+      "origin": "folder",
+      "source": "added to images/",
+      "context": "",
+      "rights": "own",
+      "width": 1080,
+      "height": 1350,
+      "orientation": "portrait",
+      "kind": "photo",
+      "entropy": 6.71,
+      "dominant": "#080808",
+      "bytes": 2440756,
+      "sha": "8ad3dbc9a8c48b13",
+      "description": "Spaceship interior render looking out at Earth (carousel crop, 1080×1350)",
+      "tags": [
+        "render",
+        "space",
+        "open source"
+      ],
+      "focus": "50% 40%",
+      "quality": "good; near-duplicate of the larger site version",
+      "use": "unused: img with the same render at 1194×1392 is used",
+      "approved": true
+    },
+    {
+      "id": "img-05",
+      "file": "images/url-1-bananafarm-app-1.jpg",
+      "origin": "url",
+      "source": "https://bananafarm.app",
+      "context": "og:image",
+      "rights": "own",
+      "width": 1200,
+      "height": 630,
+      "orientation": "landscape",
+      "kind": "photo",
+      "entropy": 6.72,
+      "dominant": "#181818",
+      "bytes": 78577,
+      "sha": "e3eed2b5d496aa92",
+      "description": "B&W photo of a chimpanzee at an old CRT computer showing Blender (site social image)",
+      "tags": [
+        "chimp",
+        "computer",
+        "bananas",
+        "b&w"
+      ],
+      "focus": "75% 45%",
+      "quality": "good; landscape, framed use only",
+      "use": {
+        "idea": 1,
+        "shot": "01",
+        "how": "hook photo, rounded and tilted; the camera zooms through its monitor into the steps"
+      },
+      "approved": true
+    },
+    {
+      "id": "img-06",
+      "file": "images/url-1-bananafarm-app-3.jpg",
+      "origin": "url",
+      "source": "https://bananafarm.app",
+      "context": "Blender 3.5 splash scene, used for the cost example | One scene. Real numbers.",
+      "rights": "own",
+      "width": 1000,
+      "height": 500,
+      "orientation": "landscape",
+      "kind": "photo",
+      "entropy": 7.64,
+      "dominant": "#884828",
+      "bytes": 92076,
+      "sha": "87e95d5215cfebea",
+      "description": "Blender 3.5 splash scene (benchmark scene) with the Blender logo and artist credit baked in",
+      "tags": [
+        "benchmark",
+        "splash scene",
+        "blender logo"
+      ],
+      "focus": "50% 50%",
+      "quality": "has text (Blender logo, credit)",
+      "use": "unused: baked-in logo and credit",
+      "approved": true
+    },
+    {
+      "id": "img-07",
+      "file": "images/url-1-bananafarm-app-4.jpg",
+      "origin": "url",
+      "source": "https://bananafarm.app",
+      "context": "Connect your cloud GPU | Connect your cloud GPU",
+      "rights": "own",
+      "width": 960,
+      "height": 641,
+      "orientation": "landscape",
+      "kind": "graphic",
+      "entropy": 3.53,
+      "dominant": "#080808",
+      "bytes": 37696,
+      "sha": "88ef90fff989b82b",
+      "description": "Bananafarm app: Select GPU dialog (Vast.ai, Titan Xp / GTX 1080 Ti / RTX 3060 with hourly prices)",
+      "tags": [
+        "ui",
+        "connect",
+        "gpu",
+        "vast.ai"
+      ],
+      "focus": "50% 45%",
+      "quality": "good (UI screenshot)",
+      "use": {
+        "idea": 2,
+        "shot": "01",
+        "how": "step 01 card: Connect your cloud GPU"
+      },
+      "approved": true
+    },
+    {
+      "id": "img-08",
+      "file": "images/url-1-bananafarm-app-6.jpg",
+      "origin": "url",
+      "source": "https://bananafarm.app",
+      "context": "Download your renders | Download your renders",
+      "rights": "own",
+      "width": 960,
+      "height": 640,
+      "orientation": "landscape",
+      "kind": "graphic",
+      "entropy": 3.83,
+      "dominant": "#080808",
+      "bytes": 48570,
+      "sha": "fb22704c486f08bd",
+      "description": "Bananafarm app: Job Details with \"Render Complete\" and download buttons",
+      "tags": [
+        "ui",
+        "download",
+        "job",
+        "complete"
+      ],
+      "focus": "50% 75%",
+      "quality": "good (UI screenshot)",
+      "use": {
+        "idea": 2,
+        "shot": "01",
+        "how": "step 03 card: Download your frames"
+      },
+      "approved": true
+    },
+    {
+      "id": "img-09",
+      "file": "images/url-1-bananafarm-app-8.jpg",
+      "origin": "url",
+      "source": "https://bananafarm.app",
+      "context": "Bananafarm open source project | Rendering should be open.",
+      "rights": "own",
+      "width": 1194,
+      "height": 1392,
+      "orientation": "portrait",
+      "kind": "photo",
+      "entropy": 6.74,
+      "dominant": "#080808",
+      "bytes": 250854,
+      "sha": "73a0b3f34f31013a",
+      "description": "Spaceship interior render looking out at Earth and clouds (site \"Built in the open\" image, 1194×1392)",
+      "tags": [
+        "render",
+        "space",
+        "open source",
+        "portrait"
+      ],
+      "focus": "50% 35%",
+      "quality": "good; portrait, full-bleed OK at 1.38×",
+      "use": {
+        "idea": 4,
+        "shot": "03",
+        "how": "full-bleed ground under a black gradient"
+      },
+      "approved": true
+    }
+  ],
+  "excluded": [
+    {
+      "file": "images/url-1-bananafarm-app-2.jpg",
+      "reason": "duplicate of images/lander.jpg"
+    },
+    {
+      "file": "images/url-1-bananafarm-app-7.jpg",
+      "reason": "duplicate of images/example.jpg"
+    },
+    {
+      "file": "images/url-1-bananafarm-app-5.jpg",
+      "reason": "duplicate of images/blender-render-panel.jpg"
+    }
+  ]
+}

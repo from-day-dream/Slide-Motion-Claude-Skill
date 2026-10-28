@@ -1,0 +1,12 @@
+{
+  "name": "day-dream-studio-motion",
+  "description": "Claude Code plugins by day-dream.studio",
+  "owner": { "name": "day-dream.studio" },
+  "plugins": [
+    {
+      "name": "slide-motion",
+      "source": "./",
+      "description": "Branded motion-graphics videos (9:16 by default) from a topic or a Carousel Studio carousel, rendered locally to MP4"
+    }
+  ]
+}

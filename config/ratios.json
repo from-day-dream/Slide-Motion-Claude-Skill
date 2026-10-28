@@ -1,0 +1,12 @@
+{
+  "//": "Canvas per aspect ratio. Short side is always 1080, so the brand's typeScale applies unchanged. `safe` = platform UI zones (px from each edge) that text must avoid; the brand's spacing.safeArea is used where it is larger. `duration` = default total video length in seconds (the user can ask for any other length; it is stored in meta.json → duration). `sceneSeconds` = the approximate length of one scene for readability.",
+  "default": "9:16",
+  "duration": 15,
+  "sceneSeconds": [2, 3],
+  "presets": {
+    "9:16": { "width": 1080, "height": 1920, "safe": { "top": 220, "right": 140, "bottom": 420, "left": 72 }, "use": "Reels, TikTok, Shorts, Stories" },
+    "4:5": { "width": 1080, "height": 1350, "safe": { "top": 72, "right": 72, "bottom": 72, "left": 72 }, "use": "Instagram / LinkedIn feed video" },
+    "1:1": { "width": 1080, "height": 1080, "safe": { "top": 72, "right": 72, "bottom": 72, "left": 72 }, "use": "Square feed video" },
+    "16:9": { "width": 1920, "height": 1080, "safe": { "top": 72, "right": 96, "bottom": 96, "left": 96 }, "use": "YouTube, LinkedIn landscape, websites" }
+  }
+}
