@@ -23,6 +23,7 @@ Skip only in "quick mode", and even then fix every report error.
 8. **Data and illustrations act:** charts grow, counters run, illustrations do something, and they keep moving through the read moments rather than appearing and sitting.
 9. **Carousel aesthetic** (carousel sources): the video looks like the same brand moment as the carousel (grounds, emphasis device, photo treatment), but with no slide layout reused as is.
 10. **Every element earns its place** (`video-logic.md` §3a). For each motif and visual in each moment, say in one sentence what it does there, and check it against `plan.elements`. A cursor needs something to click or drag; an arrow needs a direction; a selection box needs something being chosen. Remove anything that is decoration, tags along between ideas, or repeats by habit.
+10b. **Every interaction has a result** (`video-logic.md` §3c). For each click, drag, selection, hover or type-in, find the frame where its effect shows (scrub with `ffmpeg -ss`) and check it against `plan.elements[].causes`. A cursor that selects, clicks or hovers and leaves with nothing changed fails: give the gesture its effect or remove it. Every other move has a reason and a direction that follow from the plan; none is random.
 
 ## Effects and transitions
 11. **A video, not a slideshow.** Does it play as one continuous piece? Look for:
@@ -39,7 +40,7 @@ Skip only in "quick mode", and even then fix every report error.
 
 ## Motion between the holds (`motion.png`)
 17. **Poster test.** Would a random mid-motion frame work as a still poster? Look for strong scale contrast, a recognisable layout structure and layered depth. Frames that are mostly empty or mid-fade mean the build-up is too slow or too timid.
-18. **Archetypes read as themselves** within half a second of arriving (`plan.archetypes`, `layouts.md`): a type wall reads as a wall, a deck as a deck. No sequence without an archetype (`archetype` errors).
+18. **Archetypes read as themselves** within half a second of arriving (`plan.archetypes`, `layouts.md`): a type wall reads as a wall, a deck as a deck. No sequence without an archetype (`archetype` errors). Each sequence's `data-archetype` container matches `plan.sequences[].archetype` and keeps its template's structure (`templates/archetypes/<id>.html`): slots, layer order and motion pattern.
 19. **One hit.** There is at least one moment that feels like a hit: a beat of stillness, then a big move (`motion-craft.md` → hold-and-hit). No `monotony` warnings, unless the sameness is deliberate.
 20. **Reference energy.** If the brand has recipes (`brands/<slug>/recipes/`) or the user named one, does the video match its energy: density, beat rhythm, depth and signature moves?
 

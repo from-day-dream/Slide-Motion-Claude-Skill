@@ -1,6 +1,6 @@
 {
   "name": "slide-motion",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Claude Code skill: branded motion-graphics videos (9:16 by default, any aspect ratio) from a topic or a Carousel Studio carousel.",
   "type": "module",
   "private": true,

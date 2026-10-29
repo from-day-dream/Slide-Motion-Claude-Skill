@@ -46,7 +46,7 @@ After the analysis (`analysis.md`), plan in this order and write it into `meta.j
 
    Write each choice and its reason into the sequence's `handover`. Vary them only when the content changes; don't reuse a previous video's choices by habit.
 7. **Fixed elements.** Decide what stays on screen for the whole video (handle, series label, mark) and how it adapts to what passes under it.
-8. **Elements and their jobs** (§3a). List every motif and visual element the video uses, what it does, and the sequences it appears in. Anything without a job is dropped.
+8. **Elements and their jobs** (§3a). List every motif and visual element the video uses, what it does, the sequences it appears in, and for every interaction what it causes (§3c). Anything without a job, or an interaction without a result, is dropped.
 
 ```json
 "plan": {
@@ -57,7 +57,7 @@ After the analysis (`analysis.md`), plan in this order and write it into `meta.j
   "techniques": [ { "sequence": "s1", "techniques": ["overshoot-settle", "directional-stagger"] } ],
   "throughline": "the camera travels down one long canvas; a blue line draws the path between ideas",
   "ideas": [ { "id": 1, "idea": "", "copy": [""], "facts": [], "visual": "" } ],
-  "elements": [ { "what": "cursor", "job": "drags the file into the app; clicks Render", "in": ["s2", "s4"] } ],
+  "elements": [ { "what": "cursor", "job": "drags the file into the app; clicks Render", "causes": "the file lands and the app fills with its preview; Render starts the progress bar that carries s4", "in": ["s2", "s4"] } ],
   "sequences": [
     { "id": "s1", "archetype": "word-punch", "from": 0, "to": 4.2, "carries": [1], "moving": "photo pushes in; headline words arrive; line starts drawing", "handover": "line keeps drawing into s2 while the photo slides up out of frame" }
   ],
@@ -91,6 +91,7 @@ A brand's motifs and the visuals in its carousels (cursors, arrows, selection bo
 1. **What does it mean?** Name the action or meaning it carries in the real world.
 2. **Is that true here?** Does the idea on screen right now involve that action or meaning?
 3. **Does it act?** Does it do something that changes the frame or makes the point, rather than just sit or drift?
+4. **Does the action lead somewhere?** For an interaction, what happens *because* of it (§3c)?
 
 If any answer is no, leave it out of that moment. It isn't decoration, a filler for empty space, or a way to keep the frame moving; the ambient layer does that job.
 
@@ -100,7 +101,7 @@ If any answer is no, leave it out of that moment. It isn't decoration, a filler 
 |---|---|---|
 | Cursor / pointer | something clickable, draggable or selectable is on screen and the cursor clicks, drags, selects or hovers it | over a headline, a photo or a chart with nothing to interact with; drifting between stops |
 | Arrow | there's a direction, a sequence, a cause → effect, or a "look here" for a detail that's easy to miss | pointing at a headline that's already the focus |
-| Selection box / handles | something is being chosen, edited, resized or compared | framing text for emphasis on every moment |
+| Selection box / handles | something is being chosen, edited, resized or compared, and the chosen thing then changes, moves or is used | framing text for emphasis on every moment; drawn and then dropped with nothing done to what it selected |
 | Progress bar, loader, spinner | something is actually in progress (rendering, uploading, growing) | as a generic "tech" texture |
 | Notification, badge, tag | there's an event, a status, a count or a label that adds information | repeating the headline's words |
 | Sparkle, highlight, underline | one specific word or result deserves the eye | spread over several things at once |
@@ -139,6 +140,30 @@ A layout planned for "a slide" ends up as a block in the middle, with empty grou
 
 The renderer warns (`fill`) when nothing but ground sits in more than 15% of the canvas at any edge at a read moment, or when the content spans less than 80% of the width or height. In the expressive register it also warns when less than 70% of the canvas is active.
 
+## 3c. Every motion has a reason; every interaction has a result
+Movement is never random. Before animating anything, say why it moves *here and now*, and for an interaction, what it causes.
+
+**Interactions are cause → effect.** A click, drag, selection, hover, tap, type-in or toggle is a cause. It's only worth showing with its effect, and the effect is the point:
+- **Click / tap:** a button presses and something responds (a panel opens, a value changes, a render starts, the next idea appears).
+- **Drag:** the dragged thing arrives somewhere and that place reacts (it fills, sorts, lights up).
+- **Selection:** what's selected is then acted on (it's moved, recoloured, resized, duplicated, compared, deleted, zoomed into, or becomes the next idea's hero).
+- **Hover:** it reveals something (a tooltip, a preview, a highlight that matters).
+- **Typing:** the typed text is used (a search returns results, a prompt produces an output).
+
+Show the effect on screen, right after the cause and in the same place, before the interacting element leaves. A cursor that comes in, draws a selection and leaves with nothing done to the selection is a cause with no effect: remove the whole interaction, or give it its effect. Never the gesture alone.
+
+**Every other move has one of these reasons**, named in the plan (`plan.sequences[].moving`):
+- **carries** the throughline or the viewer's eye to the next idea;
+- **reveals** or builds content (a chart grows, a line draws, a word lands);
+- **connects** or compares (things regroup, align, line up side by side);
+- **emphasises** the one thing that matters in this moment;
+- **hands over** to the next idea (§2.6);
+- **keeps the frame alive** (the ambient layer, §3; slow, quiet, and never a motif with a meaning).
+
+Direction follows the reason too: things move toward where they're going, along the throughline, or from where they came from; never in a direction picked at random.
+
+If a move or an interaction has no reason you can write in one line, cut it. Stillness plus the ambient layer is better than a meaningless gesture.
+
 ## 4. Techniques (a neutral menu; chosen per video, §2.6)
 | Technique | What happens | How |
 |---|---|---|
@@ -163,5 +188,6 @@ The renderer warns (`fill`) when nothing but ground sits in more than 15% of the
 - Everything arriving at once; random directions; motion that ignores the throughline.
 - A layout clustered in the middle with empty bands at the top, bottom or sides (§3b).
 - Motifs used as decoration or repeated by habit: a cursor everywhere, arrows pointing at the obvious, sparkles on everything (§3a).
+- Gestures without a result: a cursor that selects, clicks or hovers and leaves with nothing changed; moves with no reason or direction (§3c).
 - Text that moves while it's read; typewriter sentences; loops or pulses behind text.
 - A logo sting at the start.

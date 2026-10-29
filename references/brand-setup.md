@@ -133,7 +133,7 @@ Make a short composition (about 6s): the hook, a move to a second idea, and the 
 <ws>/brands/<slug>/test/motion/composition.html
 <ws>/brands/<slug>/test/motion/meta.json        { "brand": "<slug>", "ratio": "9:16", "duration": 6 }
 ```
-Render it with `node <skill>/scripts/render.mjs <ws>/brands/<slug>/test/motion --brand <slug> --workspace <ws>` and fix every error. Optionally also render the layout archetypes in the brand (`render.mjs --specimen all --brand <slug> --workspace <ws>`, into `brands/<slug>/specimens/`) so the user sees how the brand carries each structure. Show `storyboard.png` (and `cuts.png` if there's a cut) and give the `video.mp4` path. Ask for approval of the *feel* (character, curves, pace), not the copy or the choreography. If the user wants it different ("snappier", "softer landings"), adjust the tokens yourself and re-render; iterate until approved.
+Render it with `node <skill>/scripts/render.mjs <ws>/brands/<slug>/test/motion --brand <slug> --workspace <ws>` and fix every error. Then render every layout archetype in the brand (`render.mjs --specimen all --brand <slug> --workspace <ws>`, into `brands/<slug>/specimens/`) and show the contact sheet, so the user sees how the brand carries each structure. Show `storyboard.png` (and `cuts.png` if there's a cut) and give the `video.mp4` path. Ask for approval of the *feel* (character, curves, pace), not the copy or the choreography. If the user wants it different ("snappier", "softer landings"), adjust the tokens yourself and re-render; iterate until approved.
 
 A single video can adjust any token for itself in `meta.json → motion` when the user asks ("slower this time"). Change the brand's `motion.json` only when they want a new default.
 

@@ -1,7 +1,7 @@
 {
   "name": "slide-motion",
   "displayName": "Slide Motion",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Turn a topic or a Carousel Studio carousel into a branded motion-graphics video (9:16 by default, any aspect ratio), rendered locally to MP4 with your brand's fonts.",
   "author": { "name": "day-dream.studio" },
   "license": "MIT",
